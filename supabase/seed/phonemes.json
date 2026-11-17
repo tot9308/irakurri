@@ -1,0 +1,23 @@
+{
+  "phonemes": [
+    { "code": "m", "name": "eme", "order_index": 0, "level": "N1" },
+    { "code": "k", "name": "ka", "order_index": 1, "level": "N1" },
+    { "code": "t", "name": "te", "order_index": 2, "level": "N1" },
+    { "code": "l", "name": "ele", "order_index": 3, "level": "N1" },
+    { "code": "b", "name": "be", "order_index": 4, "level": "N1" },
+    { "code": "p", "name": "pe", "order_index": 5, "level": "N1" },
+    { "code": "d", "name": "de", "order_index": 6, "level": "N1" },
+    { "code": "n", "name": "ene", "order_index": 7, "level": "N1" },
+    { "code": "f", "name": "efe", "order_index": 8, "level": "N1" },
+    { "code": "g", "name": "ge", "order_index": 9, "level": "N1" },
+    { "code": "r", "name": "erre", "order_index": 10, "level": "N1" },
+    { "code": "rr", "name": "errre", "order_index": 11, "level": "N1" },
+    { "code": "j", "name": "jota", "order_index": 12, "level": "N1" },
+    { "code": "s", "name": "ese", "order_index": 13, "level": "N1" },
+    { "code": "x", "name": "ekis", "order_index": 14, "level": "N1" },
+    { "code": "z", "name": "eta", "order_index": 15, "level": "N1" },
+    { "code": "ts", "name": "tse", "order_index": 16, "level": "N4" },
+    { "code": "tx", "name": "txi", "order_index": 17, "level": "N4" },
+    { "code": "tz", "name": "tzu", "order_index": 18, "level": "N4" }
+  ]
+}

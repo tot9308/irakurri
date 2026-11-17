@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    @apply antialiased;
+  }
+  body {
+    @apply bg-neutral-50 text-neutral-900;
+  }
+  button {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 text-lg font-medium text-white bg-primary-600 rounded-xl hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 text-lg font-medium text-neutral-900 bg-neutral-200 rounded-xl hover:bg-neutral-300 transition-colors disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .card {
+    @apply bg-white rounded-2xl shadow-sm border border-neutral-200 p-6;
+  }
+  .option-tile {
+    @apply flex items-center justify-center min-h-[96px] rounded-2xl border-2 border-neutral-300 bg-white text-xl font-semibold text-neutral-800 hover:border-primary-400 hover:bg-primary-50 transition-all cursor-pointer;
+  }
+  .option-tile.selected {
+    @apply border-primary-600 bg-primary-100 text-primary-700 ring-2 ring-primary-600;
+  }
+  .option-tile.correct {
+    @apply border-emerald-500 bg-emerald-50 text-emerald-700 ring-2 ring-emerald-500;
+  }
+  .option-tile.wrong {
+    @apply border-rose-500 bg-rose-50 text-rose-700 ring-2 ring-rose-500;
+  }
+}
+
+@layer utilities {
+  .touch-target {
+    @apply min-w-[64px] min-h-[64px];
+  }
+}

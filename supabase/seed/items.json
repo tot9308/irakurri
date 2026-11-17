@@ -1,0 +1,1696 @@
+{
+  "version": "0.1.0",
+  "description": "Catalogo de items para el modo invitado (F0). Version inicial: N1 (silabas directas CV).",
+  "items": [
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "presentation",
+      "grapheme": "m",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "k",
+      "level": "N1",
+      "type": "presentation",
+      "grapheme": "k",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "t",
+      "level": "N1",
+      "type": "presentation",
+      "grapheme": "t",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "l",
+      "level": "N1",
+      "type": "presentation",
+      "grapheme": "l",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "b",
+      "level": "N1",
+      "type": "presentation",
+      "grapheme": "b",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "p",
+      "level": "N1",
+      "type": "presentation",
+      "grapheme": "p",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "d",
+      "level": "N1",
+      "type": "presentation",
+      "grapheme": "d",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "n",
+      "level": "N1",
+      "type": "presentation",
+      "grapheme": "n",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "f",
+      "level": "N1",
+      "type": "presentation",
+      "grapheme": "f",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "g",
+      "level": "N1",
+      "type": "presentation",
+      "grapheme": "g",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "r",
+      "level": "N1",
+      "type": "presentation",
+      "grapheme": "r",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "rr",
+      "level": "N1",
+      "type": "presentation",
+      "grapheme": "rr",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "j",
+      "level": "N1",
+      "type": "presentation",
+      "grapheme": "j",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "s",
+      "level": "N1",
+      "type": "presentation",
+      "grapheme": "s",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "x",
+      "level": "N1",
+      "type": "presentation",
+      "grapheme": "x",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "z",
+      "level": "N1",
+      "type": "presentation",
+      "grapheme": "z",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "ts",
+      "level": "N1",
+      "type": "presentation",
+      "grapheme": "ts",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "tx",
+      "level": "N1",
+      "type": "presentation",
+      "grapheme": "tx",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "tz",
+      "level": "N1",
+      "type": "presentation",
+      "grapheme": "tz",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "ma",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "me",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "mi",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "mo",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "mu",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "k",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "ka",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "k",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "ke",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "k",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "ki",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "k",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "ko",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "k",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "ku",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "t",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "ta",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "t",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "te",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "t",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "ti",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "t",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "to",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "t",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "tu",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "l",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "la",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "l",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "le",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "l",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "li",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "l",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "lo",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "l",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "lu",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "b",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "ba",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "b",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "be",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "b",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "bi",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "b",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "bo",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "b",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "bu",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "p",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "pa",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "p",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "pe",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "p",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "pi",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "p",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "po",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "p",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "pu",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "d",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "da",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "d",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "de",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "d",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "di",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "d",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "do",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "d",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "du",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "n",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "na",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "n",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "ne",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "n",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "ni",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "n",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "no",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "n",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "nu",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "f",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "fa",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "f",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "fe",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "f",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "fi",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "f",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "fo",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "f",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "fu",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "g",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "ga",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "g",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "ge",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "g",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "gi",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "g",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "go",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "g",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "gu",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "r",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "ra",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "r",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "re",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "r",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "ri",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "r",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "ro",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "r",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "ru",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "rr",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "rra",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "rr",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "rre",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "rr",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "rri",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "rr",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "rro",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "rr",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "rru",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "j",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "ja",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "j",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "je",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "j",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "ji",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "j",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "jo",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "j",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "ju",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "s",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "sa",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "s",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "se",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "s",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "si",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "s",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "so",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "s",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "su",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "x",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "xa",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "x",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "xe",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "x",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "xi",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "x",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "xo",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "x",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "xu",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "z",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "za",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "z",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "ze",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "z",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "zi",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "z",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "zo",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "z",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "zu",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "ts",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "tsa",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "ts",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "tse",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "ts",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "tsi",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "ts",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "tso",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "ts",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "tsu",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "tx",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "txa",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "tx",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "txe",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "tx",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "txi",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "tx",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "txo",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "tx",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "txu",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "tz",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "tza",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "tz",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "tze",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "tz",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "tzi",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "tz",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "tzo",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "tz",
+      "level": "N1",
+      "type": "syllable",
+      "grapheme": "tzu",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "mk",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "mt",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "ml",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "mb",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "mp",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "md",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "mn",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "mf",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "mg",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "mr",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "mj",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "ms",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "mx",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "mz",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "km",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "kt",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "kl",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "kb",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "kp",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "kd",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "kn",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "kf",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "kg",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "kr",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "kj",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "ks",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "kx",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "kz",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "tm",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "tk",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "tl",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "tb",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "tp",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "td",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "tn",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "tf",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "tg",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "tr",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "tj",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "m",
+      "level": "N1",
+      "type": "word",
+      "grapheme": "ts",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "ts",
+      "level": "N4",
+      "type": "syllable",
+      "grapheme": "tsa",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "ts",
+      "level": "N4",
+      "type": "syllable",
+      "grapheme": "tse",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "ts",
+      "level": "N4",
+      "type": "syllable",
+      "grapheme": "tsi",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "ts",
+      "level": "N4",
+      "type": "syllable",
+      "grapheme": "tso",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "ts",
+      "level": "N4",
+      "type": "syllable",
+      "grapheme": "tsu",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "tx",
+      "level": "N4",
+      "type": "syllable",
+      "grapheme": "txa",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "tx",
+      "level": "N4",
+      "type": "syllable",
+      "grapheme": "txe",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "tx",
+      "level": "N4",
+      "type": "syllable",
+      "grapheme": "txi",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "tx",
+      "level": "N4",
+      "type": "syllable",
+      "grapheme": "txo",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "tx",
+      "level": "N4",
+      "type": "syllable",
+      "grapheme": "txu",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "tz",
+      "level": "N4",
+      "type": "syllable",
+      "grapheme": "tza",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "tz",
+      "level": "N4",
+      "type": "syllable",
+      "grapheme": "tze",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "tz",
+      "level": "N4",
+      "type": "syllable",
+      "grapheme": "tzi",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "tz",
+      "level": "N4",
+      "type": "syllable",
+      "grapheme": "tzo",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    },
+    {
+      "phoneme": "tz",
+      "level": "N4",
+      "type": "syllable",
+      "grapheme": "tzu",
+      "audio_key": null,
+      "audio_source": "placeholder",
+      "image_key": null,
+      "reviewed_at": null
+    }
+  ]
+}

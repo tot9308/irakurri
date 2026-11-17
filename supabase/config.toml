@@ -1,0 +1,18 @@
+# supabase/config.toml
+project_id = "irakurri"
+style = "modular"
+
+[database]
+# URL de la base de datos (reemplazado por `supabase link` o por variables de entorno en Vercel)
+# url = "postgresql://postgres:[PASSWORD]@db.[PROJECT_REF].supabase.co:5432/postgres"
+
+[api]
+# anon_key = "sb_anon_[ANON_KEY]"
+# service_role_key = "sb_service_[SERVICE_ROLE_KEY]"
+
+[storage]
+# public_url = "https://[PROJECT_REF].supabase.co/storage/v1/object"
+
+[auth]
+# enabled = true
+# jwt_expiry_hours = 24
