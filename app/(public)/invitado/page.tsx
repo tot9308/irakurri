@@ -1,6 +1,8 @@
-import * as React from "react";
+"use client";
+
+import { useState, useMemo, useEffect } from "react";
 import { Button } from "@/components/ui/Button";
-import { OptionTile } from "@/components/ui/OptionTile";
+import { Opciones } from "@/components/juego/Opciones";
 import { itemsByPhoneme, allPhonemes } from "@/lib/catalog";
 
 type Step =
@@ -10,17 +12,17 @@ type Step =
   | "complete";
 
 export default function InvitadoPage() {
-  const [step, setStep] = React.useState<Step>("select-phoneme");
-  const [phoneme, setPhoneme] = React.useState<string>("");
-  const [items, setItems] = React.useState<{ grapheme: string; type: string }[]>([]);
-  const [currentIndex, setCurrentIndex] = React.useState(0);
-  const [selected, setSelected] = React.useState<string | null>(null);
-  const [feedback, setFeedback] = React.useState<"correct" | "wrong" | null>(null);
-  const [score, setScore] = React.useState({ correct: 0, total: 0 });
+  const [step, setStep] = useState<Step>("select-phoneme");
+  const [phoneme, setPhoneme] = useState<string>("");
+  const [items, setItems] = useState<{ grapheme: string; type: string }[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selected, setSelected] = useState<string | undefined>(undefined);
+  const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
+  const [score, setScore] = useState({ correct: 0, total: 0 });
 
-  const itemsForPhoneme = React.useMemo(() => itemsByPhoneme(phoneme), [phoneme]);
+  const itemsForPhoneme = useMemo(() => itemsByPhoneme(phoneme), [phoneme]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const saved = localStorage.getItem(`irakurri-progress-${phoneme}`);
     if (saved) {
       try { setScore(JSON.parse(saved)); } catch {}
@@ -38,7 +40,7 @@ export default function InvitadoPage() {
     setItems(practiceItems.map((i) => ({ grapheme: i.grapheme, type: i.type })));
     setStep("presentation");
     setCurrentIndex(0);
-    setSelected(null);
+    setSelected(undefined);
     setFeedback(null);
   };
 
@@ -56,7 +58,7 @@ export default function InvitadoPage() {
   const handleNext = () => {
     if (currentIndex < items.length - 1) {
       setCurrentIndex((i) => i + 1);
-      setSelected(null);
+      setSelected(undefined);
       setFeedback(null);
     } else {
       setStep("complete");

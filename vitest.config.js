@@ -8,7 +8,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@": new URL("./apps/web", import.meta.url).pathname,
+      "@": new URL("./", import.meta.url).pathname,
     },
   },
 });
