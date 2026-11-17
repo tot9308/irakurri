@@ -1,72 +1,65 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/Button";
-import { Opciones } from "@/components/juego/Opciones";
-import { itemsByPhoneme, allPhonemes } from "@/lib/catalog";
+import { ExerciseRunner } from "@/components/fonema/ExerciseRunner";
 
-type Step =
-  | "select-phoneme"
-  | "presentation"
-  | "practice"
-  | "complete";
+const PHONEMES = ["m", "k", "t", "l", "b", "p", "d", "n", "f", "g", "r", "rr", "j", "s", "x", "z", "ts", "tx", "tz"];
 
 export default function InvitadoPage() {
-  const [step, setStep] = useState<Step>("select-phoneme");
+  const [step, setStep] = useState<"select-phoneme" | "select-exercise" | "exercise">("select-phoneme");
   const [phoneme, setPhoneme] = useState<string>("");
-  const [items, setItems] = useState<{ grapheme: string; type: string }[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [selected, setSelected] = useState<string | undefined>(undefined);
-  const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
-  const [score, setScore] = useState({ correct: 0, total: 0 });
-
-  const itemsForPhoneme = useMemo(() => itemsByPhoneme(phoneme), [phoneme]);
+  const [exerciseNumber, setExerciseNumber] = useState<number>(1);
+  const [completedExercises, setCompletedExercises] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
-    const saved = localStorage.getItem(`irakurri-progress-${phoneme}`);
-    if (saved) {
-      try { setScore(JSON.parse(saved)); } catch {}
+    if (phoneme) {
+      const saved = localStorage.getItem(`irakurri-exercises-${phoneme}`);
+      if (saved) {
+        try { setCompletedExercises(JSON.parse(saved)); } catch {}
+      }
     }
   }, [phoneme]);
 
-  const saveProgress = () => {
-    localStorage.setItem(`irakurri-progress-${phoneme}`, JSON.stringify(score));
-  };
+  const saveProgress = useCallback((exId: string) => {
+    setCompletedExercises((prev) => {
+      const next = { ...prev, [exId]: true };
+      localStorage.setItem(`irakurri-exercises-${phoneme}`, JSON.stringify(next));
+      return next;
+    });
+  }, [phoneme]);
+
+  const exercises = useMemo(() => [
+    { number: 1, title: "Grafema" },
+    { number: 2, title: "Silabak" },
+    { number: 3, title: "Escoltu eta aukeratu" },
+    { number: 4, title: "Repaso" },
+    { number: 5, title: "Bukatuta" },
+  ], []);
+
+  const isExerciseCompleted = (n: number) => completedExercises[`${phoneme}${n}`] === true;
+  const allCompleted = exercises.every((e) => isExerciseCompleted(e.number));
 
   const handleSelectPhoneme = (p: string) => {
     setPhoneme(p);
-    const items = itemsByPhoneme(p);
-    const practiceItems = items.filter((i) => i.type === "presentation" || i.type === "syllable");
-    setItems(practiceItems.map((i) => ({ grapheme: i.grapheme, type: i.type })));
-    setStep("presentation");
-    setCurrentIndex(0);
-    setSelected(undefined);
-    setFeedback(null);
-  };
-
-  const currentItem = items[currentIndex];
-
-  const handleOptionSelect = (value: string) => {
-    if (feedback !== null) return;
-    setSelected(value);
-    const isCorrect = value === currentItem.grapheme;
-    setFeedback(isCorrect ? "correct" : "wrong");
-    setScore((prev) => ({ correct: prev.correct + (isCorrect ? 1 : 0), total: prev.total + 1 }));
-    saveProgress();
-  };
-
-  const handleNext = () => {
-    if (currentIndex < items.length - 1) {
-      setCurrentIndex((i) => i + 1);
-      setSelected(undefined);
-      setFeedback(null);
+    setStep("select-exercise");
+    setExerciseNumber(1);
+    const saved = localStorage.getItem(`irakurri-exercises-${p}`);
+    if (saved) {
+      try { setCompletedExercises(JSON.parse(saved)); } catch { setCompletedExercises({}); }
     } else {
-      setStep("complete");
+      setCompletedExercises({});
     }
   };
 
-  const handleRepeat = () => {
-    console.log("Repetir audio para:", currentItem?.grapheme);
+  const handleExerciseComplete = () => {
+    const exId = `${phoneme}${exerciseNumber}`;
+    saveProgress(exId);
+    if (exerciseNumber < 5) {
+      setExerciseNumber((n) => n + 1);
+    } else {
+      setStep("select-exercise");
+    }
   };
 
   if (step === "select-phoneme") {
@@ -76,9 +69,12 @@ export default function InvitadoPage() {
           <h1 className="text-3xl font-bold mb-6">Aukeratu fonema</h1>
           <p className="text-neutral-600 mb-8">Aukeratu fonemak nahi duzuntu eskaintza.</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3">
-            {allPhonemes().map((p) => (
-              <button key={p} onClick={() => handleSelectPhoneme(p)}
-                className="touch-target border-2 border-neutral-300 rounded-xl bg-white p-4 text-xl font-semibold text-neutral-700 hover:border-primary-400 hover:bg-primary-50 transition-colors">
+            {PHONEMES.map((p) => (
+              <button
+                key={p}
+                onClick={() => handleSelectPhoneme(p)}
+                className="touch-target border-2 border-neutral-300 rounded-xl bg-white p-4 text-xl font-semibold text-neutral-700 hover:border-primary-400 hover:bg-primary-50 transition-colors"
+              >
                 {p}
               </button>
             ))}
@@ -88,65 +84,61 @@ export default function InvitadoPage() {
     );
   }
 
-  if (step === "presentation") {
-    return (
-      <div className="min-h-screen p-8 max-w-2xl mx-auto">
-        <div className="text-center">
-          <div className="text-9xl font-bold text-primary-600 mb-4 select-none">{currentItem.grapheme}</div>
-          <p className="text-lg text-neutral-600 mb-8">Fonema <strong>{currentItem.grapheme}</strong>. Escoltu.</p>
-          <div className="flex gap-4 justify-center">
-            <Button variant="secondary" onClick={handleRepeat} size="lg">Soinua errepikatu</Button>
-            <Button onClick={handleNext} size="lg">Hurrengoa</Button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (step === "practice") {
-    const options = [currentItem.grapheme, ...getDistractors(currentItem.grapheme, items)];
+  if (step === "select-exercise") {
     return (
       <div className="min-h-screen p-8 max-w-3xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <span className="text-sm text-neutral-500">{currentIndex + 1} / {items.length}</span>
-          <span className="text-sm font-medium text-neutral-700">{score.correct} / {score.total} zuzen</span>
+          <h1 className="text-2xl font-bold">Fonema {phoneme}</h1>
+          <Button variant="secondary" onClick={() => setStep("select-phoneme")}>
+            Aurreratu
+          </Button>
         </div>
-        <div className="card text-center">
-          <div className="text-6xl font-bold text-primary-600 mb-6 select-none">{currentItem.grapheme}</div>
-          <p className="text-neutral-600 mb-8">Zer grafema aukeratu duzu?</p>
-          <Opciones
-            correct={currentItem.grapheme}
-            options={options}
-            onSelect={handleOptionSelect}
-            selected={selected}
-            feedback={feedback}
-          />
+        <p className="text-neutral-600 mb-8">
+          Aukeratu ejercizi bat. Ordena: 1 → 2 → 3 → 4 → 5.
+        </p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+          {exercises.map((ex) => {
+            const done = isExerciseCompleted(ex.number);
+            const available = ex.number === 1 || isExerciseCompleted(ex.number - 1);
+            return (
+              <button
+                key={ex.number}
+                onClick={available ? () => setStep("exercise") : undefined}
+                disabled={!available}
+                className={`touch-target flex flex-col items-center justify-center gap-2 rounded-xl border-2 p-6 text-center transition-all ${done
+                  ? "border-emerald-500 bg-emerald-50 text-emerald-700"
+                  : available
+                    ? "border-primary-400 bg-primary-50 text-primary-700 hover:border-primary-600"
+                    : "border-neutral-200 bg-neutral-100 text-neutral-400 cursor-not-allowed"
+                }`}
+              >
+                <span className="text-2xl font-bold">{ex.number}</span>
+                <span className="text-sm font-medium">{ex.title}</span>
+                {done && <span className="text-xs">✓</span>}
+              </button>
+            );
+          })}
         </div>
-        {feedback !== null && (
-          <div className="mt-6 flex justify-center">
-            <Button variant="secondary" onClick={handleNext}>{feedback === "correct" ? "Hurrengoa" : "Saiatu berriro"}</Button>
+        {allCompleted && (
+          <div className="mt-8 flex justify-center">
+            <Button variant="secondary" onClick={() => setStep("select-phoneme")}>
+              Hiru fonemara itzuli
+            </Button>
           </div>
         )}
       </div>
     );
   }
 
-  return (
-    <div className="min-h-screen p-8 max-w-md mx-auto text-center">
-      <div className="card p-10">
-        <div className="text-6xl text-emerald-500 mb-4">🎉</div>
-        <h2 className="text-3xl font-bold mb-4">Saioa amaitu da!</h2>
-        <p className="text-neutral-600 mb-6">{score.correct} / {score.total} zuzen.</p>
-        <Button onClick={() => setStep("select-phoneme")} className="w-full">Berriro hasi</Button>
-      </div>
-    </div>
-  );
-}
+  if (step === "exercise") {
+    return (
+      <ExerciseRunner
+        phoneme={phoneme}
+        exerciseNumber={exerciseNumber}
+        onComplete={handleExerciseComplete}
+      />
+    );
+  }
 
-function getDistractors(correct: string, allItems: { grapheme: string }[]): string[] {
-  const others = allItems.filter((i) => i.grapheme !== correct);
-  const sameFirst = others.filter((i) => i.grapheme[0] === correct[0]);
-  const rest = others.filter((i) => i.grapheme[0] !== correct[0]);
-  const picked = [...sameFirst, ...rest].sort(() => 0.5 - Math.random()).slice(0, 1).map((i) => i.grapheme);
-  return picked;
+  return null;
 }
