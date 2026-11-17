@@ -1,0 +1,11 @@
+# Reglas del proyecto Irakurri (Cline)
+# Idioma del código y commits: español (consistente en todo el repo).
+# UI de la aplicación: exclusivamente en euskera batua (salvo orientación para adultos en castellano, si procede).
+# Stack fijo: Next.js App Router + TypeScript + Tailwind + Supabase (Auth, Postgres, Storage, RLS).
+# Despliegue: Vercel.
+# Testing: Vitest (lógica) + Playwright (1 flujo crítico: modo Gela completo).
+# No librerías de UI pesadas, no analytics de terceros.
+# Privacidad: nombres reales permitidos, cuenta solo del adulto, niño sin email, RLS obligatoria desde migración 1.
+# Evaluación: sin notas numéricas, sin rankings, sin comparaciones sociales.
+# Audio: nunca TTS en tiempo de ejecución. Audio pregenerado, estático, inmutable.
+# Progresión fonológica: m, k, t, l, b, p, d, n, f, g, r, rr, j, s, x, z, ts, tx, tz.
