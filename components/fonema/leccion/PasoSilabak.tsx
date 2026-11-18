@@ -61,6 +61,9 @@ export function PasoSilabak({ fonema, silabas, onSiguiente }: PasoSilabakProps) 
           {silaba}
         </button>
       </div>
+      <p className="sr-only" role="status" aria-live="polite">
+        {silaba}
+      </p>
     </MarcoPaso>
   );
 }

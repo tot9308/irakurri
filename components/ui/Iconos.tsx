@@ -125,3 +125,22 @@ export function IconoImagen({ className }: IconoProps) {
   );
 }
 
+
+/** Tick de acierto. */
+export function IconoCheck({ className }: IconoProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className={clases(className)}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="m4.5 12.5 5 5 10-11" />
+    </svg>
+  );
+}
+

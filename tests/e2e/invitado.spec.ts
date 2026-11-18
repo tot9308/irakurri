@@ -289,6 +289,10 @@ test("pseudohitzak, lectura y eleccion de imagen cierran la leccion", async ({ p
     await page.waitForTimeout(900);
   }
 
+  await expect(page.getByRole("heading", { name: "Oso ondo!" })).toBeVisible();
+  await expect(page.getByText("letra landu duzu", { exact: false })).toBeVisible();
+
+  await page.getByRole("button", { name: "Menua" }).click();
   await expect(page.getByText("Aukeratu ariketa")).toBeVisible();
   await expect(page.getByText("8/8")).toBeVisible();
 });

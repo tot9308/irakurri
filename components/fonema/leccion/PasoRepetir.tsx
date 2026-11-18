@@ -50,6 +50,9 @@ export function PasoRepetir({ fonema, silabas, onSiguiente }: PasoRepetirProps) 
       >
         {silaba}
       </button>
+      <p className="sr-only" role="status" aria-live="polite">
+        {silaba}
+      </p>
     </MarcoPaso>
   );
 }
