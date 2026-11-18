@@ -49,3 +49,13 @@ export function duracionAudio(clave: string): number {
 export function clavesDisponibles(): string[] {
   return Object.keys(DURACIONES_MS);
 }
+
+/** Fonemas que ya tienen algun audio grabado (excluye la carpeta compartida de vocales). */
+export function fonemasConAudio(): string[] {
+  const fonemas = new Set<string>();
+  for (const clave of Object.keys(DURACIONES_MS)) {
+    const [primero] = clave.split("/");
+    if (primero && primero !== "vocales") fonemas.add(primero);
+  }
+  return [...fonemas];
+}

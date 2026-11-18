@@ -8,7 +8,7 @@ import {
   rutaImagenPalabra,
   textoPalabra,
 } from "@/lib/palabras";
-import { DURACIONES_MS, claveSilaba } from "@/lib/audio-provider/manifest";
+import { DURACIONES_MS, claveSilaba, fonemasConAudio } from "@/lib/audio-provider/manifest";
 
 describe("palabras", () => {
   it("incluye las palabras validadas de la m", () => {
@@ -59,5 +59,9 @@ describe("palabras", () => {
   it("las vocales usan la clave compartida, no la del fonema", () => {
     expect(claveSilaba("m", "a")).toBe("vocales/a");
     expect(claveSilaba("m", "ma")).toBe("m/ma");
+  });
+
+  it("deriva del manifest los fonemas disponibles", () => {
+    expect(fonemasConAudio()).toEqual(["m"]);
   });
 });

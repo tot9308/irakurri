@@ -5,12 +5,13 @@ import { ConstructorPalabras } from "@/components/fonema/ConstructorPalabras";
 import { Leccion } from "@/components/fonema/leccion/Leccion";
 import { SecuenciaLetra } from "@/components/fonema/SecuenciaLetra";
 import { SelectorEjercicio } from "@/components/fonema/SelectorEjercicio";
+import { fonemasConAudio } from "@/lib/audio-provider/manifest";
 import { PASOS } from "@/lib/leccion/pasos";
 import { palabrasConAudio } from "@/lib/palabras";
 import { fonemasCompletados, leerProgreso } from "@/lib/progreso";
 
-// Solo los fonemas con audio grabado en public/audio/v1.
-const FONEMAS_CON_AUDIO = ["m"] as const;
+// Solo aparecen los fonemas con audio grabado en public/audio/v1.
+const FONEMAS_CON_AUDIO = fonemasConAudio();
 
 type Paso = "fonema" | "menu" | "leccion" | "secuencia" | "palabras";
 
