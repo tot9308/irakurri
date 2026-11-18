@@ -7,6 +7,7 @@
 export interface ProgresoFonema {
   secuenciaCompletada: boolean;
   palabrasCompletadas: string[];
+  pasosCompletados: string[];
 }
 
 export type Progreso = Record<string, ProgresoFonema>;
@@ -25,7 +26,11 @@ function almacenPorDefecto(): Almacen | null {
   }
 }
 
-const VACIO: ProgresoFonema = { secuenciaCompletada: false, palabrasCompletadas: [] };
+const VACIO: ProgresoFonema = {
+  secuenciaCompletada: false,
+  palabrasCompletadas: [],
+  pasosCompletados: [],
+};
 
 /** Lee y sanea el progreso: un JSON corrupto nunca rompe la app. */
 export function leerProgreso(almacen: Almacen | null = almacenPorDefecto()): Progreso {
@@ -44,6 +49,9 @@ export function leerProgreso(almacen: Almacen | null = almacenPorDefecto()): Pro
         secuenciaCompletada: registro.secuenciaCompletada === true,
         palabrasCompletadas: Array.isArray(registro.palabrasCompletadas)
           ? registro.palabrasCompletadas.filter((p): p is string => typeof p === "string")
+          : [],
+        pasosCompletados: Array.isArray(registro.pasosCompletados)
+          ? registro.pasosCompletados.filter((p): p is string => typeof p === "string")
           : [],
       };
     }
@@ -97,6 +105,28 @@ export function marcarPalabraCompletada(
         : { ...actual, palabrasCompletadas: [...actual.palabrasCompletadas, palabra] },
     almacen
   );
+}
+
+export function marcarPasoCompletado(
+  fonema: string,
+  paso: string,
+  almacen: Almacen | null = almacenPorDefecto()
+): Progreso {
+  return actualizar(
+    fonema,
+    (actual) =>
+      actual.pasosCompletados.includes(paso)
+        ? actual
+        : { ...actual, pasosCompletados: [...actual.pasosCompletados, paso] },
+    almacen
+  );
+}
+
+export function pasosDeFonema(
+  fonema: string,
+  almacen: Almacen | null = almacenPorDefecto()
+): string[] {
+  return leerProgreso(almacen)[fonema]?.pasosCompletados ?? [];
 }
 
 /** Mapa fonema -> completado, para pintar el estado en el selector. */

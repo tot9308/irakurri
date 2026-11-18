@@ -2,51 +2,66 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { ConstructorPalabras } from "@/components/fonema/ConstructorPalabras";
+import { Leccion } from "@/components/fonema/leccion/Leccion";
 import { SecuenciaLetra } from "@/components/fonema/SecuenciaLetra";
-import { SelectorEntorno } from "@/components/fonema/SelectorEntorno";
+import { SelectorEjercicio } from "@/components/fonema/SelectorEjercicio";
+import { PASOS } from "@/lib/leccion/pasos";
 import { palabrasConAudio } from "@/lib/palabras";
-import { fonemasCompletados } from "@/lib/progreso";
+import { fonemasCompletados, leerProgreso } from "@/lib/progreso";
 
 // Solo los fonemas con audio grabado en public/audio/v1.
 const FONEMAS_CON_AUDIO = ["m"] as const;
 
-type Paso = "fonema" | "entorno" | "secuencia" | "palabras";
+type Paso = "fonema" | "menu" | "leccion" | "secuencia" | "palabras";
 
 export default function InvitadoPage() {
   const [paso, setPaso] = useState<Paso>("fonema");
   const [fonema, setFonema] = useState("");
   const [completados, setCompletados] = useState<Record<string, boolean>>({});
+  const [resumen, setResumen] = useState({ pasos: 0, palabras: 0 });
 
   const refrescarProgreso = useCallback(() => {
     setCompletados(fonemasCompletados());
-  }, []);
+    const registro = leerProgreso()[fonema];
+    setResumen({
+      pasos: registro?.pasosCompletados.length ?? 0,
+      palabras: registro?.palabrasCompletadas.length ?? 0,
+    });
+  }, [fonema]);
 
-  // Se relee al volver de un ejercicio para refrescar los "Eginda".
+  // Se relee al volver de un ejercicio para refrescar el progreso.
   useEffect(() => {
-    if (paso === "fonema" || paso === "entorno") refrescarProgreso();
+    if (paso === "fonema" || paso === "menu") refrescarProgreso();
   }, [paso, refrescarProgreso]);
+
+  if (paso === "leccion") {
+    return <Leccion fonema={fonema} onAtras={() => setPaso("menu")} />;
+  }
 
   if (paso === "secuencia") {
     return (
       <SecuenciaLetra
         fonema={fonema}
-        onAtras={() => setPaso("entorno")}
+        onAtras={() => setPaso("menu")}
         onSiguiente={() => setPaso("palabras")}
       />
     );
   }
 
   if (paso === "palabras") {
-    return <ConstructorPalabras fonema={fonema} onAtras={() => setPaso("entorno")} />;
+    return <ConstructorPalabras fonema={fonema} onAtras={() => setPaso("menu")} />;
   }
 
-  if (paso === "entorno") {
+  if (paso === "menu") {
     return (
-      <SelectorEntorno
+      <SelectorEjercicio
         fonema={fonema}
+        pasosHechos={resumen.pasos}
+        totalPasos={PASOS.length}
         secuenciaCompletada={completados[fonema] === true}
-        palabrasDisponibles={palabrasConAudio(fonema).length}
-        onSelect={(entorno) => setPaso(entorno === "secuencia" ? "secuencia" : "palabras")}
+        palabrasHechas={resumen.palabras}
+        totalPalabras={palabrasConAudio(fonema).length}
+        onSelect={(ejercicio) => setPaso(ejercicio)}
         onAtras={() => setPaso("fonema")}
       />
     );
@@ -66,7 +81,7 @@ export default function InvitadoPage() {
                 type="button"
                 onClick={() => {
                   setFonema(p);
-                  setPaso("entorno");
+                  setPaso("menu");
                 }}
                 className="touch-target-lg w-full rounded-2xl border-2 border-neutral-300 bg-white text-3xl font-bold text-neutral-800 transition-colors hover:border-primary-400 hover:bg-primary-50 active:scale-95"
               >

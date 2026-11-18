@@ -204,3 +204,92 @@ test("las fotos de las seis palabras existen y se renderizan", async ({ page }) 
     .toBeGreaterThan(0);
 });
 
+
+// ---------------------------------------------------------------- leccion
+
+async function sembrarPasos(page: Page, pasos: string[]) {
+  await page.addInitScript(
+    (datos) => {
+      const { clave, hechos } = datos as { clave: string; hechos: string[] };
+      localStorage.setItem(
+        clave,
+        JSON.stringify({
+          m: {
+            secuenciaCompletada: false,
+            palabrasCompletadas: [],
+            pasosCompletados: hechos,
+          },
+        })
+      );
+    },
+    { clave: "irakurri:invitado:v1", hechos: pasos }
+  );
+}
+
+async function entrarEnLeccion(page: Page) {
+  await elegirM(page);
+  await page.getByRole("button", { name: /Ikasi/ }).click();
+}
+
+test("la leccion empieza por el grafema y sigue con la sintesis m + a = ma", async ({ page }) => {
+  await entrarEnLeccion(page);
+  await expect(page.getByText("1 · Grafema")).toBeVisible();
+
+  await page.getByRole("button", { name: "Jarraitu" }).click();
+  await expect(page.getByText("2 · Silabak")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Silaba ma" })).toBeVisible();
+
+  for (let i = 0; i < 4; i += 1) {
+    await page.getByRole("button", { name: "Hurrengo silaba" }).click();
+  }
+  await expect(page.getByRole("button", { name: "Silaba mu" })).toBeVisible();
+  await page.getByRole("button", { name: "Jarraitu" }).click();
+
+  await expect(page.getByText("3 · Hitza")).toBeVisible();
+  await expect(page.getByRole("img").first()).toBeVisible();
+});
+
+test("la discriminacion auditiva acepta la silaba correcta", async ({ page }) => {
+  await sembrarPasos(page, ["grafema", "silabak", "anclas", "errepikatu"]);
+  await entrarEnLeccion(page);
+  await expect(page.getByText("5 · Entzun eta aukeratu")).toBeVisible();
+
+  const opciones = page.locator('main button[aria-label^="Silaba "]');
+  const total = await opciones.count();
+  expect(total).toBe(5);
+
+  for (let i = 0; i < total; i += 1) {
+    await opciones.nth(i).click();
+    await page.waitForTimeout(200);
+    if (await page.getByText("Oso ondo!").isVisible()) break;
+    await page.waitForTimeout(500);
+  }
+  await expect(page.getByText("Oso ondo!")).toBeVisible();
+});
+
+test("pseudohitzak, lectura y eleccion de imagen cierran la leccion", async ({ page }) => {
+  await sembrarPasos(page, ["grafema", "silabak", "anclas", "errepikatu", "entzun"]);
+  await entrarEnLeccion(page);
+
+  await expect(page.getByText("6 · Pseudohitzak")).toBeVisible();
+  for (let i = 0; i < 6; i += 1) {
+    await page.getByRole("button", { name: "Jarraitu" }).click();
+  }
+
+  await expect(page.getByText("7 · Irakurri hitzak")).toBeVisible();
+  for (let i = 0; i < 6; i += 1) {
+    await page.getByRole("button", { name: "Jarraitu" }).click();
+  }
+
+  await expect(page.getByText("8 · Aukeratu irudia")).toBeVisible();
+  for (let i = 0; i < 6; i += 1) {
+    const palabra = (await page.getByTestId("palabra-objetivo").innerText()).trim();
+    await page.getByRole("button", { name: `Irudia ${palabra}` }).click();
+    await expect(page.getByText("Oso ondo!")).toBeVisible();
+    await page.waitForTimeout(900);
+  }
+
+  await expect(page.getByText("Aukeratu ariketa")).toBeVisible();
+  await expect(page.getByText("8/8")).toBeVisible();
+});
+

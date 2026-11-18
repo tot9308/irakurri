@@ -5,7 +5,9 @@ import {
   guardarProgreso,
   leerProgreso,
   marcarPalabraCompletada,
+  marcarPasoCompletado,
   marcarSecuenciaCompletada,
+  pasosDeFonema,
 } from "@/lib/progreso";
 
 type AlmacenFalso = Pick<Storage, "getItem" | "setItem"> & {
@@ -65,13 +67,22 @@ describe("progreso", () => {
       JSON.stringify({ m: { secuenciaCompletada: "si", palabrasCompletadas: [1, "mamu"] }, k: null })
     );
     const progreso = leerProgreso(almacen);
-    expect(progreso.m).toEqual({ secuenciaCompletada: false, palabrasCompletadas: ["mamu"] });
+    expect(progreso.m).toEqual({
+      secuenciaCompletada: false,
+      palabrasCompletadas: ["mamu"],
+      pasosCompletados: [],
+    });
     expect(progreso.k).toBeUndefined();
   });
 
   it("no propaga errores de cuota al guardar", () => {
     almacen.fallarAlGuardar = true;
-    expect(() => guardarProgreso({ m: { secuenciaCompletada: true, palabrasCompletadas: [] } }, almacen)).not.toThrow();
+    expect(() =>
+      guardarProgreso(
+        { m: { secuenciaCompletada: true, palabrasCompletadas: [], pasosCompletados: [] } },
+        almacen
+      )
+    ).not.toThrow();
     expect(leerProgreso(almacen)).toEqual({});
   });
 
@@ -79,5 +90,13 @@ describe("progreso", () => {
     expect(leerProgreso(null)).toEqual({});
     expect(() => marcarSecuenciaCompletada("m", null)).not.toThrow();
     expect(fonemasCompletados(null)).toEqual({});
+  });
+
+  it("registra pasos de la leccion sin duplicados", () => {
+    marcarPasoCompletado("m", "grafema", almacen);
+    marcarPasoCompletado("m", "grafema", almacen);
+    marcarPasoCompletado("m", "silabak", almacen);
+    expect(pasosDeFonema("m", almacen)).toEqual(["grafema", "silabak"]);
+    expect(pasosDeFonema("k", almacen)).toEqual([]);
   });
 });
