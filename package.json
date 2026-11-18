@@ -9,6 +9,8 @@
     "lint": "next lint",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "audio:check": "node scripts/verificar-audio.mjs",
     "db:push": "supabase db push",
     "db:migrate": "supabase migration new"
   },
@@ -22,6 +24,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.65.1",
+    "@tailwindcss/postcss": "^4.3.5",
     "@types/node": "^20.19.43",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",

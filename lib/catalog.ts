@@ -17,11 +17,11 @@ export type Item = {
 // sincronizada con supabase/seed/items.json.
 export const CATALOGUE_N1: Item[] = [
   { phoneme: "m", level: "N1", type: "presentation", grapheme: "m" },
-  { phoneme: "m", level: "N1", type: "syllable", grapheme: "ma" },
-  { phoneme: "m", level: "N1", type: "syllable", grapheme: "me" },
-  { phoneme: "m", level: "N1", type: "syllable", grapheme: "mi" },
-  { phoneme: "m", level: "N1", type: "syllable", grapheme: "mo" },
-  { phoneme: "m", level: "N1", type: "syllable", grapheme: "mu" },
+  { phoneme: "m", level: "N1", type: "syllable", grapheme: "ma", audio_key: "m/ma", audio_source: "human" },
+  { phoneme: "m", level: "N1", type: "syllable", grapheme: "me", audio_key: "m/me", audio_source: "human" },
+  { phoneme: "m", level: "N1", type: "syllable", grapheme: "mi", audio_key: "m/mi", audio_source: "human" },
+  { phoneme: "m", level: "N1", type: "syllable", grapheme: "mo", audio_key: "m/mo", audio_source: "human" },
+  { phoneme: "m", level: "N1", type: "syllable", grapheme: "mu", audio_key: "m/mu", audio_source: "human" },
   { phoneme: "k", level: "N1", type: "presentation", grapheme: "k" },
   { phoneme: "k", level: "N1", type: "syllable", grapheme: "ka" },
   { phoneme: "k", level: "N1", type: "syllable", grapheme: "ke" },

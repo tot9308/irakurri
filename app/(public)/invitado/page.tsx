@@ -1,75 +1,89 @@
 "use client";
 
-import { useState } from "react";
-import { ExerciseSelector } from "@/components/fonema/ExerciseSelector";
-import { SequencePlayer } from "@/components/fonema/SequencePlayer";
-import { WordBuilder } from "@/components/fonema/WordBuilder";
+import { useCallback, useEffect, useState } from "react";
+import { ConstructorPalabras } from "@/components/fonema/ConstructorPalabras";
+import { SecuenciaLetra } from "@/components/fonema/SecuenciaLetra";
+import { SelectorEntorno } from "@/components/fonema/SelectorEntorno";
+import { palabrasConAudio } from "@/lib/palabras";
+import { fonemasCompletados } from "@/lib/progreso";
 
-// Por ahora solo la m está implementada con los entornos interactivos.
-// Cuando refinemos la m, iremos añadiendo el resto de fonemas.
-const PHONEMES = ["m"];
+// Solo los fonemas con audio grabado en public/audio/v1.
+const FONEMAS_CON_AUDIO = ["m"] as const;
 
-type Step = "select-phoneme" | "select-env" | "sequence" | "words";
+type Paso = "fonema" | "entorno" | "secuencia" | "palabras";
 
 export default function InvitadoPage() {
-  const [step, setStep] = useState<Step>("select-phoneme");
-  const [phoneme, setPhoneme] = useState<string>("");
+  const [paso, setPaso] = useState<Paso>("fonema");
+  const [fonema, setFonema] = useState("");
+  const [completados, setCompletados] = useState<Record<string, boolean>>({});
 
-  const handleSelectPhoneme = (p: string) => {
-    setPhoneme(p);
-    setStep("select-env");
-  };
+  const refrescarProgreso = useCallback(() => {
+    setCompletados(fonemasCompletados());
+  }, []);
 
-  if (step === "select-phoneme") {
+  // Se relee al volver de un ejercicio para refrescar los "Eginda".
+  useEffect(() => {
+    if (paso === "fonema" || paso === "entorno") refrescarProgreso();
+  }, [paso, refrescarProgreso]);
+
+  if (paso === "secuencia") {
     return (
-      <div className="min-h-screen p-8 max-w-4xl mx-auto">
-        <div className="card">
-          <h1 className="text-3xl font-bold mb-6">Aukeratu fonema</h1>
-          <p className="text-neutral-600 mb-8">
-            Oraingoz m fonema besterik ez dago. Lehenengo hau finduko dugu eta
-            gero hurrengoak gehituko ditugu.
-          </p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3">
-            {PHONEMES.map((p) => (
-              <button
-                key={p}
-                onClick={() => handleSelectPhoneme(p)}
-                className="touch-target border-2 border-neutral-300 rounded-xl bg-white p-4 text-xl font-semibold text-neutral-700 hover:border-primary-400 hover:bg-primary-50 transition-colors"
-              >
-                {p}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (step === "select-env") {
-    return (
-      <ExerciseSelector
-        phoneme={phoneme}
-        onSelect={(env) => setStep(env === "sequence" ? "sequence" : "words")}
-        onBack={() => setStep("select-phoneme")}
+      <SecuenciaLetra
+        fonema={fonema}
+        onAtras={() => setPaso("entorno")}
+        onSiguiente={() => setPaso("palabras")}
       />
     );
   }
 
-  if (step === "sequence") {
+  if (paso === "palabras") {
+    return <ConstructorPalabras fonema={fonema} onAtras={() => setPaso("entorno")} />;
+  }
+
+  if (paso === "entorno") {
     return (
-      <SequencePlayer
-        phoneme={phoneme}
-        onNext={() => setStep("words")}
-        onBack={() => setStep("select-env")}
+      <SelectorEntorno
+        fonema={fonema}
+        secuenciaCompletada={completados[fonema] === true}
+        palabrasDisponibles={palabrasConAudio(fonema).length}
+        onSelect={(entorno) => setPaso(entorno === "secuencia" ? "secuencia" : "palabras")}
+        onAtras={() => setPaso("fonema")}
       />
     );
   }
 
   return (
-    <WordBuilder
-      phoneme={phoneme}
-      onNext={() => setStep("select-env")}
-      onBack={() => setStep("select-env")}
-    />
+    <div className="mx-auto flex min-h-[100dvh] max-w-3xl flex-col justify-center p-6">
+      <div className="card">
+        <h1 className="mb-2 text-3xl font-bold">Aukeratu fonema</h1>
+        <p className="mb-8 text-neutral-600">
+          Oraingoz <strong>m</strong> fonema dago prest. Sakatu hasteko.
+        </p>
+        <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
+          {FONEMAS_CON_AUDIO.map((p) => (
+            <div key={p} className="flex flex-col items-center gap-1">
+              <button
+                type="button"
+                onClick={() => {
+                  setFonema(p);
+                  setPaso("entorno");
+                }}
+                className="touch-target-lg w-full rounded-2xl border-2 border-neutral-300 bg-white text-3xl font-bold text-neutral-800 transition-colors hover:border-primary-400 hover:bg-primary-50 active:scale-95"
+              >
+                {p}
+              </button>
+              <span
+                aria-hidden={!completados[p]}
+                className={`h-4 text-[11px] font-semibold ${
+                  completados[p] ? "text-emerald-700" : "invisible"
+                }`}
+              >
+                Eginda
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }

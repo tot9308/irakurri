@@ -15,3 +15,7 @@ yarn-error.log*
 supabase/.temp/
 .coverage/
 *.tsbuildinfo
+test-results/
+playwright-report/
+server.log
+server.err.log

@@ -1,5 +1,25 @@
 @import "tailwindcss";
 
+/* Tokens de tema (Tailwind v4, CSS-first). El antiguo tailwind.config.ts ya no se carga. */
+@theme {
+  --color-primary-50: #f0f9ff;
+  --color-primary-100: #e0f2fe;
+  --color-primary-200: #bae6fd;
+  --color-primary-300: #7dd3fc;
+  --color-primary-400: #38bdf8;
+  --color-primary-500: #0ea5e9;
+  --color-primary-600: #0284c7;
+  --color-primary-700: #0369a1;
+  --color-primary-800: #075985;
+  --color-primary-900: #0c4a6e;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+:root {
+  /* Tamano de ficha de silaba. Fijo por breakpoint para que el Stage nunca se mueva. */
+  --slot: clamp(72px, 9vw, 132px);
+}
+
 @layer base {
   html {
     @apply antialiased;
@@ -39,5 +59,55 @@
 @layer utilities {
   .touch-target {
     @apply min-w-[64px] min-h-[64px];
+  }
+  .touch-target-lg {
+    @apply min-w-[88px] min-h-[88px];
+  }
+  /* Aparicion de silaba: revelado tipo trazo + escala, sin reflow (opacity/transform/clip). */
+  .ficha-entrada {
+    animation: ficha-entrada 240ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  }
+  .trazo-entrada {
+    animation: trazo-entrada 600ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  }
+}
+
+@keyframes ficha-entrada {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+    clip-path: inset(0 100% 0 0 round 20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    clip-path: inset(0 0 0 0 round 20px);
+  }
+}
+
+@keyframes trazo-entrada {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes fundido-suave {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ficha-entrada,
+  .trazo-entrada {
+    animation: fundido-suave 120ms ease-out both;
   }
 }
