@@ -188,3 +188,19 @@ test("tocar una silaba colocada la retira", async ({ page }) => {
   await expect(page.locator('main button[aria-label*="kendu"]')).toHaveCount(0);
 });
 
+
+test("las fotos de las seis palabras existen y se renderizan", async ({ page }) => {
+  for (const palabra of TODAS_LAS_PALABRAS) {
+    const respuesta = await page.request.get(`/img/v1/palabras/${palabra}.png`);
+    expect(respuesta.status(), `falta la foto de ${palabra}`).toBe(200);
+  }
+
+  await entrarEnPalabras(page, "mimo");
+  const imagen = page.getByRole("img");
+  await expect
+    .poll(() => imagen.evaluate((el) => (el as HTMLImageElement).naturalWidth), {
+      timeout: 5000,
+    })
+    .toBeGreaterThan(0);
+});
+
