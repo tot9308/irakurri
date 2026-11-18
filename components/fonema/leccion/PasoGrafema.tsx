@@ -27,7 +27,7 @@ export function PasoGrafema({ fonema, onSiguiente }: PasoGrafemaProps) {
   return (
     <MarcoPaso
       titulo="1 · Grafema"
-      indicacion="Hau m letra da. Entzun eta errepikatu."
+      indicacion={`Hau ${fonema} letra da. Entzun eta errepikatu.`}
       onSiguiente={onSiguiente}
     >
       <div className="flex flex-col items-center gap-6">
