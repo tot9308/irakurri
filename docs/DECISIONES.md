@@ -8,7 +8,7 @@
 - **Modo invitado**: letra `m` completa (lección de 8 pasos + `Segida` + `Hitzak`).
 - **Vocales**: pendiente. Se hará una sección de vocales **antes** de la `m` (acordado, sin fecha).
 - **Modo Gela**: no implementado. El esquema SQL (`supabase/migrations/0001_initial_schema.sql`) y las políticas RLS existen, pero **Supabase no está conectado** y `/login` todavía no existe.
-- **Tests**: 60 unitarios (Vitest) y 14 e2e (Playwright).
+- **Tests**: 64 unitarios (Vitest) y 14 e2e (Playwright).
 
 ## 2. Decisiones cerradas
 
@@ -48,22 +48,20 @@ Reglas:
 - La pantalla de resultado ofrece `Hurrengo ariketa` y `Menua`; en el último paso, `Berriz hasi` y `Menua`.
 - Al terminar: pantalla de cierre sin notas (`Berriz hasi` / `Menua`).
 
-### Menú de ejercicios (por niveles y colores)
+### Menú de ejercicios (por etapas)
 
-- **Nivel 1 — Fonema ikasi** (azul): los **8 pasos como botones independientes**. Se puede repetir un paso suelto.
-- **Nivel 2 — Praktikatu** (ámbar): `Segida` acumulativa con control de velocidad.
-- **Nivel 3 — Hitzak** (verde): constructor de palabras.
+Estructura elegida (**opción C, por dificultad**), con todos los botones visibles y color por etapa:
+
+| Etapa | Color | Pasos |
+|---|---|---|
+| **1 · Hasi** | azul | Grafema · Silabak · Hitza (ancla) |
+| **2 · Finkatu** | ámbar | Errepikatu · Entzun eta aukeratu · Pseudohitzak |
+| **3 · Erabili** | verde | Irakurri hitzak · Aukeratu irudia + `Segida` + `Hitzak` (constructor) |
+
+- Los pasos conservan su **numeración global 1..8** (Hasi 1-3, Finkatu 4-6, Erabili 7-8).
+- La cabecera muestra el total `n/8 ikasita`; cada etapa muestra su propio `n/m`.
 - El paso `Hitza` (singular) no debe confundirse con el nivel `Hitzak` (plural).
-
-#### Replanteamiento de categorías (en revisión)
-
-La agrupación actual es `Fonema ikasi` (8 pasos) / `Praktikatu` (Segida) / `Hitzak` (constructor). Opciones sobre la mesa:
-
-| Opción | Categorías |
-|---|---|
-| A (actual) | Fonema ikasi · Praktikatu · Hitzak |
-| B (por habilidad) | Entzun · Irakurri · Idatzi (futuro) |
-| C (por dificultad) | Hasi · Finkatu · Erabili |
+- La estructura vive en `lib/leccion/etapas.ts` (datos + helpers testeables).
 
 ### Técnica
 
@@ -93,9 +91,13 @@ La agrupación actual es `Fonema ikasi` (8 pasos) / `Praktikatu` (Segida) / `Hit
 | Manifest | `lib/audio-provider/manifest.ts` | duraciones reales medidas con `ffprobe` |
 | Verificación | `npm run audio:check` | claves ↔ archivos, duración, silencios, formato |
 | Generación | `npm run audio:generar` | concatena sílabas con `acrossfade` (offline) |
+| Normalización | `node scripts/normalizar-palabras.mjs` | recorta y unifica las grabaciones de palabras; guarda copia en `originales/` |
 
 - Formato actual: MP3 mono, 24 kHz (se acepta 44,1/48 kHz). Duraciones medidas con `ffprobe`.
 - Las palabras se ofrecen en la lección si existe su audio completo; en el **constructor** solo si **todas sus sílabas** tienen audio (evita fichas mudas).
+
+- **Las 8 palabras ya son grabaciones reales** (`ama`, `amama`, `mamua`, `mimo`, `momia`, `umea`, `meloi`, `musu`), normalizadas a 44,1 kHz y sin silencios de cola. Los originales están en `public/audio/v1/m/originales/` (excluido de la validación).
+- Las pseudopalabras siguen siendo audio generado; el solape es configurable (`--crossfade=<ms>`, 150 ms por defecto).
 
 #### Requisitos de una sílaba para concatenar
 
@@ -131,14 +133,13 @@ La agrupación actual es `Fonema ikasi` (8 pasos) / `Praktikatu` (Segida) / `Hit
 |---|---|---|---|
 | 1 | Contenido | Audios de las sílabas `loi` y `su` para poder construir `meloi` y `musu` en `Hitzak` | Equipo |
 | 2 | Decisión | ¿`Hurrengo ariketa` de `Segida` debe llevar a `Ikasi`, a `Hitzak` o al menú? | Equipo |
-| 3 | Calidad | Elegir el solape definitivo (120/150/180/250 ms) o grabar las palabras completas y saltarse la concatenación | Equipo |
-| 4 | Calidad | Los audios base están a 24 kHz con 58–96 ms de silencio inicial y ~80 ms final; conviene regrabarlos limpios | Equipo |
-| 5 | Producto | Replantear las categorías del menú (opciones A/B/C) | Equipo |
-| 6 | Producto | Sección de **vocales** antes de la `m` | Equipo |
-| 7 | Deuda | `/login` no existe (el botón de la landing da 404) | Dev |
-| 8 | Deuda | Conectar Supabase, auth adulto, alumnos sin email y progreso en base de datos (Gela) | Dev |
-| 9 | Deuda | e2e del flujo Gela completo (requisito del proyecto) | Dev |
-| 10 | Futuro | Trazo/escritura de la letra (canvas) | Equipo |
+| 3 | Calidad | Elegir el solape definitivo de las pseudopalabras (120/150/180/250 ms) o grabarlas también | Equipo |
+| 4 | Calidad | Las sílabas base siguen a 24 kHz con ~95 ms de silencio inicial; conviene regrabarlas limpias | Equipo |
+| 5 | Producto | Sección de **vocales** antes de la `m` | Equipo |
+| 6 | Deuda | `/login` no existe (el botón de la landing da 404) | Dev |
+| 7 | Deuda | Conectar Supabase, auth adulto, alumnos sin email y progreso en base de datos (Gela) | Dev |
+| 8 | Deuda | e2e del flujo Gela completo (requisito del proyecto) | Dev |
+| 9 | Futuro | Trazo/escritura de la letra (canvas) | Equipo |
 
 ## 5. Fases
 
@@ -159,6 +160,7 @@ npm test              # lógica (Vitest)
 npm run test:e2e      # flujo real (Playwright, usa Chrome instalado, puerto 3100)
 npm run audio:check   # valida audios contra el manifest
 npm run audio:generar # regenera pseudopalabras y palabras sin grabación
+node scripts/normalizar-palabras.mjs  # recorta y unifica las grabaciones de palabras
 node scripts/analizar-audio.mjs   # mide silencios inicial/final de cada audio
 node scripts/probar-concatenacion.mjs  # variantes de unión en public/audio/v1/pruebas/
 npm run build
