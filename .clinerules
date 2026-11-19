@@ -1,4 +1,5 @@
 # Reglas del proyecto Irakurri (Cline)
+# Documento de referencia (decisiones, pendientes y fases): docs/DECISIONES.md. Mantenerlo actualizado en el mismo cambio.
 # Idioma del código y commits: español (consistente en todo el repo).
 # UI de la aplicación: exclusivamente en euskera batua (salvo orientación para adultos en castellano, si procede).
 # Stack fijo: Next.js App Router + TypeScript + Tailwind + Supabase (Auth, Postgres, Storage, RLS).
