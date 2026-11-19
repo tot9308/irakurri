@@ -27,12 +27,12 @@ export const DURACIONES_MS: Record<string, number> = {
   "vocales/i": 296,
   "vocales/o": 323,
   "vocales/u": 454,
-  "pseudohitzak/memi": 542,
-  "pseudohitzak/mimu": 562,
-  "pseudohitzak/mumo": 531,
-  "pseudohitzak/moma": 500,
-  "pseudohitzak/memu": 535,
-  "pseudohitzak/mume": 535,
+  "pseudohitzak/memi": 493,
+  "pseudohitzak/mimu": 491,
+  "pseudohitzak/mumo": 490,
+  "pseudohitzak/moma": 505,
+  "pseudohitzak/memu": 519,
+  "pseudohitzak/mume": 524,
 };
 
 /** Fonemas con audio aislado grabado. */
