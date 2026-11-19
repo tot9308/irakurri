@@ -1,12 +1,12 @@
 # Irakurri — decisiones, pendientes y fases
 
 > Documento de referencia del proyecto. Si algo aquí contradice `.clinerules`, manda `.clinerules`.
-> Última actualización: 18 de noviembre de 2026.
+> Última actualización: 19 de noviembre de 2026.
 
 ## 1. Estado actual
 
 - **Modo invitado**: letra `m` completa (lección de 9 pasos + `Segida` + `Hitzak`).
-- **Vocales**: pendiente. Se hará una sección de vocales **antes** de la `m` (acordado, sin fecha).
+- **Vocales**: audio de `a, e, i, o, u` listo y normalizado; falta la **sección** de vocales antes de la `m` (acordado, sin fecha).
 - **Modo Gela**: no implementado. El esquema SQL (`supabase/migrations/0001_initial_schema.sql`) y las políticas RLS existen, pero **Supabase no está conectado** y `/login` todavía no existe.
 - **Tests**: 66 unitarios (Vitest) y 18 e2e (Playwright).
 
@@ -99,12 +99,14 @@ Estructura elegida (**opción C, por dificultad**), con todos los botones visibl
 | Generación | `npm run audio:generar` | concatena sílabas con `acrossfade` (offline) |
 | Normalización | `node scripts/normalizar-audio.mjs` | recorta y unifica todo el audio; guarda copia en `originales/` |
 
-- **Todo el audio de producción está normalizado**: mono 44,1 kHz, sin silencio inicial ni cola (sílabas 222–359 ms, palabras 394–608 ms, vocales 241–296 ms, pseudopalabras 441–579 ms).
+- **Todo el audio de producción está normalizado**: mono 44,1 kHz, sin silencio inicial ni cola (sílabas 222–359 ms, palabras 394–608 ms, vocales 264–454 ms, pseudopalabras 500–562 ms).
 - La fuente **Edelfontmed** está en `public/fonts/edelfontmed.ttf` y se sirve por `@font-face`.
 - Las palabras se ofrecen en la lección si existe su audio completo; en el **constructor** solo si **todas sus sílabas** tienen audio (evita fichas mudas).
 
 - **Las 8 palabras ya son grabaciones reales** (`ama`, `amama`, `mamua`, `mimo`, `momia`, `umea`, `meloi`, `musu`), normalizadas a 44,1 kHz y sin silencios de cola. Los originales están en `public/audio/v1/m/originales/` (excluido de la validación).
-- Las pseudopalabras siguen siendo audio generado; el solape es configurable (`--crossfade=<ms>`, 150 ms por defecto).
+- Las pseudopalabras son audio generado a partir de las **sílabas nuevas** (`memi = me + mi`…), regeneradas el 19/11; el solape es configurable (`--crossfade=<ms>`, 150 ms por defecto). Las versiones anteriores quedan en `pseudohitzak/originales/`.
+- Las **vocales nuevas** se obtuvieron de un TTS de 5 segmentos (`a, e, i, o, u`), se dividieron y normalizaron; la fuente y los recortes crudos están en `vocales/originales/`. Pendiente: sustituirlas por grabaciones humanas si se graban.
+- El TTS de **7 segmentos** con palabras en `m` (Descargas, 20:51) **no se usa**: no coincide con las 6 pseudopalabras de la lección y no se puede mapear con seguridad. Las pseudopalabras se regeneran con las sílabas nuevas.
 
 #### Requisitos de una sílaba para concatenar
 
@@ -140,7 +142,7 @@ Estructura elegida (**opción C, por dificultad**), con todos los botones visibl
 |---|---|---|---|
 | 1 | Contenido | Audios de las sílabas `loi` y `su` para poder construir `meloi` y `musu` en `Hitzak` | Equipo |
 | 2 | Decisión | ¿`Hurrengo ariketa` de `Segida` al terminar debe ir al paso 3 o al menú? (ahora va al paso 3) | Equipo |
-| 3 | Calidad | Copiar las grabaciones nuevas de **vocales** y **pseudopalabras**: los archivos actuales siguen siendo los antiguos/generados | Equipo |
+| 3 | Calidad | Sustituir las **vocales TTS** actuales por grabaciones humanas (las pseudopalabras ya se regeneran con las sílabas nuevas) | Equipo |
 | 4 | Producto | Sección de **vocales** antes de la `m` | Equipo |
 | 5 | Producto | Selector de formato por ejercicio: **minúsculas / mayúsculas / mezclado** (persistido). Diseño: `FormatoTexto`, aplicado con `text-transform` y, en mixto, por letra. | Equipo |
 | 6 | Deuda | `/login` no existe (el botón de la landing da 404) | Dev |
