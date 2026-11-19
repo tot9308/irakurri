@@ -407,3 +407,25 @@ test("el constructor reproduce la palabra sola al entrar", async ({ page }) => {
   expect(reproducciones).toBeGreaterThan(0);
 });
 
+
+test("la fuente Edelfontmed carga en el navegador", async ({ page }) => {
+  await page.goto("/invitado");
+
+  const respuesta = await page.request.get("/fonts/edelfontmed.ttf");
+  expect(respuesta.status()).toBe(200);
+
+  const estado = await page.evaluate(async () => {
+    await document.fonts.ready;
+    const fuentes = Array.from(document.fonts).filter(
+      (fuente) => fuente.family.replace(/["']/g, "") === "Edelfontmed"
+    );
+    return {
+      total: fuentes.length,
+      cargadas: fuentes.filter((fuente) => fuente.status === "loaded").length,
+    };
+  });
+
+  expect(estado.total).toBeGreaterThan(0);
+  expect(estado.cargadas).toBeGreaterThan(0);
+});
+

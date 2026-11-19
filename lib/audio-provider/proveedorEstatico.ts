@@ -53,7 +53,13 @@ export class ProveedorEstatico implements AudioProvider {
         clearTimeout(limite);
         resolver();
       };
-      const limite = setTimeout(terminar, duracionAudio(clave) + MARGEN_FIN_MS);
+      const limite = setTimeout(
+        terminar,
+        Math.max(
+          duracionAudio(clave),
+          Number.isFinite(elemento.duration) ? elemento.duration * 1000 : 0
+        ) + MARGEN_FIN_MS
+      );
 
       elemento.addEventListener("ended", terminar);
       elemento.addEventListener("error", terminar);

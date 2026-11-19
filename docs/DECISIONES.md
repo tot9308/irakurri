@@ -8,7 +8,7 @@
 - **Modo invitado**: letra `m` completa (lección de 9 pasos + `Segida` + `Hitzak`).
 - **Vocales**: pendiente. Se hará una sección de vocales **antes** de la `m` (acordado, sin fecha).
 - **Modo Gela**: no implementado. El esquema SQL (`supabase/migrations/0001_initial_schema.sql`) y las políticas RLS existen, pero **Supabase no está conectado** y `/login` todavía no existe.
-- **Tests**: 66 unitarios (Vitest) y 17 e2e (Playwright).
+- **Tests**: 66 unitarios (Vitest) y 18 e2e (Playwright).
 
 ## 2. Decisiones cerradas
 
@@ -97,9 +97,10 @@ Estructura elegida (**opción C, por dificultad**), con todos los botones visibl
 | Manifest | `lib/audio-provider/manifest.ts` | duraciones reales medidas con `ffprobe` |
 | Verificación | `npm run audio:check` | claves ↔ archivos, duración, silencios, formato |
 | Generación | `npm run audio:generar` | concatena sílabas con `acrossfade` (offline) |
-| Normalización | `node scripts/normalizar-palabras.mjs` | recorta y unifica las grabaciones de palabras; guarda copia en `originales/` |
+| Normalización | `node scripts/normalizar-audio.mjs` | recorta y unifica todo el audio; guarda copia en `originales/` |
 
-- Formato actual: las sílabas base están a 24 kHz; las palabras grabadas se normalizan a 44,1 kHz mono. Duraciones medidas con `ffprobe`.
+- **Todo el audio de producción está normalizado**: mono 44,1 kHz, sin silencio inicial ni cola (sílabas 222–359 ms, palabras 394–608 ms, vocales 241–296 ms, pseudopalabras 441–579 ms).
+- La fuente **Edelfontmed** está en `public/fonts/edelfontmed.ttf` y se sirve por `@font-face`.
 - Las palabras se ofrecen en la lección si existe su audio completo; en el **constructor** solo si **todas sus sílabas** tienen audio (evita fichas mudas).
 
 - **Las 8 palabras ya son grabaciones reales** (`ama`, `amama`, `mamua`, `mimo`, `momia`, `umea`, `meloi`, `musu`), normalizadas a 44,1 kHz y sin silencios de cola. Los originales están en `public/audio/v1/m/originales/` (excluido de la validación).
@@ -139,15 +140,13 @@ Estructura elegida (**opción C, por dificultad**), con todos los botones visibl
 |---|---|---|---|
 | 1 | Contenido | Audios de las sílabas `loi` y `su` para poder construir `meloi` y `musu` en `Hitzak` | Equipo |
 | 2 | Decisión | ¿`Hurrengo ariketa` de `Segida` al terminar debe ir al paso 3 o al menú? (ahora va al paso 3) | Equipo |
-| 3 | Calidad | Elegir el solape definitivo de las pseudopalabras (120/150/180/250 ms) o grabarlas también | Equipo |
-| 4 | Calidad | Las sílabas base siguen a 24 kHz con ~95 ms de silencio inicial; conviene regrabarlas limpias | Equipo |
-| 5 | Producto | Sección de **vocales** antes de la `m` | Equipo |
-| 6 | Producto | Selector de formato por ejercicio: **minúsculas / mayúsculas / mezclado** (persistido). Diseño: `FormatoTexto`, aplicado con `text-transform` y, en mixto, por letra. | Equipo |
-| 7 | Deuda | `/login` no existe (el botón de la landing da 404) | Dev |
-| 8 | Deuda | Conectar Supabase, auth adulto, alumnos sin email y progreso en base de datos (Gela) | Dev |
-| 9 | Deuda | e2e del flujo Gela completo (requisito del proyecto) | Dev |
-| 10 | Futuro | Trazo/escritura de la letra (canvas) | Equipo |
-| 11 | Contenido | Añadir el archivo **Edelfontmed** a `public/fonts/` (`edelfontmed.woff2` o `.ttf`) | Equipo |
+| 3 | Calidad | Copiar las grabaciones nuevas de **vocales** y **pseudopalabras**: los archivos actuales siguen siendo los antiguos/generados | Equipo |
+| 4 | Producto | Sección de **vocales** antes de la `m` | Equipo |
+| 5 | Producto | Selector de formato por ejercicio: **minúsculas / mayúsculas / mezclado** (persistido). Diseño: `FormatoTexto`, aplicado con `text-transform` y, en mixto, por letra. | Equipo |
+| 6 | Deuda | `/login` no existe (el botón de la landing da 404) | Dev |
+| 7 | Deuda | Conectar Supabase, auth adulto, alumnos sin email y progreso en base de datos (Gela) | Dev |
+| 8 | Deuda | e2e del flujo Gela completo (requisito del proyecto) | Dev |
+| 9 | Futuro | Trazo/escritura de la letra (canvas) | Equipo |
 
 ## 5. Fases
 
@@ -168,7 +167,7 @@ npm test              # lógica (Vitest)
 npm run test:e2e      # flujo real (Playwright, usa Chrome instalado, puerto 3100)
 npm run audio:check   # valida audios contra el manifest
 npm run audio:generar # regenera pseudopalabras y palabras sin grabación
-node scripts/normalizar-palabras.mjs  # recorta y unifica las grabaciones de palabras
+node scripts/normalizar-audio.mjs  # recorta y unifica todo el audio de producción
 node scripts/analizar-audio.mjs   # mide silencios inicial/final de cada audio
 node scripts/probar-concatenacion.mjs  # variantes de unión en public/audio/v1/pruebas/
 npm run build
