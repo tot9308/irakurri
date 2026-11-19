@@ -19,10 +19,11 @@ import { PasoSilabak } from "./PasoSilabak";
 interface LeccionProps {
   fonema: string;
   onAtras: () => void;
+  pasoInicial?: PasoId;
 }
 
 /** Progresion completa de la letra en 8 pasos, con progreso persistente. */
-export function Leccion({ fonema, onAtras }: LeccionProps) {
+export function Leccion({ fonema, onAtras, pasoInicial }: LeccionProps) {
   const silabas = useMemo(() => {
     const items = itemsByPhoneme(fonema).filter((item) => item.type === "syllable");
     return construirSecuencia(
@@ -38,11 +39,16 @@ export function Leccion({ fonema, onAtras }: LeccionProps) {
   const [terminada, setTerminada] = useState(false);
 
   useEffect(() => {
+    if (pasoInicial) {
+      setPaso(pasoInicial);
+      setListo(true);
+      return;
+    }
     const hechos = pasosDeFonema(fonema);
     const siguiente = PASOS.find((p) => !hechos.includes(p));
     setPaso(siguiente ?? "grafema");
     setListo(true);
-  }, [fonema]);
+  }, [fonema, pasoInicial]);
 
   const indice = PASOS.indexOf(paso);
 

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { IconoSoinua } from "@/components/ui/Iconos";
+import { claveAudio } from "@/lib/audio-provider/manifest";
 import { reproducirSilabas } from "@/lib/audio-provider/reproduccion";
 import { useProveedorAudio } from "@/lib/audio-provider/useProveedorAudio";
 import { PSEUDOPALABRAS, silabasDePseudopalabra } from "@/lib/leccion/pasos";
@@ -18,11 +19,21 @@ export function PasoPseudopalabras({ fonema, onSiguiente }: PasoPseudopalabrasPr
   const proveedor = useProveedorAudio();
   const [indice, setIndice] = useState(0);
   const pseudopalabra = PSEUDOPALABRAS[indice] ?? "";
+  const clave = claveAudio("pseudohitzak", pseudopalabra);
 
   const reproducir = useCallback(() => {
     if (!pseudopalabra) return;
+    // Si existe el audio generado, se usa tal cual (union con crossfade).
+    if (proveedor.disponible(clave)) {
+      void proveedor.play(clave);
+      return;
+    }
     void reproducirSilabas(proveedor, fonema, silabasDePseudopalabra(pseudopalabra));
-  }, [proveedor, fonema, pseudopalabra]);
+  }, [proveedor, fonema, pseudopalabra, clave]);
+
+  useEffect(() => {
+    proveedor.precargar(PSEUDOPALABRAS.map((p) => claveAudio("pseudohitzak", p)));
+  }, [proveedor]);
 
   useEffect(() => {
     const temporizador = setTimeout(reproducir, 300);

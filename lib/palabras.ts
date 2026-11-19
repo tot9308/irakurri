@@ -17,6 +17,8 @@ export const PALABRAS: readonly Palabra[] = [
   { id: "ama", fonema: "m", silabas: ["a", "ma"] },
   { id: "amama", fonema: "m", silabas: ["a", "ma", "ma"] },
   { id: "momia", fonema: "m", silabas: ["mo", "mi", "a"] },
+  { id: "meloi", fonema: "m", silabas: ["me", "loi"] },
+  { id: "musu", fonema: "m", silabas: ["mu", "su"] },
 ];
 
 /** Extensiones aceptadas para las fotos, en orden de preferencia (hoy son png). */
@@ -47,6 +49,16 @@ export function palabrasConAudio(fonema: string): Palabra[] {
     if (claveAudioPalabra(palabra) in DURACIONES_MS) return true;
     return palabra.silabas.every((silaba) => claveSilaba(palabra.fonema, silaba) in DURACIONES_MS);
   });
+}
+
+/**
+ * Para el constructor: todas las silabas deben sonar, porque cada ficha del banco
+ * se reproduce al colocarla. Evita fichas mudas.
+ */
+export function palabrasParaConstruir(fonema: string): Palabra[] {
+  return palabrasDeFonema(fonema).filter((palabra) =>
+    palabra.silabas.every((silaba) => claveSilaba(palabra.fonema, silaba) in DURACIONES_MS)
+  );
 }
 
 /** Silabas para el banco: las de la palabra + hasta `maxExtras` distractoras. */

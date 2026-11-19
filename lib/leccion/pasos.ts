@@ -29,6 +29,18 @@ export const ETIQUETAS: Record<PasoId, string> = {
   irudia: "Aukeratu irudia",
 };
 
+/** Nombres cortos para los botones del menu. */
+export const ETIQUETAS_CORTAS: Record<PasoId, string> = {
+  grafema: "Grafema",
+  silabak: "Silabak",
+  anclas: "Hitza",
+  errepikatu: "Errepikatu",
+  entzun: "Entzun eta aukeratu",
+  pseudo: "Pseudohitzak",
+  hitzak: "Irakurri",
+  irudia: "Aukeratu irudia",
+};
+
 /** Mezcla determinista (misma semilla, mismo orden): testeable. */
 export function barajar<T>(elementos: readonly T[], semilla: number): T[] {
   const copia = [...elementos];

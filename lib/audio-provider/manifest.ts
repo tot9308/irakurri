@@ -9,6 +9,14 @@ export const VERSION_AUDIO = "v1";
 /** clave (fonema/grafo) -> duracion real en ms */
 export const DURACIONES_MS: Record<string, number> = {
   "m/m": 624,
+  "m/meloi": 1872,
+  "m/musu": 1872,
+  "m/mamua": 1003,
+  "m/umea": 937,
+  "m/mimo": 698,
+  "m/ama": 606,
+  "m/amama": 877,
+  "m/momia": 953,
   "m/ma": 456,
   "m/me": 504,
   "m/mi": 456,
@@ -19,6 +27,12 @@ export const DURACIONES_MS: Record<string, number> = {
   "vocales/i": 432,
   "vocales/o": 432,
   "vocales/u": 456,
+  "pseudohitzak/mema": 675,
+  "pseudohitzak/mimu": 749,
+  "pseudohitzak/mumo": 822,
+  "pseudohitzak/moma": 697,
+  "pseudohitzak/memu": 800,
+  "pseudohitzak/mame": 675,
 };
 
 /** Fonemas con audio aislado grabado. */
@@ -50,12 +64,13 @@ export function clavesDisponibles(): string[] {
   return Object.keys(DURACIONES_MS);
 }
 
-/** Fonemas que ya tienen algun audio grabado (excluye la carpeta compartida de vocales). */
+/** Fonemas que ya tienen algun audio grabado (excluye carpetas compartidas). */
 export function fonemasConAudio(): string[] {
+  const compartidas = new Set(["vocales", "pseudohitzak"]);
   const fonemas = new Set<string>();
   for (const clave of Object.keys(DURACIONES_MS)) {
     const [primero] = clave.split("/");
-    if (primero && primero !== "vocales") fonemas.add(primero);
+    if (primero && !compartidas.has(primero)) fonemas.add(primero);
   }
   return [...fonemas];
 }

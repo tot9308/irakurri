@@ -6,8 +6,8 @@ import { Leccion } from "@/components/fonema/leccion/Leccion";
 import { SecuenciaLetra } from "@/components/fonema/SecuenciaLetra";
 import { SelectorEjercicio } from "@/components/fonema/SelectorEjercicio";
 import { fonemasConAudio } from "@/lib/audio-provider/manifest";
-import { PASOS } from "@/lib/leccion/pasos";
-import { palabrasConAudio } from "@/lib/palabras";
+import type { PasoId } from "@/lib/leccion/pasos";
+import { palabrasParaConstruir } from "@/lib/palabras";
 import { fonemasCompletados, leerProgreso } from "@/lib/progreso";
 
 // Solo aparecen los fonemas con audio grabado en public/audio/v1.
@@ -19,13 +19,17 @@ export default function InvitadoPage() {
   const [paso, setPaso] = useState<Paso>("fonema");
   const [fonema, setFonema] = useState("");
   const [completados, setCompletados] = useState<Record<string, boolean>>({});
-  const [resumen, setResumen] = useState({ pasos: 0, palabras: 0 });
+  const [resumen, setResumen] = useState<{ pasos: string[]; palabras: number }>({
+    pasos: [],
+    palabras: 0,
+  });
+  const [pasoInicial, setPasoInicial] = useState<PasoId | undefined>(undefined);
 
   const refrescarProgreso = useCallback(() => {
     setCompletados(fonemasCompletados());
     const registro = leerProgreso()[fonema];
     setResumen({
-      pasos: registro?.pasosCompletados.length ?? 0,
+      pasos: registro?.pasosCompletados ?? [],
       palabras: registro?.palabrasCompletadas.length ?? 0,
     });
   }, [fonema]);
@@ -36,7 +40,16 @@ export default function InvitadoPage() {
   }, [paso, refrescarProgreso]);
 
   if (paso === "leccion") {
-    return <Leccion fonema={fonema} onAtras={() => setPaso("menu")} />;
+    return (
+      <Leccion
+        fonema={fonema}
+        pasoInicial={pasoInicial}
+        onAtras={() => {
+          setPasoInicial(undefined);
+          setPaso("menu");
+        }}
+      />
+    );
   }
 
   if (paso === "secuencia") {
@@ -57,12 +70,16 @@ export default function InvitadoPage() {
     return (
       <SelectorEjercicio
         fonema={fonema}
-        pasosHechos={resumen.pasos}
-        totalPasos={PASOS.length}
+        pasosCompletados={resumen.pasos}
         secuenciaCompletada={completados[fonema] === true}
         palabrasHechas={resumen.palabras}
-        totalPalabras={palabrasConAudio(fonema).length}
-        onSelect={(ejercicio) => setPaso(ejercicio)}
+        totalPalabras={palabrasParaConstruir(fonema).length}
+        onLeccion={(pasoLeccion) => {
+          setPasoInicial(pasoLeccion);
+          setPaso("leccion");
+        }}
+        onSecuencia={() => setPaso("secuencia")}
+        onPalabras={() => setPaso("palabras")}
         onAtras={() => setPaso("fonema")}
       />
     );

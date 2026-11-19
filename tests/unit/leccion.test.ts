@@ -10,7 +10,7 @@ import {
   rondasDeSilabas,
   silabasDePseudopalabra,
 } from "@/lib/leccion/pasos";
-import { palabrasDeFonema } from "@/lib/palabras";
+import { palabrasConAudio, palabrasDeFonema } from "@/lib/palabras";
 
 const SILABAS = ["ma", "me", "mi", "mo", "mu"];
 const PALABRAS = palabrasDeFonema("m");
@@ -74,6 +74,15 @@ describe("leccion de la letra", () => {
     SILABAS.forEach((silaba) => {
       const encontrada = anclaDeSilaba(silaba, PALABRAS);
       if (encontrada) expect(encontrada.silabas[0]).toBe(silaba);
+    });
+  });
+
+  it("toda silaba de la m tiene palabra-ancla", () => {
+    const palabras = palabrasConAudio("m");
+    ["ma", "me", "mi", "mo", "mu"].forEach((silaba) => {
+      const ancla = anclaDeSilaba(silaba, palabras);
+      expect(ancla, `falta ancla para ${silaba}`).toBeDefined();
+      expect(ancla?.silabas[0]).toBe(silaba);
     });
   });
 

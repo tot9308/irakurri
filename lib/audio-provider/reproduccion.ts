@@ -3,7 +3,7 @@ import { claveAudioPalabra } from "@/lib/palabras";
 import { claveSilaba } from "./manifest";
 import type { ProveedorEstatico } from "./proveedorEstatico";
 
-const PAUSA_ENTRE_SILABAS_MS = 180;
+const PAUSA_ENTRE_SILABAS_MS = 30;
 
 export function esperar(ms: number): Promise<void> {
   return new Promise((resolver) => setTimeout(resolver, ms));

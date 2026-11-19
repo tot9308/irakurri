@@ -5,6 +5,7 @@ import {
   claveAudioPalabra,
   palabrasConAudio,
   palabrasDeFonema,
+  palabrasParaConstruir,
   rutaImagenPalabra,
   textoPalabra,
 } from "@/lib/palabras";
@@ -19,6 +20,8 @@ describe("palabras", () => {
       "ama",
       "amama",
       "momia",
+      "meloi",
+      "musu",
     ]);
   });
 
@@ -28,7 +31,7 @@ describe("palabras", () => {
       expect(palabra.silabas.length).toBeGreaterThan(0);
       palabra.silabas.forEach((silaba) => {
         expect(silaba).toBe(silaba.toLowerCase());
-        expect(silaba.length).toBeLessThanOrEqual(2);
+        expect(silaba.length).toBeLessThanOrEqual(3);
       });
       expect(palabra.silabas.some((silaba) => silaba.includes(palabra.fonema))).toBe(true);
     });
@@ -59,6 +62,17 @@ describe("palabras", () => {
   it("las vocales usan la clave compartida, no la del fonema", () => {
     expect(claveSilaba("m", "a")).toBe("vocales/a");
     expect(claveSilaba("m", "ma")).toBe("m/ma");
+  });
+
+  it("el constructor solo usa palabras con todas sus silabas grabadas", () => {
+    const construir = palabrasParaConstruir("m").map((p) => p.id);
+    expect(construir).toContain("mimo");
+    expect(construir).not.toContain("meloi");
+    expect(construir).not.toContain("musu");
+    construir.forEach((id) => {
+      const palabra = palabrasDeFonema("m").find((p) => p.id === id);
+      expect(palabra).toBeDefined();
+    });
   });
 
   it("deriva del manifest los fonemas disponibles", () => {

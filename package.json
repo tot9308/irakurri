@@ -11,6 +11,7 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "audio:check": "node scripts/verificar-audio.mjs",
+    "audio:generar": "node scripts/generar-audio-concatenado.mjs",
     "db:push": "supabase db push",
     "db:migrate": "supabase migration new"
   },

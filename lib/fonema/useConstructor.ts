@@ -6,7 +6,7 @@ import { ProveedorEstatico } from "@/lib/audio-provider/proveedorEstatico";
 import {
   bancoDeSilabas,
   claveAudioPalabra,
-  palabrasConAudio,
+  palabrasParaConstruir,
   type Palabra,
 } from "@/lib/palabras";
 import { leerProgreso, marcarPalabraCompletada } from "@/lib/progreso";
@@ -33,7 +33,7 @@ function esperar(ms: number): Promise<void> {
  * secuencia de sus silabas).
  */
 export function useConstructor(fonema: string) {
-  const disponibles = useMemo(() => palabrasConAudio(fonema), [fonema]);
+  const disponibles = useMemo(() => palabrasParaConstruir(fonema), [fonema]);
   const [indice, setIndice] = useState(0);
   const [estado, setEstado] = useState<EstadoConstructor>(estadoInicial);
   const estadoRef = useRef(estado);
