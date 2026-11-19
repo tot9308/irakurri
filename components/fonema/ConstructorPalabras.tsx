@@ -95,7 +95,7 @@ export function ConstructorPalabras({ fonema, onAtras }: ConstructorPalabrasProp
         </p>
 
         {correcto && palabra && (
-          <p className="text-center text-2xl font-bold tracking-wide text-neutral-800">
+          <p className="font-lectura text-center text-2xl font-bold tracking-wide text-neutral-800">
             {textoPalabra(palabra)}
           </p>
         )}

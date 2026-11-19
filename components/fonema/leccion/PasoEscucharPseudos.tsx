@@ -48,22 +48,19 @@ export function PasoEscucharPseudos({ fonema, onSiguiente }: PasoEscucharPseudos
   return (
     <MarcoPaso
       titulo={`${indiceGlobal("pseudo")} · Entzun pseudohitzak`}
-      indicacion="Entzun eta errepikatu ozen. Ez da benetako hitza, baina silabak berdin irakurtzen dira."
+      indicacion="Entzun eta irakurri ozen. Ez da benetako hitza, baina silabak berdin irakurtzen dira."
       onSiguiente={avanzar}
       hechos={indice + 1}
       total={PSEUDOPALABRAS.length}
     >
       <div className="flex flex-col items-center gap-5">
-        <span className="flex h-28 w-28 items-center justify-center rounded-full bg-amber-100 text-amber-700">
-          <IconoSoinua className="h-14 w-14" />
-        </span>
+        <p className="font-lectura text-[clamp(3rem,10vw,5.5rem)] font-bold tracking-wide text-neutral-800">
+          {pseudopalabra}
+        </p>
         <Button variant="secondary" onClick={reproducir}>
           <IconoSoinua className="mr-2 h-5 w-5" />
           Entzun
         </Button>
-        <p className="sr-only" role="status" aria-live="polite">
-          {pseudopalabra}
-        </p>
       </div>
     </MarcoPaso>
   );

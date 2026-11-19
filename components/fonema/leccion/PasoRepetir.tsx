@@ -47,7 +47,7 @@ export function PasoRepetir({ fonema, silabas, onSiguiente }: PasoRepetirProps) 
         type="button"
         onClick={reproducir}
         aria-label={`Silaba ${silaba}`}
-        className="ficha-entrada flex h-[clamp(110px,22vw,190px)] w-[clamp(110px,22vw,190px)] items-center justify-center rounded-3xl border-[3px] border-primary-700 bg-primary-700 text-[clamp(3rem,10vw,6rem)] font-bold leading-none text-white active:scale-95"
+        className="ficha-entrada flex h-[clamp(110px,22vw,190px)] w-[clamp(110px,22vw,190px)] items-center justify-center rounded-3xl border-[3px] border-primary-700 bg-primary-700 font-lectura text-[clamp(3rem,10vw,6rem)] font-bold leading-none text-white active:scale-95"
       >
         {silaba}
       </button>

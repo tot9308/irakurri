@@ -78,7 +78,7 @@ export function PasoAnclas({ fonema, silabas, palabras, onSiguiente }: PasoAncla
           <ImagenPalabra id={actual.palabra.id} alt={textoPalabra(actual.palabra)} />
         </div>
         <div className="flex flex-col items-center gap-3">
-          <p className="text-3xl font-bold text-neutral-800">{textoPalabra(actual.palabra)}</p>
+          <p className="font-lectura text-3xl font-bold text-neutral-800">{textoPalabra(actual.palabra)}</p>
           <div className="flex flex-wrap justify-center gap-2">
             <Button
               variant="secondary"

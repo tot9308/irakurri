@@ -130,7 +130,7 @@ export function PasoEscucharElegir({
                 type="button"
                 onClick={() => elegir(silaba)}
                 aria-label={`Silaba ${silaba}`}
-                className={`flex h-[clamp(64px,12vw,104px)] w-[clamp(64px,12vw,104px)] items-center justify-center rounded-2xl border-[3px] text-[clamp(1.6rem,5vw,3rem)] font-bold leading-none transition-colors active:scale-95 ${
+                className={`flex h-[clamp(64px,12vw,104px)] w-[clamp(64px,12vw,104px)] items-center justify-center rounded-2xl border-[3px] font-lectura text-[clamp(1.6rem,5vw,3rem)] font-bold leading-none transition-colors active:scale-95 ${
                   estado === "correcta"
                     ? "border-emerald-500 bg-emerald-50 text-emerald-700"
                     : estado === "incorrecta"

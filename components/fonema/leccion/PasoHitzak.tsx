@@ -61,7 +61,7 @@ export function PasoHitzak({ palabras, onSiguiente }: PasoHitzakProps) {
           <ImagenPalabra id={palabra.id} alt={textoPalabra(palabra)} />
         </div>
         <div className="flex flex-col items-center gap-3">
-          <p className="text-[clamp(2rem,6vw,3.5rem)] font-bold tracking-wide text-neutral-800">
+          <p className="font-lectura text-[clamp(2rem,6vw,3.5rem)] font-bold tracking-wide text-neutral-800">
             {textoPalabra(palabra)}
           </p>
           <Button variant="secondary" onClick={() => void reproducirPalabra(proveedor, palabra)}>

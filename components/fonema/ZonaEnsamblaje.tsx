@@ -30,7 +30,7 @@ export function ZonaEnsamblaje({ total, colocadas, fase, onQuitar }: ZonaEnsambl
     >
       {Array.from({ length: total }).map((_, posicion) => {
         const silaba = colocadas[posicion];
-        const clases = `flex items-center justify-center rounded-2xl border-[3px] text-[clamp(1.8rem,5.5vw,3.5rem)] font-bold leading-none transition-colors ${TAMANO}`;
+        const clases = `flex items-center justify-center rounded-2xl border-[3px] font-lectura text-[clamp(1.8rem,5.5vw,3.5rem)] font-bold leading-none transition-colors ${TAMANO}`;
 
         if (silaba === undefined) {
           return (

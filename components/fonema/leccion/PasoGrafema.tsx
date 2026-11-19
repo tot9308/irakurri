@@ -32,7 +32,7 @@ export function PasoGrafema({ fonema, onSiguiente }: PasoGrafemaProps) {
       onSiguiente={onSiguiente}
     >
       <div className="flex flex-col items-center gap-6">
-        <span className="trazo-entrada text-[clamp(6rem,22vw,14rem)] font-bold leading-none text-primary-700">
+        <span className="trazo-entrada font-lectura text-[clamp(6rem,22vw,14rem)] font-bold leading-none text-primary-700">
           {fonema}
         </span>
         <button

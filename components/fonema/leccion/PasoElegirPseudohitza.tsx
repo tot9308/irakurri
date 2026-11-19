@@ -152,7 +152,7 @@ export function PasoElegirPseudohitza({
                 type="button"
                 onClick={() => elegir(opcion)}
                 aria-label={`Pseudohitza ${opcion}`}
-                className={`flex min-h-[64px] items-center justify-center rounded-2xl border-[3px] px-3 text-[clamp(1.1rem,4vw,1.6rem)] font-bold leading-none transition-colors active:scale-95 ${
+                className={`flex min-h-[64px] items-center justify-center rounded-2xl border-[3px] px-3 font-lectura text-[clamp(1.1rem,4vw,1.6rem)] font-bold leading-none transition-colors active:scale-95 ${
                   estado === "correcta"
                     ? "border-emerald-500 bg-emerald-50 text-emerald-700"
                     : estado === "incorrecta"

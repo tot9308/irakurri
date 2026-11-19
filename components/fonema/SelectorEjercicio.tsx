@@ -61,7 +61,7 @@ export function SelectorEjercicio({
     <div className="mx-auto flex min-h-[100dvh] w-full max-w-5xl flex-col justify-center gap-5 p-4 sm:p-6">
       <header className="text-center">
         <h1 className="text-lg font-semibold text-neutral-600">Aukeratu ariketa</h1>
-        <p className="mt-1 text-4xl font-bold text-primary-700">{fonema}</p>
+        <p className="mt-1 font-lectura text-4xl font-bold text-primary-700">{fonema}</p>
         <p className="mt-1 text-xs font-semibold text-neutral-500">
           {pasosCompletados.length}/{PASOS.length} ikasita
         </p>

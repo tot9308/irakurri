@@ -110,7 +110,7 @@ export function PasoElegirImagen({
       <div className="flex flex-col items-center gap-5">
         <p
           data-testid="palabra-objetivo"
-          className="text-[clamp(2.2rem,7vw,4rem)] font-bold tracking-wide text-neutral-800"
+          className="font-lectura text-[clamp(2.2rem,7vw,4rem)] font-bold tracking-wide text-neutral-800"
         >
           {textoPalabra(ronda.objetivo)}
         </p>

@@ -53,7 +53,7 @@ export function FichaSilaba({
           type="button"
           onClick={onRepetir}
           aria-label={`${silaba} silaba. Sakatu berriz entzuteko.`}
-          className={`ficha-entrada flex h-full w-full items-center justify-center rounded-3xl border-[3px] text-[clamp(2rem,6.4vw,4.5rem)] font-bold leading-none transition-colors duration-200 ${ESTILOS[estado]}`}
+          className={`ficha-entrada flex h-full w-full items-center justify-center rounded-3xl border-[3px] font-lectura text-[clamp(2rem,6.4vw,4.5rem)] font-bold leading-none transition-colors duration-200 ${ESTILOS[estado]}`}
         >
           {silaba}
         </button>

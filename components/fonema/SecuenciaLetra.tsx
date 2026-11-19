@@ -34,7 +34,7 @@ export function SecuenciaLetra({ fonema, onAtras, onSiguiente }: SecuenciaLetraP
 
         <div className="flex items-center gap-1">
           <h1 className="flex items-baseline gap-2 text-lg font-semibold text-neutral-700">
-            <span className="trazo-entrada inline-block text-3xl font-bold text-primary-700">
+            <span className="trazo-entrada inline-block font-lectura text-3xl font-bold text-primary-700">
               {fonema}
             </span>
             fonema

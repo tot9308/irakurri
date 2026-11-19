@@ -45,11 +45,11 @@ export function PasoSilabak({ fonema, silabas, onSiguiente }: PasoSilabakProps) 
       total={silabas.length}
     >
       <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-5">
-        <span className="text-[clamp(3rem,10vw,6rem)] font-bold leading-none text-neutral-800">
+        <span className="font-lectura text-[clamp(3rem,10vw,6rem)] font-bold leading-none text-neutral-800">
           {partes?.consonante}
         </span>
         <span className="text-[clamp(2rem,7vw,4rem)] leading-none text-neutral-400">+</span>
-        <span className="text-[clamp(3rem,10vw,6rem)] font-bold leading-none text-neutral-800">
+        <span className="font-lectura text-[clamp(3rem,10vw,6rem)] font-bold leading-none text-neutral-800">
           {partes?.vocal}
         </span>
         <span className="text-[clamp(2rem,7vw,4rem)] leading-none text-neutral-400">=</span>
@@ -57,7 +57,7 @@ export function PasoSilabak({ fonema, silabas, onSiguiente }: PasoSilabakProps) 
           type="button"
           onClick={reproducir}
           aria-label={`Silaba ${silaba}`}
-          className="ficha-entrada flex h-[clamp(96px,18vw,150px)] w-[clamp(96px,18vw,150px)] items-center justify-center rounded-3xl border-[3px] border-primary-700 bg-primary-700 text-[clamp(2.6rem,9vw,5.5rem)] font-bold leading-none text-white active:scale-95"
+          className="ficha-entrada flex h-[clamp(96px,18vw,150px)] w-[clamp(96px,18vw,150px)] items-center justify-center rounded-3xl border-[3px] border-primary-700 bg-primary-700 font-lectura text-[clamp(2.6rem,9vw,5.5rem)] font-bold leading-none text-white active:scale-95"
         >
           {silaba}
         </button>

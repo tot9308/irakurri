@@ -33,7 +33,7 @@ Orden de la lección (9 pasos), con `Segida` como práctica tras las sílabas:
 3. **Errepikatu**: sílabas en orden no alfabético, el niño repite en voz alta.
 4. **Hitza**: palabra-ancla que empieza por la sílaba (imagen + palabra escrita + audio de palabra y de sílaba).
 5. **Entzun eta aukeratu**: suena una sílaba y se elige entre las 5 (`ma…mu`). 12 rondas.
-6. **Entzun pseudohitzak**: solo audio, sin texto; el niño escucha y repite.
+6. **Entzun pseudohitzak**: audio y **texto visible**; el niño escucha, lee y repite.
 7. **Aukeratu pseudohitza**: suena una pseudopalabra y se elige cómo se escribe entre 4 opciones (6 rondas).
 8. **Irakurri hitzak**: palabra escrita + foto + audio; el niño lee en voz alta.
 9. **Aukeratu irudia**: palabra escrita + 3 fotos; elige la correcta.
@@ -81,6 +81,7 @@ Estructura elegida (**opción C, por dificultad**), con todos los botones visibl
 | Accesibilidad | Botones nativos, `aria-live` para la sílaba actual, `prefers-reduced-motion`. |
 | Persistencia | Lectura segura en SSR, saneado de JSON corrupto, tolerancia a cuota llena. |
 | Nomenclatura del código | Español (archivos, tipos, comentarios). |
+| Tipografía de lectura | **Edelfontmed** (`font-lectura`) para grafemas, sílabas, palabras y pseudopalabras; UI en la sans del sistema. El archivo va en `public/fonts/edelfontmed.woff2` (o `.ttf`), con `local()` como respaldo. |
 
 ### Audio y assets
 
@@ -141,10 +142,12 @@ Estructura elegida (**opción C, por dificultad**), con todos los botones visibl
 | 3 | Calidad | Elegir el solape definitivo de las pseudopalabras (120/150/180/250 ms) o grabarlas también | Equipo |
 | 4 | Calidad | Las sílabas base siguen a 24 kHz con ~95 ms de silencio inicial; conviene regrabarlas limpias | Equipo |
 | 5 | Producto | Sección de **vocales** antes de la `m` | Equipo |
-| 6 | Deuda | `/login` no existe (el botón de la landing da 404) | Dev |
-| 7 | Deuda | Conectar Supabase, auth adulto, alumnos sin email y progreso en base de datos (Gela) | Dev |
-| 8 | Deuda | e2e del flujo Gela completo (requisito del proyecto) | Dev |
-| 9 | Futuro | Trazo/escritura de la letra (canvas) | Equipo |
+| 6 | Producto | Selector de formato por ejercicio: **minúsculas / mayúsculas / mezclado** (persistido). Diseño: `FormatoTexto`, aplicado con `text-transform` y, en mixto, por letra. | Equipo |
+| 7 | Deuda | `/login` no existe (el botón de la landing da 404) | Dev |
+| 8 | Deuda | Conectar Supabase, auth adulto, alumnos sin email y progreso en base de datos (Gela) | Dev |
+| 9 | Deuda | e2e del flujo Gela completo (requisito del proyecto) | Dev |
+| 10 | Futuro | Trazo/escritura de la letra (canvas) | Equipo |
+| 11 | Contenido | Añadir el archivo **Edelfontmed** a `public/fonts/` (`edelfontmed.woff2` o `.ttf`) | Equipo |
 
 ## 5. Fases
 

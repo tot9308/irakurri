@@ -104,7 +104,7 @@ export default function InvitadoPage() {
                   setFonema(p);
                   setPaso("menu");
                 }}
-                className="touch-target-lg w-full rounded-2xl border-2 border-neutral-300 bg-white text-3xl font-bold text-neutral-800 transition-colors hover:border-primary-400 hover:bg-primary-50 active:scale-95"
+                className="touch-target-lg w-full rounded-2xl border-2 border-neutral-300 bg-white font-lectura text-3xl font-bold text-neutral-800 transition-colors hover:border-primary-400 hover:bg-primary-50 active:scale-95"
               >
                 {p}
               </button>

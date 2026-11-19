@@ -248,6 +248,11 @@ test("la leccion empieza por el grafema y sigue con la sintesis m + a = ma", asy
   await expect(page.getByText("2 · Silabak")).toBeVisible();
   await expect(page.getByRole("button", { name: "Silaba ma" })).toBeVisible();
 
+  const familia = await page
+    .locator('main button[aria-label="Silaba ma"]')
+    .evaluate((elemento) => getComputedStyle(elemento).fontFamily);
+  expect(familia).toContain("Edelfontmed");
+
   for (let i = 0; i < 4; i += 1) {
     await page.getByRole("button", { name: "Hurrengo silaba" }).click();
   }
@@ -281,6 +286,7 @@ test("escuchar pseudohitzak es solo audio y lleva a elegir", async ({ page }) =>
   await entrarEnLeccion(page, "6. Entzun pseudohitzak");
 
   await expect(page.getByText("6 · Entzun pseudohitzak")).toBeVisible();
+  await expect(page.getByText("memi", { exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: "Entzun", exact: true })).toBeVisible();
   await expect(page.locator('main button[aria-label^="Pseudohitza "]')).toHaveCount(0);
 
