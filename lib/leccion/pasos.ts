@@ -130,7 +130,7 @@ function rondasDePalabrasBase(
 }
 
 /** Pseudopalabras CV construidas solo con silabas de la letra (a validar). */
-export const PSEUDOPALABRAS = ["memi", "mimu", "mumo", "moma", "memu", "mamu"];
+export const PSEUDOPALABRAS = ["memi", "mimu", "mumo", "moma", "memu", "mume"];
 
 /** "mema" -> ["me", "ma"] */
 export function silabasDePseudopalabra(pseudopalabra: string): string[] {

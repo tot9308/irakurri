@@ -21,8 +21,12 @@ const DIR_AUDIO = join(RAIZ, "public", "audio", "v1");
 const FONEMA = "m";
 const VOCALES = new Set(["a", "e", "i", "o", "u"]);
 const FORZAR = process.argv.includes("--forzar");
+/** Solape entre silabas en ms. Mas solape = menos sensacion de corte. */
+const CRUCE_MS = Number(
+  process.argv.find((arg) => arg.startsWith("--crossfade="))?.split("=")[1] ?? 150
+);
 
-const PSEUDOPALABRAS = ["memi", "mimu", "mumo", "moma", "memu", "mamu"];
+const PSEUDOPALABRAS = ["memi", "mimu", "mumo", "moma", "memu", "mume"];
 const PALABRAS = [
   { id: "mamua", silabas: ["ma", "mu", "a"] },
   { id: "umea", silabas: ["u", "me", "a"] },
@@ -60,7 +64,9 @@ function generar(silabas, salida) {
   let ultimo = "a0";
   for (let i = 1; i < entradas.length; i += 1) {
     const destino = i === entradas.length - 1 ? "a" : `mix${i}`;
-    filtros.push(`[${ultimo}][a${i}]acrossfade=d=0.08:c1=tri:c2=tri[${destino}]`);
+    filtros.push(
+      `[${ultimo}][a${i}]acrossfade=d=${(CRUCE_MS / 1000).toFixed(3)}:c1=tri:c2=tri[${destino}]`
+    );
     ultimo = destino;
   }
 

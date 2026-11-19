@@ -23,9 +23,10 @@ const RECORTAR =
   "areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse";
 
 const VARIANTES = [
-  { id: "crossfade", descripcion: "crossfade 80 ms" },
-  { id: "gap30", descripcion: "union con 30 ms de silencio" },
-  { id: "gap0", descripcion: "union directa (0 ms)" },
+  { id: "crossfade120", cruce: 0.12, descripcion: "solape 120 ms" },
+  { id: "crossfade180", cruce: 0.18, descripcion: "solape 180 ms" },
+  { id: "crossfade250", cruce: 0.25, descripcion: "solape 250 ms" },
+  { id: "gap30", cruce: 0, descripcion: "union con 30 ms de silencio" },
 ];
 
 const PALABRAS = [
@@ -36,35 +37,29 @@ const PALABRAS = [
 function filtroUnion(numero, variante) {
   const recortes = Array.from({ length: numero }, (_, i) => `[${i}:a]${RECORTAR}[a${i}]`);
 
-  if (variante === "crossfade") {
+  if (variante.id.startsWith("crossfade")) {
     let ultimo = "a0";
     for (let i = 1; i < numero; i += 1) {
       const destino = i === numero - 1 ? "a" : `mezcla${i}`;
-      recortes.push(`[${ultimo}][a${i}]acrossfade=d=0.08:c1=tri:c2=tri[${destino}]`);
+      recortes.push(
+        `[${ultimo}][a${i}]acrossfade=d=${variante.cruce.toFixed(3)}:c1=tri:c2=tri[${destino}]`
+      );
       ultimo = destino;
     }
     return recortes.join(";");
   }
 
-  if (variante === "gap30") {
-    const trozos = [];
-    for (let i = 0; i < numero; i += 1) {
-      const esUltima = i === numero - 1;
-      if (esUltima) {
-        trozos.push(`[a${i}]`);
-      } else {
-        recortes.push(`[a${i}]apad=pad_dur=0.03[a${i}p]`);
-        trozos.push(`[a${i}p]`);
-      }
+  const trozos = [];
+  for (let i = 0; i < numero; i += 1) {
+    const esUltima = i === numero - 1;
+    if (esUltima) {
+      trozos.push(`[a${i}]`);
+    } else {
+      recortes.push(`[a${i}]apad=pad_dur=0.03[a${i}p]`);
+      trozos.push(`[a${i}p]`);
     }
-    recortes.push(`${trozos.join("")}concat=n=${numero}:v=0:a=1[a]`);
-    return recortes.join(";");
   }
-
-  // gap0: union directa
-  recortes.push(
-    `${Array.from({ length: numero }, (_, i) => `[a${i}]`).join("")}concat=n=${numero}:v=0:a=1[a]`
-  );
+  recortes.push(`${trozos.join("")}concat=n=${numero}:v=0:a=1[a]`);
   return recortes.join(";");
 }
 
@@ -82,7 +77,7 @@ for (const { nombre, silabas } of PALABRAS) {
       "-y",
       ...silabas.flatMap((ruta) => ["-i", ruta]),
       "-filter_complex",
-      filtroUnion(silabas.length, variante.id),
+      filtroUnion(silabas.length, variante),
       "-map",
       "[a]",
       "-ar",

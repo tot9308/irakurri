@@ -55,6 +55,16 @@ Reglas:
 - **Nivel 3 — Hitzak** (verde): constructor de palabras.
 - El paso `Hitza` (singular) no debe confundirse con el nivel `Hitzak` (plural).
 
+#### Replanteamiento de categorías (en revisión)
+
+La agrupación actual es `Fonema ikasi` (8 pasos) / `Praktikatu` (Segida) / `Hitzak` (constructor). Opciones sobre la mesa:
+
+| Opción | Categorías |
+|---|---|
+| A (actual) | Fonema ikasi · Praktikatu · Hitzak |
+| B (por habilidad) | Entzun · Irakurri · Idatzi (futuro) |
+| C (por dificultad) | Hasi · Finkatu · Erabili |
+
 ### Técnica
 
 | Decisión | Detalle |
@@ -98,7 +108,7 @@ Reglas:
 | Volumen | homogéneo entre sílabas (~−16 LUFS) |
 | Voz | misma persona y tono en todas las sílabas |
 
-- El generador recorta **ambos extremos** de cada sílaba antes de unirlas con `acrossfade` de 80 ms.
+- El generador recorta **ambos extremos** de cada sílaba antes de unirlas con `acrossfade` (150 ms por defecto, configurable con `--crossfade=<ms>`).
 - Herramientas: `node scripts/analizar-audio.mjs` (mide silencios) y `node scripts/probar-concatenacion.mjs` (genera variantes en `public/audio/v1/pruebas/`, excluida de la validación).
 
 ### Datos y privacidad
@@ -113,21 +123,22 @@ Reglas:
 - Sílabas: `ma, me, mi, mo, mu` + fonema aislado `m`.
 - Palabras validadas (con foto): `mamua`, `umea`, `mimo`, `ama`, `amama`, `momia`, `meloi`, `musu`.
 - Palabras-ancla por sílaba: `ma → mamua`, `me → meloi`, `mi → mimo`, `mo → momia`, `mu → musu`.
-- Pseudopalabras: `memi, mimu, mumo, moma, memu, mamu`. Ojo: **`mamu` es palabra real** en euskera (fantasma); queda pendiente decidir si se mantiene como pseudopalabra o se cambia.
+- Pseudopalabras: `memi, mimu, mumo, moma, memu, mume`.
 
 ## 4. Pendientes
 
 | # | Tipo | Pendiente | Responsable |
 |---|---|---|---|
-| 1 | Validación | `mamu` es palabra real: decidir si se cambia por otra pseudopalabra | Equipo |
-| 2 | Contenido | Audios de las sílabas `loi` y `su` para poder construir `meloi` y `musu` en `Hitzak` | Equipo |
-| 3 | Decisión | ¿`Hurrengo ariketa` de `Segida` debe llevar a `Ikasi`, a `Hitzak` o al menú? | Equipo |
-| 4 | Calidad | Los audios base están a 24 kHz con 58–96 ms de silencio inicial y ~80 ms final; el generador ya recorta, pero conviene regrabarlos limpios | Equipo |
-| 5 | Producto | Sección de **vocales** antes de la `m` | Equipo |
-| 6 | Deuda | `/login` no existe (el botón de la landing da 404) | Dev |
-| 7 | Deuda | Conectar Supabase, auth adulto, alumnos sin email y progreso en base de datos (Gela) | Dev |
-| 8 | Deuda | e2e del flujo Gela completo (requisito del proyecto) | Dev |
-| 9 | Futuro | Trazo/escritura de la letra (canvas) | Equipo |
+| 1 | Contenido | Audios de las sílabas `loi` y `su` para poder construir `meloi` y `musu` en `Hitzak` | Equipo |
+| 2 | Decisión | ¿`Hurrengo ariketa` de `Segida` debe llevar a `Ikasi`, a `Hitzak` o al menú? | Equipo |
+| 3 | Calidad | Elegir el solape definitivo (120/150/180/250 ms) o grabar las palabras completas y saltarse la concatenación | Equipo |
+| 4 | Calidad | Los audios base están a 24 kHz con 58–96 ms de silencio inicial y ~80 ms final; conviene regrabarlos limpios | Equipo |
+| 5 | Producto | Replantear las categorías del menú (opciones A/B/C) | Equipo |
+| 6 | Producto | Sección de **vocales** antes de la `m` | Equipo |
+| 7 | Deuda | `/login` no existe (el botón de la landing da 404) | Dev |
+| 8 | Deuda | Conectar Supabase, auth adulto, alumnos sin email y progreso en base de datos (Gela) | Dev |
+| 9 | Deuda | e2e del flujo Gela completo (requisito del proyecto) | Dev |
+| 10 | Futuro | Trazo/escritura de la letra (canvas) | Equipo |
 
 ## 5. Fases
 
