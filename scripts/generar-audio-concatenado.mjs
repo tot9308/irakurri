@@ -9,7 +9,7 @@
  * Nunca sobrescribe una grabacion existente salvo con --forzar.
  * El resultado es audio estatico: no hay TTS ni sintesis en runtime.
  *
- * Uso: npm run audio:generar [-- --forzar]
+ * Uso: npm run audio:generar [-- --forzar] [--solo=hitzak|pseudohitzak]
  */
 import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync } from "node:fs";
@@ -21,6 +21,15 @@ const DIR_AUDIO = join(RAIZ, "public", "audio", "v1");
 const FONEMA = "m";
 const VOCALES = new Set(["a", "e", "i", "o", "u"]);
 const FORZAR = process.argv.includes("--forzar");
+const SOLO = process.argv
+  .find((arg) => arg.startsWith("--solo="))
+  ?.split("=")[1];
+const GENERAR_PSEUDOS = !SOLO || SOLO === "pseudohitzak";
+const GENERAR_PALABRAS = !SOLO || SOLO === "hitzak";
+if (SOLO && !GENERAR_PSEUDOS && !GENERAR_PALABRAS) {
+  console.error("--solo debe ser 'hitzak' o 'pseudohitzak'");
+  process.exit(1);
+}
 /** Solape entre silabas en ms. Mas solape = menos sensacion de corte. */
 const CRUCE_MS = Number(
   process.argv.find((arg) => arg.startsWith("--crossfade="))?.split("=")[1] ?? 150
@@ -103,17 +112,21 @@ function generar(silabas, salida) {
   return true;
 }
 
-console.log("\nPseudohitzak:");
-PSEUDOPALABRAS.forEach((pseudopalabra) =>
-  generar(
-    [pseudopalabra.slice(0, 2), pseudopalabra.slice(2, 4)],
-    join(DIR_AUDIO, "pseudohitzak", `${pseudopalabra}.mp3`)
-  )
-);
+if (GENERAR_PSEUDOS) {
+  console.log("\nPseudohitzak:");
+  PSEUDOPALABRAS.forEach((pseudopalabra) =>
+    generar(
+      [pseudopalabra.slice(0, 2), pseudopalabra.slice(2, 4)],
+      join(DIR_AUDIO, "pseudohitzak", `${pseudopalabra}.mp3`)
+    )
+  );
+}
 
-console.log("\nHitzak (solo si no hay grabacion):");
-PALABRAS.forEach((palabra) =>
-  generar(palabra.silabas, join(DIR_AUDIO, FONEMA, `${palabra.id}.mp3`))
-);
+if (GENERAR_PALABRAS) {
+  console.log("\nHitzak (solo si no hay grabacion):");
+  PALABRAS.forEach((palabra) =>
+    generar(palabra.silabas, join(DIR_AUDIO, FONEMA, `${palabra.id}.mp3`))
+  );
+}
 
 console.log("\nRecuerda actualizar DURACIONES_MS con las duraciones nuevas.\n");

@@ -97,14 +97,14 @@ Estructura elegida (**opción C, por dificultad**), con todos los botones visibl
 | Fotos | `public/img/v1/palabras/{palabra}.png` | también se aceptan webp/jpg/jpeg/svg |
 | Manifest | `lib/audio-provider/manifest.ts` | duraciones reales medidas con `ffprobe` |
 | Verificación | `npm run audio:check` | claves ↔ archivos, duración, silencios, formato |
-| Generación | `npm run audio:generar` | concatena sílabas con `acrossfade` (offline); alternativa a grabaciones/TTS |
+| Generación | `npm run audio:generar` | concatena sílabas con `acrossfade` (offline); `--solo=hitzak` o `--solo=pseudohitzak` |
 | Normalización | `node scripts/normalizar-audio.mjs` | recorta y unifica todo el audio; guarda copia en `originales/` |
 
-- **Todo el audio de producción está normalizado**: mono 44,1 kHz, sin silencio inicial ni cola (sílabas 222–359 ms, palabras 394–608 ms, vocales 264–454 ms, pseudopalabras 490–524 ms).
+- **Todo el audio de producción está normalizado**: mono 44,1 kHz, sin silencio inicial ni cola (sílabas 222–359 ms, palabras 477–792 ms, vocales 264–454 ms, pseudopalabras 490–524 ms).
 - La fuente **Edelfontmed** está en `public/fonts/edelfontmed.ttf` y se sirve por `@font-face`.
 - Las palabras se ofrecen en la lección si existe su audio completo; en el **constructor** solo si **todas sus sílabas** tienen audio (evita fichas mudas).
 
-- **Las 8 palabras ya son grabaciones reales** (`ama`, `amama`, `mamua`, `mimo`, `momia`, `umea`, `meloi`, `musu`), normalizadas a 44,1 kHz y sin silencios de cola. Los originales están en `public/audio/v1/m/originales/` (excluido de la validación).
+- **Las palabras nuevas se generan con las sílabas nuevas** (`ama`, `amama`, `mamua`, `mimo`, `momia`, `umea`) y suenan con la misma voz que las sílabas; `meloi` y `musu` siguen siendo grabaciones completas. Los originales de las grabaciones están en `public/audio/v1/m/originales/` (excluido de la validación). Para regenerar solo estas palabras: `npm run audio:generar -- --forzar --solo=hitzak`.
 - Las **pseudopalabras nuevas** son TTS (20:51), divididas y normalizadas. El TTS venía en este orden: `memi, memu, mumo, mimu, moma, mume` + un séptimo `mume` duplicado que se descarta (guardado en `pruebas/pseudohitzak/extra-7-mume.mp3`). Cada archivo se ha validado con reconocimiento limitado a las 6 palabras.
 - Las **vocales nuevas** se obtuvieron de un TTS de 5 segmentos (`a, e, i, o, u`), se dividieron y normalizaron; la fuente y los recortes crudos están en `vocales/originales/`. Pendiente: sustituirlas por grabaciones humanas si se graban.
 
