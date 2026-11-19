@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { reproducirSilaba } from "@/lib/audio-provider/reproduccion";
 import { useProveedorAudio } from "@/lib/audio-provider/useProveedorAudio";
 import { combinacionSilaba } from "@/lib/leccion/pasos";
+import { indiceGlobal } from "@/lib/leccion/etapas";
 import { MarcoPaso } from "./MarcoPaso";
 
 interface PasoSilabakProps {
@@ -36,7 +37,7 @@ export function PasoSilabak({ fonema, silabas, onSiguiente }: PasoSilabakProps) 
 
   return (
     <MarcoPaso
-      titulo="2 · Silabak"
+      titulo={`${indiceGlobal("silabak")} · Silabak`}
       indicacion="Kontsonantea eta bokala elkartzen dira."
       onSiguiente={avanzar}
       textoBoton={indice + 1 >= silabas.length ? "Jarraitu" : "Hurrengo silaba"}

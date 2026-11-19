@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ImagenPalabra } from "@/components/fonema/ImagenPalabra";
 import { rondasDePalabras } from "@/lib/leccion/pasos";
 import { textoPalabra, type Palabra } from "@/lib/palabras";
+import { indiceGlobal } from "@/lib/leccion/etapas";
 import { MarcoPaso } from "./MarcoPaso";
 import { PasoResultado } from "./PasoResultado";
 
@@ -73,7 +74,7 @@ export function PasoElegirImagen({
   if (terminado) {
     return (
       <PasoResultado
-        titulo="8 · Aukeratu irudia"
+        titulo={`${indiceGlobal("irudia")} · Aukeratu irudia`}
         aciertos={aciertos}
         total={rondas.length}
         esUltimo={esUltimo}
@@ -87,7 +88,7 @@ export function PasoElegirImagen({
   if (!ronda) {
     return (
       <MarcoPaso
-        titulo="8 · Aukeratu irudia"
+        titulo={`${indiceGlobal("irudia")} · Aukeratu irudia`}
         indicacion="Oraindik ez dago argazkirik fonema honetarako."
         onSiguiente={onSiguiente}
       >
@@ -100,7 +101,7 @@ export function PasoElegirImagen({
 
   return (
     <MarcoPaso
-      titulo="8 · Aukeratu irudia"
+      titulo={`${indiceGlobal("irudia")} · Aukeratu irudia`}
       indicacion="Irakurri hitza eta aukeratu bere argazkia."
       onSiguiente={avanzar}
       hechos={indice + (acierto ? 1 : 0)}

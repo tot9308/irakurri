@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { IconoSoinua } from "@/components/ui/Iconos";
+import { indiceGlobal } from "@/lib/leccion/etapas";
 import { claveAudio, FONEMAS_CON_AUDIO_AISLADO } from "@/lib/audio-provider/manifest";
 import { useProveedorAudio } from "@/lib/audio-provider/useProveedorAudio";
 import { MarcoPaso } from "./MarcoPaso";
@@ -26,7 +27,7 @@ export function PasoGrafema({ fonema, onSiguiente }: PasoGrafemaProps) {
 
   return (
     <MarcoPaso
-      titulo="1 · Grafema"
+      titulo={`${indiceGlobal("grafema")} · Grafema`}
       indicacion={`Hau ${fonema} letra da. Entzun eta errepikatu.`}
       onSiguiente={onSiguiente}
     >

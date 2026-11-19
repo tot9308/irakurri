@@ -7,6 +7,7 @@ import {
   combinacionSilaba,
   opcionesDeSilaba,
   rondasDePalabras,
+  rondasDePseudopalabras,
   rondasDeSilabas,
   silabasDePseudopalabra,
 } from "@/lib/leccion/pasos";
@@ -16,14 +17,15 @@ const SILABAS = ["ma", "me", "mi", "mo", "mu"];
 const PALABRAS = palabrasDeFonema("m");
 
 describe("leccion de la letra", () => {
-  it("define los ocho pasos en el orden acordado", () => {
+  it("define los pasos en el orden acordado", () => {
     expect(PASOS).toEqual([
       "grafema",
       "silabak",
-      "anclas",
       "errepikatu",
+      "anclas",
       "entzun",
       "pseudo",
+      "pseudoElegir",
       "hitzak",
       "irudia",
     ]);
@@ -64,6 +66,16 @@ describe("leccion de la letra", () => {
     expect(silabasDePseudopalabra("mumo")).toEqual(["mu", "mo"]);
     PSEUDOPALABRAS.forEach((pseudo) => {
       expect(silabasDePseudopalabra(pseudo).join("")).toBe(pseudo);
+    });
+  });
+
+  it("genera rondas de pseudopalabras con cuatro opciones escritas", () => {
+    const rondas = rondasDePseudopalabras(6, 13);
+    expect(rondas).toHaveLength(6);
+    rondas.forEach((ronda) => {
+      expect(ronda.opciones).toHaveLength(4);
+      expect(ronda.opciones).toContain(ronda.objetivo);
+      expect(new Set(ronda.opciones).size).toBe(4);
     });
   });
 

@@ -7,6 +7,7 @@ import { ImagenPalabra } from "@/components/fonema/ImagenPalabra";
 import { reproducirPalabra } from "@/lib/audio-provider/reproduccion";
 import { useProveedorAudio } from "@/lib/audio-provider/useProveedorAudio";
 import { textoPalabra, type Palabra } from "@/lib/palabras";
+import { indiceGlobal } from "@/lib/leccion/etapas";
 import { MarcoPaso } from "./MarcoPaso";
 
 interface PasoHitzakProps {
@@ -36,7 +37,7 @@ export function PasoHitzak({ palabras, onSiguiente }: PasoHitzakProps) {
   if (!palabra) {
     return (
       <MarcoPaso
-        titulo="7 · Irakurri hitzak"
+        titulo={`${indiceGlobal("hitzak")} · Irakurri hitzak`}
         indicacion="Oraindik ez dago hitzik fonema honetarako."
         onSiguiente={onSiguiente}
       >
@@ -49,7 +50,7 @@ export function PasoHitzak({ palabras, onSiguiente }: PasoHitzakProps) {
 
   return (
     <MarcoPaso
-      titulo="7 · Irakurri hitzak"
+      titulo={`${indiceGlobal("hitzak")} · Irakurri hitzak`}
       indicacion="Irakurri hitza ozen. Gero entzun eta egiaztatu."
       onSiguiente={avanzar}
       hechos={indice + 1}

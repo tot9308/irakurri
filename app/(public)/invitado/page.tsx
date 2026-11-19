@@ -57,7 +57,10 @@ export default function InvitadoPage() {
       <SecuenciaLetra
         fonema={fonema}
         onAtras={() => setPaso("menu")}
-        onSiguiente={() => setPaso("palabras")}
+        onSiguiente={() => {
+          setPasoInicial("errepikatu");
+          setPaso("leccion");
+        }}
       />
     );
   }

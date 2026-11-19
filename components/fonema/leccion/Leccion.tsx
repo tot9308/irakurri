@@ -8,10 +8,11 @@ import { palabrasConAudio } from "@/lib/palabras";
 import { marcarPasoCompletado, pasosDeFonema } from "@/lib/progreso";
 import { PasoAnclas } from "./PasoAnclas";
 import { PasoElegirImagen } from "./PasoElegirImagen";
+import { PasoElegirPseudohitza } from "./PasoElegirPseudohitza";
 import { PasoEscucharElegir } from "./PasoEscucharElegir";
+import { PasoEscucharPseudos } from "./PasoEscucharPseudos";
 import { PasoGrafema } from "./PasoGrafema";
 import { PasoHitzak } from "./PasoHitzak";
-import { PasoPseudopalabras } from "./PasoPseudopalabras";
 import { PasoRepetir } from "./PasoRepetir";
 import { PasoSilabak } from "./PasoSilabak";
 
@@ -126,7 +127,16 @@ export function Leccion({ fonema, onAtras, pasoInicial }: LeccionProps) {
               />
             )}
             {paso === "pseudo" && (
-              <PasoPseudopalabras fonema={fonema} onSiguiente={completar} />
+              <PasoEscucharPseudos fonema={fonema} onSiguiente={completar} />
+            )}
+            {paso === "pseudoElegir" && (
+              <PasoElegirPseudohitza
+                fonema={fonema}
+                esUltimo={esUltimo}
+                onSiguiente={completar}
+                onMenu={salir}
+                onRepetir={repetirLeccion}
+              />
             )}
             {paso === "hitzak" && <PasoHitzak palabras={palabras} onSiguiente={completar} />}
             {paso === "irudia" && (

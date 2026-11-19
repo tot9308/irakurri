@@ -5,10 +5,10 @@
 
 ## 1. Estado actual
 
-- **Modo invitado**: letra `m` completa (lección de 8 pasos + `Segida` + `Hitzak`).
+- **Modo invitado**: letra `m` completa (lección de 9 pasos + `Segida` + `Hitzak`).
 - **Vocales**: pendiente. Se hará una sección de vocales **antes** de la `m` (acordado, sin fecha).
 - **Modo Gela**: no implementado. El esquema SQL (`supabase/migrations/0001_initial_schema.sql`) y las políticas RLS existen, pero **Supabase no está conectado** y `/login` todavía no existe.
-- **Tests**: 64 unitarios (Vitest) y 14 e2e (Playwright).
+- **Tests**: 66 unitarios (Vitest) y 17 e2e (Playwright).
 
 ## 2. Decisiones cerradas
 
@@ -26,16 +26,19 @@
 
 ### Pedagogía de una letra
 
-Orden de la lección (8 pasos):
+Orden de la lección (9 pasos), con `Segida` como práctica tras las sílabas:
 
 1. **Grafema**: letra + sonido aislado.
 2. **Silabak**: `m + a = ma` explícito, vocal a vocal.
-3. **Hitza**: palabra-ancla que empieza por la sílaba (imagen + palabra escrita + audio de palabra y de sílaba).
-4. **Errepikatu**: sílabas en orden no alfabético, el niño repite en voz alta.
+3. **Errepikatu**: sílabas en orden no alfabético, el niño repite en voz alta.
+4. **Hitza**: palabra-ancla que empieza por la sílaba (imagen + palabra escrita + audio de palabra y de sílaba).
 5. **Entzun eta aukeratu**: suena una sílaba y se elige entre las 5 (`ma…mu`). 12 rondas.
-6. **Pseudohitzak**: palabras sin significado con las sílabas de la letra, para decodificar sin apoyo léxico.
-7. **Irakurri hitzak**: palabra escrita + foto + audio; el niño lee en voz alta.
-8. **Aukeratu irudia**: palabra escrita + 3 fotos; elige la correcta.
+6. **Entzun pseudohitzak**: solo audio, sin texto; el niño escucha y repite.
+7. **Aukeratu pseudohitza**: suena una pseudopalabra y se elige cómo se escribe entre 4 opciones (6 rondas).
+8. **Irakurri hitzak**: palabra escrita + foto + audio; el niño lee en voz alta.
+9. **Aukeratu irudia**: palabra escrita + 3 fotos; elige la correcta.
+
+`Segida` (secuencia acumulativa) se practica **después del paso 2**, cuando ya se conocen las sílabas.
 
 Reglas:
 
@@ -46,19 +49,21 @@ Reglas:
 - El menú permite **entrar a cualquier paso** para repetirlo suelto.
 - **Resultado con estrellas** en los pasos con corrección (5 y 8): 3 estrellas si todo bien, 2 si se acierta la mitad o más, 1 si menos de la mitad. Nunca se muestran notas numéricas ni rankings.
 - La pantalla de resultado ofrece `Hurrengo ariketa` y `Menua`; en el último paso, `Berriz hasi` y `Menua`.
+- Al terminar `Segida`, `Hurrengo ariketa` continúa en el paso 3 (`Errepikatu`).
+- En el constructor `Hitzak`, la palabra objetivo **suena sola al entrar y al cambiar de palabra** (1,5 s de margen), siempre con la **grabación real**; si el niño ya ha tocado una sílaba, no se pisa su audio.
 - Al terminar: pantalla de cierre sin notas (`Berriz hasi` / `Menua`).
 
 ### Menú de ejercicios (por etapas)
 
 Estructura elegida (**opción C, por dificultad**), con todos los botones visibles y color por etapa:
 
-| Etapa | Color | Pasos |
+| Etapa | Color | Botones |
 |---|---|---|
-| **1 · Hasi** | azul | Grafema · Silabak · Hitza (ancla) |
-| **2 · Finkatu** | ámbar | Errepikatu · Entzun eta aukeratu · Pseudohitzak |
-| **3 · Erabili** | verde | Irakurri hitzak · Aukeratu irudia + `Segida` + `Hitzak` (constructor) |
+| **1 · Hasi** | azul | Grafema · Silabak · **Segida** · Errepikatu · Hitza |
+| **2 · Finkatu** | ámbar | Entzun eta aukeratu · Entzun pseudohitzak · Aukeratu pseudohitza |
+| **3 · Erabili** | verde | Irakurri hitzak · Aukeratu irudia · **Hitzak** (constructor) |
 
-- Los pasos conservan su **numeración global 1..8** (Hasi 1-3, Finkatu 4-6, Erabili 7-8).
+- Los pasos conservan su **numeración global 1..9** (Hasi 1-4, Finkatu 5-7, Erabili 8-9).
 - La cabecera muestra el total `n/8 ikasita`; cada etapa muestra su propio `n/m`.
 - El paso `Hitza` (singular) no debe confundirse con el nivel `Hitzak` (plural).
 - La estructura vive en `lib/leccion/etapas.ts` (datos + helpers testeables).
@@ -93,7 +98,7 @@ Estructura elegida (**opción C, por dificultad**), con todos los botones visibl
 | Generación | `npm run audio:generar` | concatena sílabas con `acrossfade` (offline) |
 | Normalización | `node scripts/normalizar-palabras.mjs` | recorta y unifica las grabaciones de palabras; guarda copia en `originales/` |
 
-- Formato actual: MP3 mono, 24 kHz (se acepta 44,1/48 kHz). Duraciones medidas con `ffprobe`.
+- Formato actual: las sílabas base están a 24 kHz; las palabras grabadas se normalizan a 44,1 kHz mono. Duraciones medidas con `ffprobe`.
 - Las palabras se ofrecen en la lección si existe su audio completo; en el **constructor** solo si **todas sus sílabas** tienen audio (evita fichas mudas).
 
 - **Las 8 palabras ya son grabaciones reales** (`ama`, `amama`, `mamua`, `mimo`, `momia`, `umea`, `meloi`, `musu`), normalizadas a 44,1 kHz y sin silencios de cola. Los originales están en `public/audio/v1/m/originales/` (excluido de la validación).
@@ -132,7 +137,7 @@ Estructura elegida (**opción C, por dificultad**), con todos los botones visibl
 | # | Tipo | Pendiente | Responsable |
 |---|---|---|---|
 | 1 | Contenido | Audios de las sílabas `loi` y `su` para poder construir `meloi` y `musu` en `Hitzak` | Equipo |
-| 2 | Decisión | ¿`Hurrengo ariketa` de `Segida` debe llevar a `Ikasi`, a `Hitzak` o al menú? | Equipo |
+| 2 | Decisión | ¿`Hurrengo ariketa` de `Segida` al terminar debe ir al paso 3 o al menú? (ahora va al paso 3) | Equipo |
 | 3 | Calidad | Elegir el solape definitivo de las pseudopalabras (120/150/180/250 ms) o grabarlas también | Equipo |
 | 4 | Calidad | Las sílabas base siguen a 24 kHz con ~95 ms de silencio inicial; conviene regrabarlas limpias | Equipo |
 | 5 | Producto | Sección de **vocales** antes de la `m` | Equipo |
@@ -146,7 +151,7 @@ Estructura elegida (**opción C, por dificultad**), con todos los botones visibl
 | Fase | Contenido | Estado |
 |---|---|---|
 | **F0** | Esqueleto, catálogo, modo invitado con la `m`, audio estático, tests base | Hecho |
-| **F1 (actual)** | Refinar la `m`: lección de 8 pasos, menú por niveles, audio de calidad, vocabulario validado | En curso |
+| **F1 (actual)** | Refinar la `m`: lección de 9 pasos, menú por etapas, audio de calidad, vocabulario validado | En curso |
 | **F1.5** | Sección de **vocales** previa a la `m` | Pendiente |
 | **F2** | Escalar a `k, t, l, b, p, d, n, f, g, r, rr, j, s, x, z, ts, tx, tz` (el código ya es genérico; solo faltan audios, fotos y palabras) | Pendiente |
 | **F3** | Modo **Gela**: Supabase, auth del adulto, alumnos, progreso en base de datos | Pendiente |

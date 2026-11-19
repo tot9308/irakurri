@@ -8,10 +8,11 @@ import type { Palabra } from "@/lib/palabras";
 export const PASOS = [
   "grafema",
   "silabak",
-  "anclas",
   "errepikatu",
+  "anclas",
   "entzun",
   "pseudo",
+  "pseudoElegir",
   "hitzak",
   "irudia",
 ] as const;
@@ -21,10 +22,11 @@ export type PasoId = (typeof PASOS)[number];
 export const ETIQUETAS: Record<PasoId, string> = {
   grafema: "Grafema",
   silabak: "Silaba: m + a = ma",
-  anclas: "Hitza lehenengoa",
   errepikatu: "Errepikatu silabak",
+  anclas: "Hitza lehenengoa",
   entzun: "Entzun eta aukeratu",
-  pseudo: "Pseudohitzak",
+  pseudo: "Entzun pseudohitzak",
+  pseudoElegir: "Aukeratu pseudohitza",
   hitzak: "Irakurri hitzak",
   irudia: "Aukeratu irudia",
 };
@@ -33,10 +35,11 @@ export const ETIQUETAS: Record<PasoId, string> = {
 export const ETIQUETAS_CORTAS: Record<PasoId, string> = {
   grafema: "Grafema",
   silabak: "Silabak",
-  anclas: "Hitza",
   errepikatu: "Errepikatu",
+  anclas: "Hitza",
   entzun: "Entzun eta aukeratu",
-  pseudo: "Pseudohitzak",
+  pseudo: "Entzun pseudohitzak",
+  pseudoElegir: "Aukeratu pseudohitza",
   hitzak: "Irakurri",
   irudia: "Aukeratu irudia",
 };
@@ -131,6 +134,39 @@ function rondasDePalabrasBase(
 
 /** Pseudopalabras CV construidas solo con silabas de la letra (a validar). */
 export const PSEUDOPALABRAS = ["memi", "mimu", "mumo", "moma", "memu", "mume"];
+
+export interface RondaPseudopalabra {
+  objetivo: string;
+  opciones: string[];
+}
+
+/** Rondas "suena y elige entre las escritas" para pseudopalabras. */
+export function rondasDePseudopalabras(
+  total: number,
+  semilla: number,
+  opcionesPorRonda = 4
+): RondaPseudopalabra[] {
+  const objetivos: string[] = [];
+  let vuelta = 0;
+  while (objetivos.length < total) {
+    for (const pseudopalabra of barajar(PSEUDOPALABRAS, semilla + vuelta)) {
+      objetivos.push(pseudopalabra);
+      if (objetivos.length >= total) break;
+    }
+    vuelta += 1;
+  }
+
+  return objetivos.map((objetivo, indice) => {
+    const otras = barajar(
+      PSEUDOPALABRAS.filter((p) => p !== objetivo),
+      semilla + indice
+    ).slice(0, Math.max(0, opcionesPorRonda - 1));
+    return {
+      objetivo,
+      opciones: barajar([objetivo, ...otras], semilla + indice * 3 + 1),
+    };
+  });
+}
 
 /** "mema" -> ["me", "ma"] */
 export function silabasDePseudopalabra(pseudopalabra: string): string[] {

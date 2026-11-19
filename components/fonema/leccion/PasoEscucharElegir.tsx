@@ -5,6 +5,7 @@ import { IconoSoinua } from "@/components/ui/Iconos";
 import { reproducirSilaba } from "@/lib/audio-provider/reproduccion";
 import { useProveedorAudio } from "@/lib/audio-provider/useProveedorAudio";
 import { opcionesDeSilaba, rondasDeSilabas } from "@/lib/leccion/pasos";
+import { indiceGlobal } from "@/lib/leccion/etapas";
 import { MarcoPaso } from "./MarcoPaso";
 import { PasoResultado } from "./PasoResultado";
 
@@ -89,7 +90,7 @@ export function PasoEscucharElegir({
   if (terminado) {
     return (
       <PasoResultado
-        titulo="5 · Entzun eta aukeratu"
+        titulo={`${indiceGlobal("entzun")} · Entzun eta aukeratu`}
         aciertos={aciertos}
         total={rondas.length}
         esUltimo={esUltimo}
@@ -102,7 +103,7 @@ export function PasoEscucharElegir({
 
   return (
     <MarcoPaso
-      titulo="5 · Entzun eta aukeratu"
+      titulo={`${indiceGlobal("entzun")} · Entzun eta aukeratu`}
       indicacion="Entzun silaba eta sakatu zein den."
       onSiguiente={avanzar}
       hechos={indice + (acierto ? 1 : 0)}

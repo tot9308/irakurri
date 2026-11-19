@@ -38,6 +38,7 @@ export function useConstructor(fonema: string) {
   const [estado, setEstado] = useState<EstadoConstructor>(estadoInicial);
   const estadoRef = useRef(estado);
   const tokenRef = useRef(0);
+  const interactuoRef = useRef(false);
 
   const proveedorRef = useRef<ProveedorEstatico | null>(null);
   if (proveedorRef.current === null) {
@@ -116,6 +117,7 @@ export function useConstructor(fonema: string) {
   const colocarSilaba = useCallback(
     (silaba: string) => {
       if (!palabra) return;
+      interactuoRef.current = true;
       const siguiente = colocar(estadoRef.current, silaba, palabra.silabas);
       if (siguiente === estadoRef.current) return;
       estadoRef.current = siguiente;
@@ -134,6 +136,7 @@ export function useConstructor(fonema: string) {
   );
 
   const quitarSilaba = useCallback((posicion: number) => {
+    interactuoRef.current = true;
     const siguiente = quitar(estadoRef.current, posicion);
     if (siguiente === estadoRef.current) return;
     estadoRef.current = siguiente;
@@ -141,6 +144,7 @@ export function useConstructor(fonema: string) {
   }, []);
 
   const vaciarTodo = useCallback(() => {
+    interactuoRef.current = true;
     const siguiente = vaciar(estadoRef.current);
     estadoRef.current = siguiente;
     setEstado(siguiente);
@@ -152,6 +156,17 @@ export function useConstructor(fonema: string) {
     estadoRef.current = estadoInicial();
     setEstado(estadoRef.current);
   }, [disponibles.length]);
+
+  // Al entrar (y con cada palabra nueva) se oye la palabra grabada,
+  // con margen para situarse. Si el nino ya ha interactuado, no se pisa.
+  useEffect(() => {
+    interactuoRef.current = false;
+    if (!palabra) return;
+    const temporizador = setTimeout(() => {
+      if (!interactuoRef.current) void reproducirPalabra();
+    }, 1500);
+    return () => clearTimeout(temporizador);
+  }, [palabra, reproducirPalabra]);
 
   return {
     palabra,

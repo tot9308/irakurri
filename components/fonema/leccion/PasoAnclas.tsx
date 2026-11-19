@@ -10,6 +10,7 @@ import {
 } from "@/lib/audio-provider/reproduccion";
 import { useProveedorAudio } from "@/lib/audio-provider/useProveedorAudio";
 import { anclaDeSilaba } from "@/lib/leccion/pasos";
+import { indiceGlobal } from "@/lib/leccion/etapas";
 import { textoPalabra, type Palabra } from "@/lib/palabras";
 import { MarcoPaso } from "./MarcoPaso";
 
@@ -52,7 +53,7 @@ export function PasoAnclas({ fonema, silabas, palabras, onSiguiente }: PasoAncla
   if (!actual) {
     return (
       <MarcoPaso
-        titulo="3 · Hitza"
+        titulo={`${indiceGlobal("anclas")} · Hitza`}
         indicacion="Oraindik ez dago hitzik fonema honetarako."
         onSiguiente={onSiguiente}
       >
@@ -65,7 +66,7 @@ export function PasoAnclas({ fonema, silabas, palabras, onSiguiente }: PasoAncla
 
   return (
     <MarcoPaso
-      titulo="3 · Hitza"
+      titulo={`${indiceGlobal("anclas")} · Hitza`}
       indicacion={`${actual.silaba} silabarekin hasten den hitza`}
       onSiguiente={avanzar}
       textoBoton={indice + 1 >= anclas.length ? "Jarraitu" : "Hurrengo hitza"}

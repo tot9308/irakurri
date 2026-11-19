@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/Button";
 import { IconoCheck, IconoImagen, IconoRepetir } from "@/components/ui/Iconos";
 import { ETAPAS, indiceGlobal, type ColorEtapa } from "@/lib/leccion/etapas";
 import { ETIQUETAS_CORTAS, PASOS, type PasoId } from "@/lib/leccion/pasos";
-
 interface SelectorEjercicioProps {
   fonema: string;
   pasosCompletados: string[];
@@ -70,7 +69,10 @@ export function SelectorEjercicio({
 
       {ETAPAS.map((etapa, indiceEtapa) => {
         const estilos = ESTILOS[etapa.color];
-        const hechos = etapa.pasos.filter((paso) => pasosCompletados.includes(paso)).length;
+        const pasosEtapa = etapa.items.flatMap((item) =>
+          item.tipo === "paso" ? [item.paso] : []
+        );
+        const hechos = pasosEtapa.filter((paso) => pasosCompletados.includes(paso)).length;
 
         return (
           <section key={etapa.id} aria-labelledby={`etapa-${etapa.id}`}>
@@ -85,13 +87,57 @@ export function SelectorEjercicio({
               </span>
               {etapa.nombre}
               <span className="ml-auto text-xs font-semibold normal-case text-neutral-500">
-                {hechos}/{etapa.pasos.length}
+                {hechos}/{pasosEtapa.length}
               </span>
             </h2>
             <p className="mb-2 text-xs text-neutral-500">{etapa.descripcion}</p>
 
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-              {etapa.pasos.map((paso) => {
+              {etapa.items.map((item) => {
+                if (item.tipo === "practica" && item.practica === "segida") {
+                  return (
+                    <button
+                      key="practica-segida"
+                      type="button"
+                      onClick={onSecuencia}
+                      className={`flex min-h-[88px] flex-col items-center justify-center gap-1 rounded-2xl border-2 p-2 text-center transition-colors active:scale-95 ${estilos.borde} ${estilos.fondo}`}
+                    >
+                      <IconoRepetir className={`h-7 w-7 ${estilos.texto}`} />
+                      <span className={`text-sm font-semibold leading-tight ${estilos.texto}`}>
+                        Segida
+                      </span>
+                      {secuenciaCompletada && (
+                        <span className="text-[10px] font-semibold text-emerald-700">
+                          Eginda
+                        </span>
+                      )}
+                    </button>
+                  );
+                }
+
+                if (item.tipo === "practica") {
+                  return (
+                    <button
+                      key="practica-hitzak"
+                      type="button"
+                      onClick={onPalabras}
+                      disabled={sinPalabras}
+                      className={`flex min-h-[88px] flex-col items-center justify-center gap-1 rounded-2xl border-2 p-2 text-center transition-colors active:scale-95 disabled:pointer-events-none disabled:opacity-50 ${estilos.borde} ${estilos.fondo}`}
+                    >
+                      <IconoImagen className={`h-7 w-7 ${estilos.texto}`} />
+                      <span className={`text-sm font-semibold leading-tight ${estilos.texto}`}>
+                        Hitzak
+                      </span>
+                      {!sinPalabras && (
+                        <span className="text-[10px] font-semibold text-neutral-500">
+                          {palabrasHechas}/{totalPalabras}
+                        </span>
+                      )}
+                    </button>
+                  );
+                }
+
+                const paso = item.paso;
                 const hecho = pasosCompletados.includes(paso);
                 return (
                   <button
@@ -117,49 +163,6 @@ export function SelectorEjercicio({
                 );
               })}
             </div>
-
-            {etapa.id === "erabili" && (
-              <div className="mt-2 grid gap-2 sm:grid-cols-2">
-                <button
-                  type="button"
-                  onClick={onSecuencia}
-                  className={`flex items-center gap-3 rounded-2xl border-2 p-3 text-left transition-colors active:scale-[0.99] ${estilos.borde} ${estilos.fondo}`}
-                >
-                  <IconoRepetir className={`h-8 w-8 shrink-0 ${estilos.texto}`} />
-                  <span className="flex flex-col">
-                    <span className={`font-semibold ${estilos.texto}`}>Segida</span>
-                    <span className="text-xs text-neutral-600">
-                      Silabak bata bestearen atzetik
-                    </span>
-                  </span>
-                  {secuenciaCompletada && (
-                    <span className="ml-auto text-xs font-semibold text-emerald-700">
-                      Eginda
-                    </span>
-                  )}
-                </button>
-
-                <button
-                  type="button"
-                  onClick={onPalabras}
-                  disabled={sinPalabras}
-                  className={`flex items-center gap-3 rounded-2xl border-2 p-3 text-left transition-colors active:scale-[0.99] disabled:pointer-events-none disabled:opacity-50 ${estilos.borde} ${estilos.fondo}`}
-                >
-                  <IconoImagen className={`h-8 w-8 shrink-0 ${estilos.texto}`} />
-                  <span className="flex flex-col">
-                    <span className={`font-semibold ${estilos.texto}`}>Hitzak</span>
-                    <span className="text-xs text-neutral-600">
-                      {sinPalabras ? "Audioa falta da" : "Osatu hitzak silabekin"}
-                    </span>
-                  </span>
-                  {!sinPalabras && (
-                    <span className="ml-auto text-xs font-semibold text-neutral-500">
-                      {palabrasHechas}/{totalPalabras}
-                    </span>
-                  )}
-                </button>
-              </div>
-            )}
           </section>
         );
       })}

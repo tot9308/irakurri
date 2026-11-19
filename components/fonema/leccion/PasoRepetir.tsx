@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { reproducirSilaba } from "@/lib/audio-provider/reproduccion";
 import { useProveedorAudio } from "@/lib/audio-provider/useProveedorAudio";
+import { indiceGlobal } from "@/lib/leccion/etapas";
 import { rondasDeSilabas } from "@/lib/leccion/pasos";
 import { MarcoPaso } from "./MarcoPaso";
 
@@ -36,7 +37,7 @@ export function PasoRepetir({ fonema, silabas, onSiguiente }: PasoRepetirProps) 
 
   return (
     <MarcoPaso
-      titulo="4 · Errepikatu"
+      titulo={`${indiceGlobal("errepikatu")} · Errepikatu`}
       indicacion="Entzun silaba eta errepikatu ozen."
       onSiguiente={avanzar}
       hechos={indice + 1}
