@@ -9,7 +9,6 @@ import { marcarPasoCompletado, pasosDeFonema } from "@/lib/progreso";
 import { PasoAnclas } from "./PasoAnclas";
 import { PasoElegirImagen } from "./PasoElegirImagen";
 import { PasoEscucharElegir } from "./PasoEscucharElegir";
-import { PasoFin } from "./PasoFin";
 import { PasoGrafema } from "./PasoGrafema";
 import { PasoHitzak } from "./PasoHitzak";
 import { PasoPseudopalabras } from "./PasoPseudopalabras";
@@ -36,7 +35,6 @@ export function Leccion({ fonema, onAtras, pasoInicial }: LeccionProps) {
 
   const [paso, setPaso] = useState<PasoId>("grafema");
   const [listo, setListo] = useState(false);
-  const [terminada, setTerminada] = useState(false);
 
   useEffect(() => {
     if (pasoInicial) {
@@ -56,15 +54,22 @@ export function Leccion({ fonema, onAtras, pasoInicial }: LeccionProps) {
     marcarPasoCompletado(fonema, paso);
     const siguiente = PASOS[indice + 1];
     if (siguiente) setPaso(siguiente);
-    else setTerminada(true);
+    else onAtras();
+  };
+
+  /** Salir desde la pantalla de resultado: cuenta el paso como hecho. */
+  const salir = () => {
+    marcarPasoCompletado(fonema, paso);
+    onAtras();
   };
 
   const repetirLeccion = () => {
-    setTerminada(false);
-    setPaso("grafema");
+    marcarPasoCompletado(fonema, paso);
+    setPaso(PASOS[0]);
   };
 
-  const progreso = terminada ? 1 : indice / PASOS.length;
+  const esUltimo = indice === PASOS.length - 1;
+  const progreso = indice / PASOS.length;
 
   return (
     <div className="mx-auto flex min-h-[100dvh] w-full max-w-3xl flex-col gap-3 p-4 sm:p-6">
@@ -81,7 +86,7 @@ export function Leccion({ fonema, onAtras, pasoInicial }: LeccionProps) {
           ikasi
         </h1>
         <span className="text-sm font-semibold text-neutral-500">
-          {terminada ? PASOS.length : indice + 1}/{PASOS.length}
+          {indice + 1}/{PASOS.length}
         </span>
       </header>
 
@@ -93,38 +98,47 @@ export function Leccion({ fonema, onAtras, pasoInicial }: LeccionProps) {
       </div>
 
       <main className="flex flex-1 flex-col">
-        {terminada ? (
-          <PasoFin fonema={fonema} onRepetir={repetirLeccion} onMenu={onAtras} />
-        ) : (
-          listo && (
-            <div key={paso} className="flex flex-1 flex-col">
-              {paso === "grafema" && <PasoGrafema fonema={fonema} onSiguiente={completar} />}
-              {paso === "silabak" && (
-                <PasoSilabak fonema={fonema} silabas={silabas} onSiguiente={completar} />
-              )}
-              {paso === "anclas" && (
-                <PasoAnclas
-                  fonema={fonema}
-                  silabas={silabas}
-                  palabras={palabras}
-                  onSiguiente={completar}
-                />
-              )}
-              {paso === "errepikatu" && (
-                <PasoRepetir fonema={fonema} silabas={silabas} onSiguiente={completar} />
-              )}
-              {paso === "entzun" && (
-                <PasoEscucharElegir fonema={fonema} silabas={silabas} onSiguiente={completar} />
-              )}
-              {paso === "pseudo" && (
-                <PasoPseudopalabras fonema={fonema} onSiguiente={completar} />
-              )}
-              {paso === "hitzak" && <PasoHitzak palabras={palabras} onSiguiente={completar} />}
-              {paso === "irudia" && (
-                <PasoElegirImagen palabras={palabras} onSiguiente={completar} />
-              )}
-            </div>
-          )
+        {listo && (
+          <div key={paso} className="flex flex-1 flex-col">
+            {paso === "grafema" && <PasoGrafema fonema={fonema} onSiguiente={completar} />}
+            {paso === "silabak" && (
+              <PasoSilabak fonema={fonema} silabas={silabas} onSiguiente={completar} />
+            )}
+            {paso === "anclas" && (
+              <PasoAnclas
+                fonema={fonema}
+                silabas={silabas}
+                palabras={palabras}
+                onSiguiente={completar}
+              />
+            )}
+            {paso === "errepikatu" && (
+              <PasoRepetir fonema={fonema} silabas={silabas} onSiguiente={completar} />
+            )}
+            {paso === "entzun" && (
+              <PasoEscucharElegir
+                fonema={fonema}
+                silabas={silabas}
+                esUltimo={esUltimo}
+                onSiguiente={completar}
+                onMenu={salir}
+                onRepetir={repetirLeccion}
+              />
+            )}
+            {paso === "pseudo" && (
+              <PasoPseudopalabras fonema={fonema} onSiguiente={completar} />
+            )}
+            {paso === "hitzak" && <PasoHitzak palabras={palabras} onSiguiente={completar} />}
+            {paso === "irudia" && (
+              <PasoElegirImagen
+                palabras={palabras}
+                esUltimo={esUltimo}
+                onSiguiente={completar}
+                onMenu={salir}
+                onRepetir={repetirLeccion}
+              />
+            )}
+          </div>
         )}
       </main>
     </div>

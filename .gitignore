@@ -19,3 +19,4 @@ test-results/
 playwright-report/
 server.log
 server.err.log
+public/audio/v1/pruebas/

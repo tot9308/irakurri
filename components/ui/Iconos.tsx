@@ -144,3 +144,18 @@ export function IconoCheck({ className }: IconoProps) {
   );
 }
 
+
+/** Estrella (resultado cualitativo). */
+export function IconoEstrella({ className }: IconoProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className={clases(className)}
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M12 3.4l2.63 5.5 6 .84-4.38 4.2 1.06 5.96L12 17.1l-5.31 2.8 1.06-5.96L3.37 9.74l6-.84L12 3.4Z" />
+    </svg>
+  );
+}
+

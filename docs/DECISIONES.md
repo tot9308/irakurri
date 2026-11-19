@@ -8,7 +8,7 @@
 - **Modo invitado**: letra `m` completa (lección de 8 pasos + `Segida` + `Hitzak`).
 - **Vocales**: pendiente. Se hará una sección de vocales **antes** de la `m` (acordado, sin fecha).
 - **Modo Gela**: no implementado. El esquema SQL (`supabase/migrations/0001_initial_schema.sql`) y las políticas RLS existen, pero **Supabase no está conectado** y `/login` todavía no existe.
-- **Tests**: 55 unitarios (Vitest) y 13 e2e (Playwright).
+- **Tests**: 60 unitarios (Vitest) y 14 e2e (Playwright).
 
 ## 2. Decisiones cerradas
 
@@ -44,6 +44,8 @@ Reglas:
 - El niño puede repetir audio tantas veces como quiera.
 - Los pasos completados se guardan y la lección **retoma en el primer paso pendiente**.
 - El menú permite **entrar a cualquier paso** para repetirlo suelto.
+- **Resultado con estrellas** en los pasos con corrección (5 y 8): 3 estrellas si todo bien, 2 si se acierta la mitad o más, 1 si menos de la mitad. Nunca se muestran notas numéricas ni rankings.
+- La pantalla de resultado ofrece `Hurrengo ariketa` y `Menua`; en el último paso, `Berriz hasi` y `Menua`.
 - Al terminar: pantalla de cierre sin notas (`Berriz hasi` / `Menua`).
 
 ### Menú de ejercicios (por niveles y colores)
@@ -85,6 +87,20 @@ Reglas:
 - Formato actual: MP3 mono, 24 kHz (se acepta 44,1/48 kHz). Duraciones medidas con `ffprobe`.
 - Las palabras se ofrecen en la lección si existe su audio completo; en el **constructor** solo si **todas sus sílabas** tienen audio (evita fichas mudas).
 
+#### Requisitos de una sílaba para concatenar
+
+| Parámetro | Objetivo |
+|---|---|
+| Silencio inicial | 0–30 ms |
+| Silencio final | 0–50 ms |
+| Duración útil | 250–400 ms |
+| Formato | mono, 44,1 kHz, MP3 96–128 kbps |
+| Volumen | homogéneo entre sílabas (~−16 LUFS) |
+| Voz | misma persona y tono en todas las sílabas |
+
+- El generador recorta **ambos extremos** de cada sílaba antes de unirlas con `acrossfade` de 80 ms.
+- Herramientas: `node scripts/analizar-audio.mjs` (mide silencios) y `node scripts/probar-concatenacion.mjs` (genera variantes en `public/audio/v1/pruebas/`, excluida de la validación).
+
 ### Datos y privacidad
 
 - RLS obligatoria desde la primera migración.
@@ -97,24 +113,21 @@ Reglas:
 - Sílabas: `ma, me, mi, mo, mu` + fonema aislado `m`.
 - Palabras validadas (con foto): `mamua`, `umea`, `mimo`, `ama`, `amama`, `momia`, `meloi`, `musu`.
 - Palabras-ancla por sílaba: `ma → mamua`, `me → meloi`, `mi → mimo`, `mo → momia`, `mu → musu`.
-- Pseudopalabras: `mema, mimu, mumo, moma, memu, mame` (**pendiente de validar** que no sean palabras reales).
+- Pseudopalabras: `memi, mimu, mumo, moma, memu, mamu`. Ojo: **`mamu` es palabra real** en euskera (fantasma); queda pendiente decidir si se mantiene como pseudopalabra o se cambia.
 
 ## 4. Pendientes
 
 | # | Tipo | Pendiente | Responsable |
 |---|---|---|---|
-| 1 | Validación | Confirmar que las pseudopalabras no son palabras reales en euskera | Equipo |
-| 2 | Decisión | ¿12 o 15 rondas en `Entzun eta aukeratu`? | Equipo |
-| 3 | Validación | Revisar los textos en euskera de los 8 pasos y del cierre | Equipo |
-| 4 | Decisión | ¿La primera vez que se elige `m` se entra directo a `Ikasi` o se queda el menú? | Equipo |
-| 5 | Decisión | ¿`Hurrengo ariketa` de `Segida` debe llevar a `Ikasi` en vez de a `Hitzak`? | Equipo |
-| 6 | Calidad | Audios a 24 kHz con 58–96 ms de silencio inicial; valorar normalizar a 44,1 kHz y recortar | Dev |
-| 7 | Contenido | Audios de las sílabas `loi` y `su` para poder construir `meloi` y `musu` en `Hitzak` | Equipo |
-| 8 | Producto | Sección de **vocales** antes de la `m` | Equipo |
-| 9 | Deuda | `/login` no existe (el botón de la landing da 404) | Dev |
-| 10 | Deuda | Conectar Supabase, auth adulto, alumnos sin email y progreso en base de datos (Gela) | Dev |
-| 11 | Deuda | e2e del flujo Gela completo (requisito del proyecto) | Dev |
-| 12 | Futuro | Trazo/escritura de la letra (canvas) | Equipo |
+| 1 | Validación | `mamu` es palabra real: decidir si se cambia por otra pseudopalabra | Equipo |
+| 2 | Contenido | Audios de las sílabas `loi` y `su` para poder construir `meloi` y `musu` en `Hitzak` | Equipo |
+| 3 | Decisión | ¿`Hurrengo ariketa` de `Segida` debe llevar a `Ikasi`, a `Hitzak` o al menú? | Equipo |
+| 4 | Calidad | Los audios base están a 24 kHz con 58–96 ms de silencio inicial y ~80 ms final; el generador ya recorta, pero conviene regrabarlos limpios | Equipo |
+| 5 | Producto | Sección de **vocales** antes de la `m` | Equipo |
+| 6 | Deuda | `/login` no existe (el botón de la landing da 404) | Dev |
+| 7 | Deuda | Conectar Supabase, auth adulto, alumnos sin email y progreso en base de datos (Gela) | Dev |
+| 8 | Deuda | e2e del flujo Gela completo (requisito del proyecto) | Dev |
+| 9 | Futuro | Trazo/escritura de la letra (canvas) | Equipo |
 
 ## 5. Fases
 
@@ -135,6 +148,8 @@ npm test              # lógica (Vitest)
 npm run test:e2e      # flujo real (Playwright, usa Chrome instalado, puerto 3100)
 npm run audio:check   # valida audios contra el manifest
 npm run audio:generar # regenera pseudopalabras y palabras sin grabación
+node scripts/analizar-audio.mjs   # mide silencios inicial/final de cada audio
+node scripts/probar-concatenacion.mjs  # variantes de unión en public/audio/v1/pruebas/
 npm run build
 ```
 

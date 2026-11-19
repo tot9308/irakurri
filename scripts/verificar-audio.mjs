@@ -38,8 +38,12 @@ function listarMp3(directorio) {
   const recorrer = (actual) => {
     for (const entrada of readdirSync(actual, { withFileTypes: true })) {
       const ruta = join(actual, entrada.name);
-      if (entrada.isDirectory()) recorrer(ruta);
-      else if (entrada.name.toLowerCase().endsWith(".mp3")) encontrados.push(ruta);
+      // "pruebas" es una carpeta de escucha, no material de produccion.
+      if (entrada.isDirectory()) {
+        if (entrada.name !== "pruebas") recorrer(ruta);
+      } else if (entrada.name.toLowerCase().endsWith(".mp3")) {
+        encontrados.push(ruta);
+      }
     }
   };
   recorrer(directorio);

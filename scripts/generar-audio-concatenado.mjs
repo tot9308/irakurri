@@ -22,7 +22,7 @@ const FONEMA = "m";
 const VOCALES = new Set(["a", "e", "i", "o", "u"]);
 const FORZAR = process.argv.includes("--forzar");
 
-const PSEUDOPALABRAS = ["mema", "mimu", "mumo", "moma", "memu", "mame"];
+const PSEUDOPALABRAS = ["memi", "mimu", "mumo", "moma", "memu", "mamu"];
 const PALABRAS = [
   { id: "mamua", silabas: ["ma", "mu", "a"] },
   { id: "umea", silabas: ["u", "me", "a"] },
@@ -37,6 +37,11 @@ const rutaSilaba = (silaba) =>
     ? join(DIR_AUDIO, "vocales", `${silaba}.mp3`)
     : join(DIR_AUDIO, FONEMA, `${silaba}.mp3`);
 
+/** Recorta silencio al principio Y al final: la union solo debe aportar el crossfade. */
+const RECORTAR =
+  "silenceremove=start_periods=1:start_threshold=-45dB," +
+  "areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse";
+
 function generar(silabas, salida) {
   const entradas = silabas.map(rutaSilaba);
   const faltan = entradas.filter((ruta) => !existsSync(ruta));
@@ -50,8 +55,7 @@ function generar(silabas, salida) {
   }
 
   const filtros = entradas.map(
-    (_, indice) =>
-      `[${indice}:a]silenceremove=start_periods=1:start_threshold=-45dB[a${indice}]`
+    (_, indice) => `[${indice}:a]${RECORTAR}[a${indice}]`
   );
   let ultimo = "a0";
   for (let i = 1; i < entradas.length; i += 1) {

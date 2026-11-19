@@ -300,11 +300,41 @@ test("pseudohitzak, lectura y eleccion de imagen cierran la leccion", async ({ p
     await page.waitForTimeout(900);
   }
 
-  await expect(page.getByRole("heading", { name: "Oso ondo!" })).toBeVisible();
-  await expect(page.getByText("letra landu duzu", { exact: false })).toBeVisible();
+  await expect(page.getByLabel("3 izar")).toBeVisible();
 
   await page.getByRole("button", { name: "Menua" }).click();
   await expect(page.getByText("Aukeratu ariketa")).toBeVisible();
   await expect(page.getByText("8/8")).toBeVisible();
+});
+
+test("el resultado baja a dos estrellas si hay un fallo", async ({ page }) => {
+  await sembrarPasos(page, [
+    "grafema",
+    "silabak",
+    "anclas",
+    "errepikatu",
+    "entzun",
+    "pseudo",
+    "hitzak",
+  ]);
+  await entrarEnLeccion(page, "8. Aukeratu irudia");
+
+  const opciones = page.locator('main button[aria-label^="Irudia "]');
+  const objetivo = (await page.getByTestId("palabra-objetivo").innerText()).trim();
+  const etiquetas = await opciones.evaluateAll((elementos) =>
+    elementos.map((elemento) => elemento.getAttribute("aria-label") ?? "")
+  );
+  const incorrecta = etiquetas.find((etiqueta) => etiqueta !== `Irudia ${objetivo}`);
+  expect(incorrecta).toBeDefined();
+  await page.getByRole("button", { name: incorrecta as string }).click();
+  await page.waitForTimeout(650);
+
+  for (let i = 0; i < 6; i += 1) {
+    const palabra = (await page.getByTestId("palabra-objetivo").innerText()).trim();
+    await page.getByRole("button", { name: `Irudia ${palabra}` }).click();
+    await page.waitForTimeout(900);
+  }
+
+  await expect(page.getByLabel("2 izar")).toBeVisible();
 });
 

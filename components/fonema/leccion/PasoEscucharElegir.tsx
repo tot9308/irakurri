@@ -6,11 +6,15 @@ import { reproducirSilaba } from "@/lib/audio-provider/reproduccion";
 import { useProveedorAudio } from "@/lib/audio-provider/useProveedorAudio";
 import { opcionesDeSilaba, rondasDeSilabas } from "@/lib/leccion/pasos";
 import { MarcoPaso } from "./MarcoPaso";
+import { PasoResultado } from "./PasoResultado";
 
 interface PasoEscucharElegirProps {
   fonema: string;
   silabas: readonly string[];
+  esUltimo: boolean;
   onSiguiente: () => void;
+  onMenu: () => void;
+  onRepetir: () => void;
 }
 
 const TOTAL_RONDAS = 12;
@@ -18,12 +22,22 @@ const ESPERA_ACIERTO_MS = 700;
 const ESPERA_ERROR_MS = 500;
 
 /** Paso 5: suena una silaba y hay que elegirla entre las cinco. */
-export function PasoEscucharElegir({ fonema, silabas, onSiguiente }: PasoEscucharElegirProps) {
+export function PasoEscucharElegir({
+  fonema,
+  silabas,
+  esUltimo,
+  onSiguiente,
+  onMenu,
+  onRepetir,
+}: PasoEscucharElegirProps) {
   const proveedor = useProveedorAudio();
   const [rondas] = useState(() => rondasDeSilabas(silabas, TOTAL_RONDAS, 29));
   const [indice, setIndice] = useState(0);
   const [elegida, setElegida] = useState<string | null>(null);
   const [acierto, setAcierto] = useState<boolean | null>(null);
+  const [aciertos, setAciertos] = useState(0);
+  const [falloEnRonda, setFalloEnRonda] = useState(false);
+  const [terminado, setTerminado] = useState(false);
   const temporizadorRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const objetivo = rondas[indice] ?? "";
@@ -50,7 +64,8 @@ export function PasoEscucharElegir({ fonema, silabas, onSiguiente }: PasoEscucha
     if (temporizadorRef.current) clearTimeout(temporizadorRef.current);
     setElegida(null);
     setAcierto(null);
-    if (indice + 1 >= rondas.length) onSiguiente();
+    setFalloEnRonda(false);
+    if (indice + 1 >= rondas.length) setTerminado(true);
     else setIndice(indice + 1);
   };
 
@@ -60,14 +75,30 @@ export function PasoEscucharElegir({ fonema, silabas, onSiguiente }: PasoEscucha
     const correcto = silaba === objetivo;
     setAcierto(correcto);
     if (correcto) {
+      if (!falloEnRonda) setAciertos((total) => total + 1);
       temporizadorRef.current = setTimeout(avanzar, ESPERA_ACIERTO_MS);
     } else {
+      setFalloEnRonda(true);
       temporizadorRef.current = setTimeout(() => {
         setElegida(null);
         setAcierto(null);
       }, ESPERA_ERROR_MS);
     }
   };
+
+  if (terminado) {
+    return (
+      <PasoResultado
+        titulo="5 · Entzun eta aukeratu"
+        aciertos={aciertos}
+        total={rondas.length}
+        esUltimo={esUltimo}
+        onSiguiente={onSiguiente}
+        onMenu={onMenu}
+        onRepetir={onRepetir}
+      />
+    );
+  }
 
   return (
     <MarcoPaso

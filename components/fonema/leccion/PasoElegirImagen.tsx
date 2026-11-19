@@ -5,21 +5,34 @@ import { ImagenPalabra } from "@/components/fonema/ImagenPalabra";
 import { rondasDePalabras } from "@/lib/leccion/pasos";
 import { textoPalabra, type Palabra } from "@/lib/palabras";
 import { MarcoPaso } from "./MarcoPaso";
+import { PasoResultado } from "./PasoResultado";
 
 interface PasoElegirImagenProps {
   palabras: readonly Palabra[];
+  esUltimo: boolean;
   onSiguiente: () => void;
+  onMenu: () => void;
+  onRepetir: () => void;
 }
 
 const ESPERA_ACIERTO_MS = 700;
 const ESPERA_ERROR_MS = 500;
 
 /** Paso 8: palabra escrita -> elegir su foto entre tres. */
-export function PasoElegirImagen({ palabras, onSiguiente }: PasoElegirImagenProps) {
+export function PasoElegirImagen({
+  palabras,
+  esUltimo,
+  onSiguiente,
+  onMenu,
+  onRepetir,
+}: PasoElegirImagenProps) {
   const [rondas] = useState(() => rondasDePalabras(palabras, 6, 41));
   const [indice, setIndice] = useState(0);
   const [elegida, setElegida] = useState<string | null>(null);
   const [acierto, setAcierto] = useState<boolean | null>(null);
+  const [aciertos, setAciertos] = useState(0);
+  const [falloEnRonda, setFalloEnRonda] = useState(false);
+  const [terminado, setTerminado] = useState(false);
   const temporizadorRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const ronda = rondas[indice];
@@ -35,7 +48,8 @@ export function PasoElegirImagen({ palabras, onSiguiente }: PasoElegirImagenProp
     if (temporizadorRef.current) clearTimeout(temporizadorRef.current);
     setElegida(null);
     setAcierto(null);
-    if (indice + 1 >= rondas.length) onSiguiente();
+    setFalloEnRonda(false);
+    if (indice + 1 >= rondas.length) setTerminado(true);
     else setIndice(indice + 1);
   };
 
@@ -45,14 +59,30 @@ export function PasoElegirImagen({ palabras, onSiguiente }: PasoElegirImagenProp
     const correcto = id === ronda.objetivo.id;
     setAcierto(correcto);
     if (correcto) {
+      if (!falloEnRonda) setAciertos((total) => total + 1);
       temporizadorRef.current = setTimeout(avanzar, ESPERA_ACIERTO_MS);
     } else {
+      setFalloEnRonda(true);
       temporizadorRef.current = setTimeout(() => {
         setElegida(null);
         setAcierto(null);
       }, ESPERA_ERROR_MS);
     }
   };
+
+  if (terminado) {
+    return (
+      <PasoResultado
+        titulo="8 · Aukeratu irudia"
+        aciertos={aciertos}
+        total={rondas.length}
+        esUltimo={esUltimo}
+        onSiguiente={onSiguiente}
+        onMenu={onMenu}
+        onRepetir={onRepetir}
+      />
+    );
+  }
 
   if (!ronda) {
     return (
