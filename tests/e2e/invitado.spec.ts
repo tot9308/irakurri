@@ -287,6 +287,7 @@ test("escuchar pseudohitzak es solo audio y lleva a elegir", async ({ page }) =>
 
   await expect(page.getByText("6 · Entzun pseudohitzak")).toBeVisible();
   await expect(page.getByText("memi", { exact: true })).toBeVisible();
+  await expect(page.locator('main button[aria-label$="Sakatu entzuteko."]')).toHaveCount(6);
   await expect(page.getByRole("button", { name: "Entzun", exact: true })).toBeVisible();
   await expect(page.locator('main button[aria-label^="Pseudohitza "]')).toHaveCount(0);
 
@@ -296,6 +297,18 @@ test("escuchar pseudohitzak es solo audio y lleva a elegir", async ({ page }) =>
 
   await expect(page.getByText("7 · Aukeratu pseudohitza")).toBeVisible();
   await expect(page.locator('main button[aria-label^="Pseudohitza "]')).toHaveCount(4);
+});
+
+test("Hitza muestra las cinco palabras ancla y avanza la activa", async ({ page }) => {
+  await elegirM(page);
+  await page.getByRole("button", { name: "4. Hitza" }).click();
+
+  const fichas = page.locator('main button[aria-label$="Sakatu hitza entzuteko."]');
+  await expect(fichas).toHaveCount(5);
+  await expect(page.locator('main [aria-current="true"]')).toContainText("mamua");
+
+  await page.getByRole("button", { name: "Hurrengo hitza" }).click();
+  await expect(page.locator('main [aria-current="true"]')).toContainText("meloi");
 });
 
 test("elegir pseudohitza acepta la opcion correcta", async ({ page }) => {

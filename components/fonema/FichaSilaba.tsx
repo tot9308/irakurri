@@ -9,6 +9,8 @@ interface FichaSilabaProps {
   /** Cambia de valor para relanzar el "agrandado momentaneo" (repetir / tap). */
   pulsoVeces?: number;
   onRepetir?: () => void;
+  /** Etiqueta accesible; por defecto, "<silaba> silaba. Sakatu berriz entzuteko." */
+  ariaLabel?: string;
 }
 
 const ESTILOS: Record<Exclude<EstadoFicha, "oculta">, string> = {
@@ -26,6 +28,7 @@ export function FichaSilaba({
   estado,
   pulsoVeces = 0,
   onRepetir,
+  ariaLabel,
 }: FichaSilabaProps) {
   const ref = React.useRef<HTMLButtonElement | null>(null);
 
@@ -52,7 +55,7 @@ export function FichaSilaba({
           ref={ref}
           type="button"
           onClick={onRepetir}
-          aria-label={`${silaba} silaba. Sakatu berriz entzuteko.`}
+          aria-label={ariaLabel ?? `${silaba} silaba. Sakatu berriz entzuteko.`}
           className={`ficha-entrada flex h-full w-full items-center justify-center rounded-3xl border-[3px] font-lectura text-[clamp(2rem,6.4vw,4.5rem)] font-bold leading-none transition-colors duration-200 ${ESTILOS[estado]}`}
         >
           {silaba}

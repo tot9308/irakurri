@@ -8,7 +8,7 @@
 - **Modo invitado**: letra `m` completa (lección de 9 pasos + `Segida` + `Hitzak`).
 - **Vocales**: audio de `a, e, i, o, u` listo y normalizado; falta la **sección** de vocales antes de la `m` (acordado, sin fecha).
 - **Modo Gela**: no implementado. El esquema SQL (`supabase/migrations/0001_initial_schema.sql`) y las políticas RLS existen, pero **Supabase no está conectado** y `/login` todavía no existe.
-- **Tests**: 66 unitarios (Vitest) y 18 e2e (Playwright).
+- **Tests**: 66 unitarios (Vitest) y 19 e2e (Playwright).
 
 ## 2. Decisiones cerradas
 
@@ -51,6 +51,7 @@ Reglas:
 - La pantalla de resultado ofrece `Hurrengo ariketa` y `Menua`; en el último paso, `Berriz hasi` y `Menua`.
 - Al terminar `Segida`, `Hurrengo ariketa` continúa en el paso 3 (`Errepikatu`).
 - En el constructor `Hitzak`, la palabra objetivo **suena sola al entrar y al cambiar de palabra** (1,5 s de margen), siempre con la **grabación real**; si el niño ya ha tocado una sílaba, no se pisa su audio.
+- Los pasos **Errepikatu**, **Hitza** y **Entzun pseudohitzak** comparten el escenario de `Segida`: fichas visibles con la actual resaltada y panel de controles al lado (debajo en móvil). El avance sigue siendo manual (`Jarraitu`) para dejar tiempo a repetir en voz alta.
 - Al terminar: pantalla de cierre sin notas (`Berriz hasi` / `Menua`).
 
 ### Menú de ejercicios (por etapas)

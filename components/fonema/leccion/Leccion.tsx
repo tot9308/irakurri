@@ -71,9 +71,15 @@ export function Leccion({ fonema, onAtras, pasoInicial }: LeccionProps) {
 
   const esUltimo = indice === PASOS.length - 1;
   const progreso = indice / PASOS.length;
+  const ancho =
+    paso === "errepikatu" || paso === "pseudo" || paso === "anclas"
+      ? "max-w-5xl"
+      : "max-w-3xl";
 
   return (
-    <div className="mx-auto flex min-h-[100dvh] w-full max-w-3xl flex-col gap-3 p-4 sm:p-6">
+    <div
+      className={`mx-auto flex min-h-[100dvh] w-full ${ancho} flex-col gap-3 p-4 sm:p-6`}
+    >
       <header className="flex items-center justify-between gap-3">
         <button
           type="button"
