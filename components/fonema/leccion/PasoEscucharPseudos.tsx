@@ -1,101 +1,83 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { IconoRepetir, IconoSoinua } from "@/components/ui/Iconos";
+import { useEffect } from "react";
 import { claveAudio } from "@/lib/audio-provider/manifest";
 import { reproducirSilabas } from "@/lib/audio-provider/reproduccion";
 import { useProveedorAudio } from "@/lib/audio-provider/useProveedorAudio";
 import { PSEUDOPALABRAS, silabasDePseudopalabra } from "@/lib/leccion/pasos";
 import { indiceGlobal } from "@/lib/leccion/etapas";
-import { FichaPractica } from "./FichaPractica";
-import { AccionPractica, MarcoPractica } from "./MarcoPractica";
+import { useReproductorPractica } from "@/lib/leccion/useReproductorPractica";
+import { MarcoPractica } from "./MarcoPractica";
 
 interface PasoEscucharPseudosProps {
   fonema: string;
   onSiguiente: () => void;
 }
 
-/** Paso 6: se escucha y se lee cada pseudopalabra; el conjunto queda a la vista. */
+/** Paso 6: una pseudopalabra cada vez; suena, se lee y avanza sola. */
 export function PasoEscucharPseudos({ fonema, onSiguiente }: PasoEscucharPseudosProps) {
   const proveedor = useProveedorAudio();
-  const [indice, setIndice] = useState(0);
-  const pseudopalabra = PSEUDOPALABRAS[indice] ?? "";
-  const vistas = new Set(PSEUDOPALABRAS.slice(0, indice));
-
-  const reproducir = useCallback(
-    (objetivo: string) => {
-      if (!objetivo) return;
-      const clave = claveAudio("pseudohitzak", objetivo);
-      if (proveedor.disponible(clave)) {
-        void proveedor.play(clave);
-        return;
-      }
-      void reproducirSilabas(proveedor, fonema, silabasDePseudopalabra(objetivo));
-    },
-    [proveedor, fonema]
-  );
 
   useEffect(() => {
     proveedor.precargar(PSEUDOPALABRAS.map((p) => claveAudio("pseudohitzak", p)));
   }, [proveedor]);
 
-  useEffect(() => {
-    const temporizador = setTimeout(() => reproducir(pseudopalabra), 300);
-    return () => clearTimeout(temporizador);
-  }, [pseudopalabra, reproducir]);
+  const reproductor = useReproductorPractica({
+    elementos: PSEUDOPALABRAS,
+    reproducir: async (p) => {
+      const clave = claveAudio("pseudohitzak", p);
+      if (proveedor.disponible(clave)) {
+        await proveedor.play(clave);
+        return;
+      }
+      await reproducirSilabas(proveedor, fonema, silabasDePseudopalabra(p));
+    },
+    proveedor,
+    pausaBaseMs: 1000,
+  });
 
-  const avanzar = () => {
-    if (indice + 1 >= PSEUDOPALABRAS.length) onSiguiente();
-    else setIndice(indice + 1);
-  };
+  const actual =
+    reproductor.fase === "inactivo"
+      ? PSEUDOPALABRAS[0]
+      : (PSEUDOPALABRAS[reproductor.indice] ?? PSEUDOPALABRAS[0]);
+  const hechos =
+    reproductor.fase === "inactivo"
+      ? 0
+      : Math.min(reproductor.indice + 1, PSEUDOPALABRAS.length);
 
   return (
     <MarcoPractica
       titulo={`${indiceGlobal("pseudo")} · Entzun pseudohitzak`}
       indicacion="Entzun eta irakurri ozen. Ez da benetako hitza, baina silabak berdin irakurtzen dira."
-      onSiguiente={avanzar}
-      hechos={indice + 1}
+      fase={reproductor.fase}
+      velocidad={reproductor.velocidad}
+      onVelocidad={reproductor.cambiarVelocidad}
+      onIniciar={reproductor.iniciar}
+      onPausar={reproductor.pausar}
+      onReanudar={reproductor.reanudar}
+      onRepetir={reproductor.repetir}
+      onSaltar={reproductor.saltar}
+      onGelditu={reproductor.detener}
+      onSiguiente={onSiguiente}
+      hechos={hechos}
       total={PSEUDOPALABRAS.length}
-      controles={
-        <>
-          <AccionPractica
-            etiqueta="Entzun"
-            ariaLabel="Entzun"
-            onClick={() => reproducir(pseudopalabra)}
-          >
-            <IconoSoinua className="h-8 w-8" />
-          </AccionPractica>
-          <AccionPractica
-            etiqueta="Errepikatu"
-            ariaLabel="Errepikatu pseudohitza"
-            onClick={() => reproducir(pseudopalabra)}
-          >
-            <IconoRepetir className="h-8 w-8" />
-          </AccionPractica>
-        </>
-      }
+      etiquetaRepetir="pseudohitza"
+      etiquetaSaltar="pseudohitzera"
+      etiquetaTartea="Pseudohitzen arteko tartea"
     >
-      <div className="grid w-full max-w-2xl grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3">
-        {PSEUDOPALABRAS.map((p, posicion) => (
-          <FichaPractica
-            key={p}
-            estado={
-              posicion === indice
-                ? "activa"
-                : vistas.has(p)
-                  ? "completa"
-                  : "pendiente"
-            }
-            onClick={() => reproducir(p)}
-            ariaLabel={`${p}. Sakatu entzuteko.`}
-            className="min-h-[76px] rounded-2xl px-3 font-lectura text-[clamp(1.4rem,4vw,2.4rem)] font-bold"
-          >
-            {p}
-          </FichaPractica>
-        ))}
+      <div className="flex flex-col items-center gap-4">
+        <p
+          key={actual}
+          className="trazo-entrada font-lectura text-[clamp(3rem,10vw,6rem)] font-bold tracking-wide text-neutral-800"
+        >
+          {actual}
+        </p>
+        {reproductor.fase === "inactivo" && (
+          <p className="text-sm text-neutral-500">Sakatu Hasi entzuteko.</p>
+        )}
       </div>
       <p className="sr-only" role="status" aria-live="polite">
-        Pseudohitza: {pseudopalabra}
+        Pseudohitza: {actual}
       </p>
     </MarcoPractica>
   );

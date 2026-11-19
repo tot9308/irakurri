@@ -22,6 +22,11 @@ interface MenuControlesProps {
   onSaltar: () => void;
   onGelditu: () => void;
   onSiguiente: () => void;
+  /** Sustantivo para las etiquetas accesibles (silaba, hitza, pseudohitza...). */
+  etiquetaRepetir?: string;
+  etiquetaSaltar?: string;
+  /** Texto bajo la velocidad (por defecto, "Silaben arteko tartea"). */
+  etiquetaTartea?: string;
 }
 
 function textoVelocidad(v: number): string {
@@ -78,6 +83,9 @@ export function MenuControles({
   onSaltar,
   onGelditu,
   onSiguiente,
+  etiquetaRepetir = "silaba",
+  etiquetaSaltar = "silabara",
+  etiquetaTartea = "Silaben arteko tartea",
 }: MenuControlesProps) {
   const enMarcha = fase === "presentando";
   const pausado = fase === "pausado";
@@ -85,7 +93,7 @@ export function MenuControles({
   const inactivo = fase === "inactivo";
 
   return (
-    <aside className="flex w-full shrink-0 flex-col gap-4 lg:w-[184px] lg:border-l lg:border-neutral-200 lg:pl-4">
+    <aside className="flex w-full shrink-0 flex-col gap-4 lg:w-[200px] lg:border-l lg:border-neutral-200 lg:pl-4">
       <section>
         <h2 className="text-[11px] font-semibold uppercase tracking-wide text-neutral-500">
           Abiadura
@@ -112,7 +120,7 @@ export function MenuControles({
           })}
         </div>
         <p className="mt-1.5 text-[11px] leading-tight text-neutral-500">
-          Silaben arteko tartea
+          {etiquetaTartea}
         </p>
       </section>
 
@@ -139,7 +147,7 @@ export function MenuControles({
 
         <AccionBoton
           etiqueta="Errepikatu"
-          ariaLabel="Errepikatu silaba"
+          ariaLabel={`Errepikatu ${etiquetaRepetir}`}
           onClick={onRepetir}
           disabled={inactivo}
         >
@@ -148,7 +156,7 @@ export function MenuControles({
 
         <AccionBoton
           etiqueta="Saltatu"
-          ariaLabel="Saltatu hurrengo silabara"
+          ariaLabel={`Saltatu hurrengo ${etiquetaSaltar}`}
           onClick={onSaltar}
           disabled={inactivo || completado}
         >

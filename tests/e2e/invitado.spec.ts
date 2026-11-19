@@ -281,34 +281,39 @@ test("la discriminacion auditiva acepta la silaba correcta", async ({ page }) =>
   await expect(page.getByText("Oso ondo!")).toBeVisible();
 });
 
-test("escuchar pseudohitzak es solo audio y lleva a elegir", async ({ page }) => {
+test("entzun pseudohitzak recorre las seis y lleva a elegir", async ({ page }) => {
   await sembrarPasos(page, ["grafema", "silabak", "errepikatu", "anclas", "entzun"]);
   await entrarEnLeccion(page, "6. Entzun pseudohitzak");
 
   await expect(page.getByText("6 · Entzun pseudohitzak")).toBeVisible();
   await expect(page.getByText("memi", { exact: true })).toBeVisible();
-  await expect(page.locator('main button[aria-label$="Sakatu entzuteko."]')).toHaveCount(6);
-  await expect(page.getByRole("button", { name: "Entzun", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Hasi sekuentzia" })).toBeVisible();
   await expect(page.locator('main button[aria-label^="Pseudohitza "]')).toHaveCount(0);
 
-  for (let i = 0; i < 6; i += 1) {
-    await page.getByRole("button", { name: "Jarraitu" }).click();
-  }
+  await page.getByRole("button", { name: "Hasi sekuentzia" }).click();
+  await expect(page.getByRole("button", { name: "Hurrengo ariketa" })).toBeEnabled({
+    timeout: 20000,
+  });
+  await page.getByRole("button", { name: "Hurrengo ariketa" }).click();
 
   await expect(page.getByText("7 · Aukeratu pseudohitza")).toBeVisible();
   await expect(page.locator('main button[aria-label^="Pseudohitza "]')).toHaveCount(4);
 });
 
-test("Hitza muestra las cinco palabras ancla y avanza la activa", async ({ page }) => {
+test("Hitza recorre las palabras y lleva a la siguiente actividad", async ({ page }) => {
   await elegirM(page);
   await page.getByRole("button", { name: "4. Hitza" }).click();
 
-  const fichas = page.locator('main button[aria-label$="Sakatu hitza entzuteko."]');
-  await expect(fichas).toHaveCount(5);
-  await expect(page.locator('main [aria-current="true"]')).toContainText("mamua");
+  await expect(page.getByText("mamua", { exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Hasi sekuentzia" })).toBeVisible();
 
-  await page.getByRole("button", { name: "Hurrengo hitza" }).click();
-  await expect(page.locator('main [aria-current="true"]')).toContainText("meloi");
+  await page.getByRole("button", { name: "Hasi sekuentzia" }).click();
+  await expect(page.getByRole("button", { name: "Hurrengo ariketa" })).toBeEnabled({
+    timeout: 20000,
+  });
+  await page.getByRole("button", { name: "Hurrengo ariketa" }).click();
+
+  await expect(page.getByText("5 · Entzun eta aukeratu")).toBeVisible();
 });
 
 test("elegir pseudohitza acepta la opcion correcta", async ({ page }) => {

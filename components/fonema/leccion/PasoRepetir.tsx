@@ -1,13 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { IconoRepetir, IconoSoinua } from "@/components/ui/Iconos";
-import { FichaSilaba } from "../FichaSilaba";
-import { reproducirSilaba } from "@/lib/audio-provider/reproduccion";
+import { useEffect, useMemo } from "react";
+import { claveSilaba } from "@/lib/audio-provider/manifest";
 import { useProveedorAudio } from "@/lib/audio-provider/useProveedorAudio";
 import { indiceGlobal } from "@/lib/leccion/etapas";
-import { rondasDeSilabas } from "@/lib/leccion/pasos";
-import { AccionPractica, MarcoPractica } from "./MarcoPractica";
+import { barajar } from "@/lib/leccion/pasos";
+import { useReproductorPractica } from "@/lib/leccion/useReproductorPractica";
+import { MarcoPractica } from "./MarcoPractica";
 
 interface PasoRepetirProps {
   fonema: string;
@@ -15,79 +14,84 @@ interface PasoRepetirProps {
   onSiguiente: () => void;
 }
 
-/** Paso 4: las silabas salen en orden no alfabetico; el nino las repite. */
+/** Paso 3: primero las cinco silabas en orden y despues las mismas desordenadas. */
 export function PasoRepetir({ fonema, silabas, onSiguiente }: PasoRepetirProps) {
   const proveedor = useProveedorAudio();
-  const [rondas] = useState(() => rondasDeSilabas(silabas, 8, 17));
-  const [indice, setIndice] = useState(0);
-  const [pulso, setPulso] = useState(0);
-  const silaba = rondas[indice] ?? "";
-  const vistas = new Set(rondas.slice(0, indice));
 
-  const reproducirActual = useCallback(() => {
-    if (!silaba) return;
-    reproducirSilaba(proveedor, fonema, silaba);
-    setPulso((actual) => actual + 1);
-  }, [proveedor, fonema, silaba]);
+  const desordenadas = useMemo(() => barajar(silabas, 29), [silabas]);
+  const secuencia = useMemo(() => [...silabas, ...desordenadas], [silabas, desordenadas]);
 
   useEffect(() => {
-    const temporizador = setTimeout(reproducirActual, 300);
-    return () => clearTimeout(temporizador);
-  }, [reproducirActual]);
+    proveedor.precargar(silabas.map((s) => claveSilaba(fonema, s)));
+  }, [proveedor, fonema, silabas]);
 
-  const reproducirOtra = (objetivo: string) => {
-    reproducirSilaba(proveedor, fonema, objetivo);
-  };
+  const reproductor = useReproductorPractica({
+    elementos: secuencia,
+    reproducir: async (s) => {
+      const clave = claveSilaba(fonema, s);
+      if (proveedor.disponible(clave)) {
+        await proveedor.play(clave);
+        return;
+      }
+      await new Promise((resolver) => setTimeout(resolver, 500));
+    },
+    proveedor,
+    pausaBaseMs: 800,
+  });
 
-  const avanzar = () => {
-    if (indice + 1 >= rondas.length) onSiguiente();
-    else setIndice(indice + 1);
+  const enSegunda = reproductor.indice >= silabas.length;
+  const visibles = enSegunda ? desordenadas : silabas;
+  const activa =
+    reproductor.fase === "presentando" || reproductor.fase === "pausado"
+      ? (secuencia[reproductor.indice] ?? null)
+      : null;
+
+  const reproducirSuelta = (s: string) => {
+    if (reproductor.fase === "presentando") return;
+    const clave = claveSilaba(fonema, s);
+    if (proveedor.disponible(clave)) void proveedor.play(clave);
   };
 
   return (
     <MarcoPractica
       titulo={`${indiceGlobal("errepikatu")} · Errepikatu`}
-      indicacion="Entzun silaba eta errepikatu ozen."
-      onSiguiente={avanzar}
-      hechos={indice + 1}
-      total={rondas.length}
-      controles={
-        <>
-          <AccionPractica etiqueta="Entzun" ariaLabel="Entzun silaba" onClick={reproducirActual}>
-            <IconoSoinua className="h-8 w-8" />
-          </AccionPractica>
-          <AccionPractica
-            etiqueta="Errepikatu"
-            ariaLabel="Errepikatu silaba"
-            onClick={reproducirActual}
-          >
-            <IconoRepetir className="h-8 w-8" />
-          </AccionPractica>
-        </>
-      }
+      indicacion="Lehenengo ordenan, gero nahastuta. Entzun eta errepikatu ozen."
+      fase={reproductor.fase}
+      velocidad={reproductor.velocidad}
+      onVelocidad={reproductor.cambiarVelocidad}
+      onIniciar={reproductor.iniciar}
+      onPausar={reproductor.pausar}
+      onReanudar={reproductor.reanudar}
+      onRepetir={reproductor.repetir}
+      onSaltar={reproductor.saltar}
+      onGelditu={reproductor.detener}
+      onSiguiente={onSiguiente}
+      hechos={reproductor.fase === "inactivo" ? 0 : enSegunda ? 2 : 1}
+      total={2}
     >
-      <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-        {silabas.map((candidata) => (
-          <FichaSilaba
-            key={candidata}
-            silaba={candidata}
-            estado={
-              candidata === silaba
-                ? "activa"
-                : vistas.has(candidata)
-                  ? "completa"
-                  : "atenuada"
-            }
-            pulsoVeces={candidata === silaba ? pulso : 0}
-            onRepetir={() =>
-              candidata === silaba ? reproducirActual() : reproducirOtra(candidata)
-            }
-            ariaLabel={`Silaba ${candidata}. Sakatu entzuteko.`}
-          />
-        ))}
+      <div className="flex w-full flex-col items-center gap-4">
+        <p className="text-xs font-semibold uppercase tracking-wide text-neutral-500">
+          {enSegunda ? "2 · Nahastuta" : "1 · Ordenean"}
+        </p>
+        <div className="flex w-full max-w-3xl flex-wrap justify-center">
+          {visibles.map((s) => (
+            <div key={s} className="flex w-[30%] items-center justify-center sm:w-[19%]">
+              <button
+                type="button"
+                onClick={() => reproducirSuelta(s)}
+                aria-label={`Silaba ${s}. Sakatu entzuteko.`}
+                className={`font-lectura text-[clamp(2.2rem,6vw,3.25rem)] font-bold leading-none transition-[transform,color] duration-300 ${
+                  activa === s ? "scale-150 text-primary-700" : "scale-100 text-neutral-700"
+                }`}
+              >
+                {s}
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
       <p className="sr-only" role="status" aria-live="polite">
-        {silaba}
+        {activa ?? ""}
       </p>
     </MarcoPractica>
   );

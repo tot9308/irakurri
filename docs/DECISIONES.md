@@ -8,7 +8,7 @@
 - **Modo invitado**: letra `m` completa (lección de 9 pasos + `Segida` + `Hitzak`).
 - **Vocales**: audio de `a, e, i, o, u` listo y normalizado; falta la **sección** de vocales antes de la `m` (acordado, sin fecha).
 - **Modo Gela**: no implementado. El esquema SQL (`supabase/migrations/0001_initial_schema.sql`) y las políticas RLS existen, pero **Supabase no está conectado** y `/login` todavía no existe.
-- **Tests**: 66 unitarios (Vitest) y 19 e2e (Playwright).
+- **Tests**: 67 unitarios (Vitest) y 19 e2e (Playwright).
 
 ## 2. Decisiones cerradas
 
@@ -30,10 +30,10 @@ Orden de la lección (9 pasos), con `Segida` como práctica tras las sílabas:
 
 1. **Grafema**: letra + sonido aislado.
 2. **Silabak**: `m + a = ma` explícito, vocal a vocal.
-3. **Errepikatu**: sílabas en orden no alfabético, el niño repite en voz alta.
-4. **Hitza**: palabra-ancla que empieza por la sílaba (imagen + palabra escrita + audio de palabra y de sílaba).
+3. **Errepikatu**: primero las 5 sílabas en orden (`ma…mu`) y después las mismas desordenadas; el niño repite en voz alta.
+4. **Hitza**: palabra-ancla que empieza por la sílaba (imagen + palabra escrita + audio de palabra; la sílaba se puede escuchar con un toque).
 5. **Entzun eta aukeratu**: suena una sílaba y se elige entre las 5 (`ma…mu`). 12 rondas.
-6. **Entzun pseudohitzak**: audio y **texto visible**; el niño escucha, lee y repite.
+6. **Entzun pseudohitzak**: una pseudopalabra cada vez; se escucha, se lee y se repite; avanza sola.
 7. **Aukeratu pseudohitza**: suena una pseudopalabra y se elige cómo se escribe entre 4 opciones (6 rondas).
 8. **Irakurri hitzak**: palabra escrita + foto + audio; el niño lee en voz alta.
 9. **Aukeratu irudia**: palabra escrita + 3 fotos; elige la correcta.
@@ -51,7 +51,9 @@ Reglas:
 - La pantalla de resultado ofrece `Hurrengo ariketa` y `Menua`; en el último paso, `Berriz hasi` y `Menua`.
 - Al terminar `Segida`, `Hurrengo ariketa` continúa en el paso 3 (`Errepikatu`).
 - En el constructor `Hitzak`, la palabra objetivo **suena sola al entrar y al cambiar de palabra** (1,5 s de margen), siempre con la **grabación real**; si el niño ya ha tocado una sílaba, no se pisa su audio.
-- Los pasos **Errepikatu**, **Hitza** y **Entzun pseudohitzak** comparten el escenario de `Segida`: fichas visibles con la actual resaltada y panel de controles al lado (debajo en móvil). El avance sigue siendo manual (`Jarraitu`) para dejar tiempo a repetir en voz alta.
+- Los pasos **Errepikatu**, **Hitza** y **Entzun pseudohitzak** usan el reproductor de `Segida`: play/pausa, stop, repetir, saltar y velocidad (la velocidad solo cambia la pausa entre audios). El avance es **automático**; `Hurrengo ariketa` se habilita al completar la secuencia.
+- En `Errepikatu` no hay cajas azules: la sílaba activa **crece** y se colorea; las demás quedan neutras. La fase 2 usa una mezcla determinista de las mismas 5 sílabas.
+- En `Hitza` y `Entzun pseudohitzak` solo se muestra el elemento que suena; al terminar, aparece el siguiente.
 - Al terminar: pantalla de cierre sin notas (`Berriz hasi` / `Menua`).
 
 ### Menú de ejercicios (por etapas)
