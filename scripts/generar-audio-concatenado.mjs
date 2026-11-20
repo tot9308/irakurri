@@ -45,6 +45,9 @@ const PALABRAS = [
   { id: "momia", silabas: ["mo", "mi", "a"] },
 ];
 
+/** Palabras con grabacion real: no se generan ni con --forzar. */
+const GRABADAS = new Set(["ama", "amama", "mamua", "mimo", "momia", "umea", "meloi", "musu"]);
+
 const rutaSilaba = (silaba) =>
   VOCALES.has(silaba)
     ? join(DIR_AUDIO, "vocales", `${silaba}.mp3`)
@@ -124,7 +127,11 @@ if (GENERAR_PSEUDOS) {
 
 if (GENERAR_PALABRAS) {
   console.log("\nHitzak (solo si no hay grabacion):");
-  PALABRAS.forEach((palabra) =>
+  const pendientes = PALABRAS.filter((palabra) => !GRABADAS.has(palabra.id));
+  if (pendientes.length === 0) {
+    console.log("  = todas las palabras tienen grabacion, se saltan");
+  }
+  pendientes.forEach((palabra) =>
     generar(palabra.silabas, join(DIR_AUDIO, FONEMA, `${palabra.id}.mp3`))
   );
 }
