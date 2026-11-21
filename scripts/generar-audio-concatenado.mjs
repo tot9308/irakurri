@@ -4,12 +4,14 @@
  * corto y recortando el silencio inicial de cada una:
  *
  *  - Pseudopalabras -> public/audio/v1/pseudohitzak/{pseudo}.mp3
- *  - Palabras sin grabacion -> public/audio/v1/{fonema}/{palabra}.mp3
+ *
+ * Las palabras NUNCA se generan: se graban completas y se colocan a mano.
+ * Este script solo une silabas para pseudopalabras.
  *
  * Nunca sobrescribe una grabacion existente salvo con --forzar.
  * El resultado es audio estatico: no hay TTS ni sintesis en runtime.
  *
- * Uso: npm run audio:generar [-- --forzar] [--solo=hitzak|pseudohitzak]
+ * Uso: npm run audio:generar [-- --forzar] [--solo=pseudohitzak]
  */
 import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync } from "node:fs";
@@ -25,9 +27,8 @@ const SOLO = process.argv
   .find((arg) => arg.startsWith("--solo="))
   ?.split("=")[1];
 const GENERAR_PSEUDOS = !SOLO || SOLO === "pseudohitzak";
-const GENERAR_PALABRAS = !SOLO || SOLO === "hitzak";
-if (SOLO && !GENERAR_PSEUDOS && !GENERAR_PALABRAS) {
-  console.error("--solo debe ser 'hitzak' o 'pseudohitzak'");
+if (!GENERAR_PSEUDOS) {
+  console.error("--solo solo admite 'pseudohitzak'; las palabras se graban, no se generan");
   process.exit(1);
 }
 /** Solape entre silabas en ms. Mas solape = menos sensacion de corte. */
@@ -36,17 +37,6 @@ const CRUCE_MS = Number(
 );
 
 const PSEUDOPALABRAS = ["memi", "mimu", "mumo", "moma", "memu", "mume"];
-const PALABRAS = [
-  { id: "mamua", silabas: ["ma", "mu", "a"] },
-  { id: "umea", silabas: ["u", "me", "a"] },
-  { id: "mimo", silabas: ["mi", "mo"] },
-  { id: "ama", silabas: ["a", "ma"] },
-  { id: "amama", silabas: ["a", "ma", "ma"] },
-  { id: "momia", silabas: ["mo", "mi", "a"] },
-];
-
-/** Palabras con grabacion real: no se generan ni con --forzar. */
-const GRABADAS = new Set(["ama", "amama", "mamua", "mimo", "momia", "umea", "meloi", "musu"]);
 
 const rutaSilaba = (silaba) =>
   VOCALES.has(silaba)
@@ -122,17 +112,6 @@ if (GENERAR_PSEUDOS) {
       [pseudopalabra.slice(0, 2), pseudopalabra.slice(2, 4)],
       join(DIR_AUDIO, "pseudohitzak", `${pseudopalabra}.mp3`)
     )
-  );
-}
-
-if (GENERAR_PALABRAS) {
-  console.log("\nHitzak (solo si no hay grabacion):");
-  const pendientes = PALABRAS.filter((palabra) => !GRABADAS.has(palabra.id));
-  if (pendientes.length === 0) {
-    console.log("  = todas las palabras tienen grabacion, se saltan");
-  }
-  pendientes.forEach((palabra) =>
-    generar(palabra.silabas, join(DIR_AUDIO, FONEMA, `${palabra.id}.mp3`))
   );
 }
 

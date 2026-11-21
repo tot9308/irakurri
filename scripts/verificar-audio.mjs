@@ -24,10 +24,10 @@ function leerManifest() {
   const texto = readFileSync(MANIFEST, "utf8");
   const version = /VERSION_AUDIO\s*=\s*["']([^"']+)["']/.exec(texto)?.[1] ?? "?";
   const duraciones = {};
-  const patron = /["']([a-z]+)\/([a-z]+)["']\s*:\s*(\d+)/g;
+  const patron = /["']([a-z]+(?:\/[a-z]+)+)["']\s*:\s*(\d+)/g;
   let coincidencia;
   while ((coincidencia = patron.exec(texto)) !== null) {
-    duraciones[`${coincidencia[1]}/${coincidencia[2]}`] = Number(coincidencia[3]);
+    duraciones[coincidencia[1]] = Number(coincidencia[2]);
   }
   return { version, duraciones };
 }
@@ -116,7 +116,7 @@ const avisos = [];
 const filas = [];
 
 for (const [clave, declarada] of Object.entries(duraciones)) {
-  const ruta = join(DIR_AUDIO, version, `${clave.replace("/", "\\")}.mp3`);
+  const ruta = join(DIR_AUDIO, version, ...`${clave}.mp3`.split("/"));
   if (!existsSync(ruta)) {
     errores.push(`Falta el archivo para la clave "${clave}": public/audio/${version}/${clave}.mp3`);
     continue;

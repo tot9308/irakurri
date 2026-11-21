@@ -37,15 +37,20 @@ describe("palabras", () => {
     });
   });
 
-  it("solo ofrece palabras que se pueden escuchar", () => {
+  it("solo ofrece palabras con grabacion completa, nunca unidas por silabas", () => {
     const disponibles = palabrasConAudio("m");
-    expect(disponibles.map((p) => p.id)).toContain("mimo");
+    expect(disponibles.map((p) => p.id)).toEqual([
+      "mamua",
+      "umea",
+      "mimo",
+      "ama",
+      "amama",
+      "momia",
+      "meloi",
+      "musu",
+    ]);
     disponibles.forEach((palabra) => {
-      const tienePalabra = claveAudioPalabra(palabra) in DURACIONES_MS;
-      const tieneSilabas = palabra.silabas.every(
-        (silaba) => claveSilaba(palabra.fonema, silaba) in DURACIONES_MS
-      );
-      expect(tienePalabra || tieneSilabas).toBe(true);
+      expect(claveAudioPalabra(palabra) in DURACIONES_MS).toBe(true);
     });
   });
 
@@ -72,6 +77,8 @@ describe("palabras", () => {
     construir.forEach((id) => {
       const palabra = palabrasDeFonema("m").find((p) => p.id === id);
       expect(palabra).toBeDefined();
+      if (!palabra) return;
+      expect(claveAudioPalabra(palabra) in DURACIONES_MS).toBe(true);
     });
   });
 

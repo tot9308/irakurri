@@ -9,7 +9,10 @@ export function esperar(ms: number): Promise<void> {
   return new Promise((resolver) => setTimeout(resolver, ms));
 }
 
-/** Reproduce una palabra: grabacion completa o, si falta, sus silabas. */
+/**
+ * Reproduce una palabra grabada. Nunca se construye uniendo silabas:
+ * si falta la grabacion completa, la palabra no se ofrece.
+ */
 export async function reproducirPalabra(
   proveedor: ProveedorEstatico,
   palabra: Palabra
@@ -17,9 +20,7 @@ export async function reproducirPalabra(
   const clave = claveAudioPalabra(palabra);
   if (proveedor.disponible(clave)) {
     await proveedor.play(clave);
-    return;
   }
-  await reproducirSilabas(proveedor, palabra.fonema, palabra.silabas);
 }
 
 export async function reproducirSilabas(

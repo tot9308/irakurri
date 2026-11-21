@@ -41,23 +41,24 @@ export function claveAudioPalabra(palabra: Palabra): string {
 }
 
 /**
- * Una palabra solo se ofrece si se puede escuchar: grabacion de la palabra
- * completa o, en su defecto, todas sus silabas.
+ * Una palabra solo se ofrece si existe su grabacion completa.
+ * Nunca se construye una palabra uniendo silabas.
  */
 export function palabrasConAudio(fonema: string): Palabra[] {
-  return palabrasDeFonema(fonema).filter((palabra) => {
-    if (claveAudioPalabra(palabra) in DURACIONES_MS) return true;
-    return palabra.silabas.every((silaba) => claveSilaba(palabra.fonema, silaba) in DURACIONES_MS);
-  });
+  return palabrasDeFonema(fonema).filter(
+    (palabra) => claveAudioPalabra(palabra) in DURACIONES_MS
+  );
 }
 
 /**
- * Para el constructor: todas las silabas deben sonar, porque cada ficha del banco
- * se reproduce al colocarla. Evita fichas mudas.
+ * Para el constructor: la palabra debe tener grabacion completa (suena al entrar)
+ * y todas sus silabas (cada ficha del banco suena al colocarla).
  */
 export function palabrasParaConstruir(fonema: string): Palabra[] {
-  return palabrasDeFonema(fonema).filter((palabra) =>
-    palabra.silabas.every((silaba) => claveSilaba(palabra.fonema, silaba) in DURACIONES_MS)
+  return palabrasDeFonema(fonema).filter(
+    (palabra) =>
+      claveAudioPalabra(palabra) in DURACIONES_MS &&
+      palabra.silabas.every((silaba) => claveSilaba(palabra.fonema, silaba) in DURACIONES_MS)
   );
 }
 
