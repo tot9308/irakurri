@@ -6,7 +6,7 @@
 ## 1. Estado actual
 
 - **Modo invitado**: letra `m` completa (lección de 9 pasos + `Segida` + `Hitzak`).
-- **Vocales**: audio de `a, e, i, o, u` listo y normalizado; falta la **sección** de vocales antes de la `m` (acordado, sin fecha).
+- **Vocales**: audio de `a, e, i, o, u` listo; sección en diseño. Pendientes las grabaciones completas de las palabras (ver `docs/AUDIO-VOCALES.md`) y confirmar la cuarta palabra de `i`.
 - **Modo Gela**: no implementado. El esquema SQL (`supabase/migrations/0001_initial_schema.sql`) y las políticas RLS existen, pero **Supabase no está conectado** y `/login` todavía no existe.
 - **Tests**: 67 unitarios (Vitest) y 19 e2e (Playwright).
 
@@ -21,7 +21,7 @@
 | Cuentas | Solo el adulto tiene cuenta. El niño no tiene email. |
 | Progreso en invitado | Anónimo en `localStorage`, clave versionada `irakurri:invitado:v1`. |
 | Orden fonológico | `m, k, t, l, b, p, d, n, f, g, r, rr, j, s, x, z, ts, tx, tz`. |
-| Vocales | Sección propia antes de la `m` (pendiente de diseño). |
+| Vocales | Sección propia antes de la `m`; palabras grabadas completas, nunca concatenadas (ver `docs/AUDIO-VOCALES.md`). |
 | Alcance actual | Refinar la `m`. **No** se añaden más fonemas hasta que se pida. |
 
 ### Pedagogía de una letra
@@ -152,6 +152,8 @@ Estructura elegida (**opción C, por dificultad**), con todos los botones visibl
 | 7 | Deuda | Conectar Supabase, auth adulto, alumnos sin email y progreso en base de datos (Gela) | Dev |
 | 8 | Deuda | e2e del flujo Gela completo (requisito del proyecto) | Dev |
 | 9 | Futuro | Trazo/escritura de la letra (canvas) | Equipo |
+| 10 | Contenido | Grabaciones completas de las 20 palabras de vocales en `public/audio/v1/vocales/palabras/` (19 confirmadas; falta la cuarta de `i`) | Equipo |
+| 11 | Futuro | Kinestemas (gestos asociados a fonemas), después de cerrar las vocales | Equipo |
 
 ## 5. Fases
 
