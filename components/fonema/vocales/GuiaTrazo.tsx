@@ -47,11 +47,30 @@ export function GuiaTrazo({ letra, modo, repeticion = 0 }: GuiaTrazoProps) {
     const duraciones = longitudes.map((longitud) =>
       Math.max(450, Math.min(2200, longitud * 18))
     );
+    const inicios = longitudes.map((_, indice) =>
+      elementos[indice]?.getPointAtLength(0)
+    );
+    const finales = longitudes.map((longitud, indice) =>
+      elementos[indice]?.getPointAtLength(longitud)
+    );
+    const continuo = (indice: number): boolean => {
+      if (indice === 0) return true;
+      const anterior = finales[indice - 1];
+      const siguiente = inicios[indice];
+      if (!anterior || !siguiente) return false;
+      const dx = anterior.x - siguiente.x;
+      const dy = anterior.y - siguiente.y;
+      return Math.hypot(dx, dy) <= 2.5;
+    };
+
     const segmentos: { inicio: number; fin: number }[] = [];
     let cursor = 0;
-    for (const duracion of duraciones) {
-      segmentos.push({ inicio: cursor, fin: cursor + duracion });
-      cursor += duracion + PAUSA_ENTRE_TRAZOS_MS;
+    for (let indice = 0; indice < duraciones.length; indice += 1) {
+      if (indice > 0 && !continuo(indice)) cursor += PAUSA_ENTRE_TRAZOS_MS;
+      const inicio = cursor;
+      const fin = inicio + duraciones[indice];
+      segmentos.push({ inicio, fin });
+      cursor = fin;
     }
     const total = cursor;
     const comienzo = performance.now();

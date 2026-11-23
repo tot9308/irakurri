@@ -97,6 +97,7 @@ Sección `Bokalek`, antes de la `m`, con cuatro actividades:
 
 - Las actividades 2 y 4 se habilitan cuando existen las **20 grabaciones completas** de palabras en `public/audio/v1/vocales/palabras/`. Hasta entonces aparecen deshabilitadas con `Grabazioak falta dira`.
 - Los glifos (`lib/glifos-edelfontmed.ts`) se extraen de la fuente con fontTools; los recorridos (`lib/recorridos-vocales.ts`) salen del esqueleto de cada glifo, para que el círculo rojo caiga dentro de la letra. No se dibujan letras a mano.
+- El círculo **no se levanta** entre tramos contiguos: la animación encadena el final de un tramo con el inicio del siguiente. Solo hay pausa/salto en el punto de la `i` y en las rayas separadas (por ejemplo, la barra de la `A` y las de la `E`).
 - Ninguna palabra de vocales se genera ni se monta con sílabas.
 - Palabras: `atea, arraina, armiarma, astoa`; `elefantea, erlea, etxea, eskua`; `igela, iglu, izarra, ilargia`; `oilarra, otsoa, ogia, oina`; `untxia, urdina, ura, usoa`.
 - Anclas de la actividad 2: `atea`, `elefantea`, `igela`, `oilarra`, `untxia`.
