@@ -8,7 +8,7 @@
 - **Modo invitado**: letra `m` completa (lección de 9 pasos + `Segida` + `Hitzak`).
 - **Vocales**: audio de `a, e, i, o, u` listo; sección `Bokalek` en curso. Pendientes las grabaciones completas de las 20 palabras (ver `docs/AUDIO-VOCALES.md`); la cuarta de `i` es `ilargia`.
 - **Modo Gela**: no implementado. El esquema SQL (`supabase/migrations/0001_initial_schema.sql`) y las políticas RLS existen, pero **Supabase no está conectado** y `/login` todavía no existe.
-- **Tests**: 75 unitarios (Vitest) y 21 e2e (Playwright).
+- **Tests**: 76 unitarios (Vitest) y 21 e2e (Playwright).
 
 ## 2. Decisiones cerradas
 
@@ -90,12 +90,13 @@ Estructura elegida (**opción C, por dificultad**), con todos los botones visibl
 
 Sección `Bokalek`, antes de la `m`, con cuatro actividades:
 
-1. **Letra eta trazoa**: la vocal se dibuja con el glifo real de **Edelfontmed**, en **minúscula o mayúscula**; después se repasa en una pizarra libre. No hay corrección automática del trazo.
+1. **Letra eta trazoa**: la vocal se dibuja con el glifo real de **Edelfontmed**, en **minúscula o mayúscula**; un **círculo rojo** recorre los trazos pedagógicos y después se repasa en una pizarra libre. No hay corrección automática del trazo.
 2. **Errepikatu: letra + hitza**: suena la letra y la palabra ancla de esa vocal; el niño repite en voz alta. Usa el reproductor de práctica (play/pausa, stop, repetir, saltar, velocidad).
 3. **Entzun letra eta aukeratu**: suena una vocal y se elige su grafía entre las cinco.
 4. **Entzun hitza eta aukeratu bokala**: suenan las palabras y se elige la vocal inicial; 20 rondas, una por palabra.
 
 - Las actividades 2 y 4 se habilitan cuando existen las **20 grabaciones completas** de palabras en `public/audio/v1/vocales/palabras/`. Hasta entonces aparecen deshabilitadas con `Grabazioak falta dira`.
+- Los glifos (`lib/glifos-edelfontmed.ts`) se extraen de la fuente con fontTools; los recorridos (`lib/recorridos-vocales.ts`) salen del esqueleto de cada glifo, para que el círculo rojo caiga dentro de la letra. No se dibujan letras a mano.
 - Ninguna palabra de vocales se genera ni se monta con sílabas.
 - Palabras: `atea, arraina, armiarma, astoa`; `elefantea, erlea, etxea, eskua`; `igela, iglu, izarra, ilargia`; `oilarra, otsoa, ogia, oina`; `untxia, urdina, ura, usoa`.
 - Anclas de la actividad 2: `atea`, `elefantea`, `igela`, `oilarra`, `untxia`.
@@ -165,7 +166,7 @@ Sección `Bokalek`, antes de la `m`, con cuatro actividades:
 | 6 | Deuda | `/login` no existe (el botón de la landing da 404) | Dev |
 | 7 | Deuda | Conectar Supabase, auth adulto, alumnos sin email y progreso en base de datos (Gela) | Dev |
 | 8 | Deuda | e2e del flujo Gela completo (requisito del proyecto) | Dev |
-| 9 | Futuro | Trazo/escritura de la letra (canvas) | Equipo |
+| 9 | Futuro | Extender el trazo interactivo (pizarra) a las consonantes | Equipo |
 | 10 | Contenido | Grabaciones completas de las 20 palabras de vocales en `public/audio/v1/vocales/palabras/` (incluida `ilargia.mp3`) | Equipo |
 | 11 | Futuro | Kinestemas (gestos asociados a fonemas), después de cerrar las vocales | Equipo |
 

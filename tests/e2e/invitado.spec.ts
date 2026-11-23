@@ -453,6 +453,7 @@ test("bokalek: animazioa, pizarra eta hurrengo bokala", async ({ page }) => {
   await page.getByRole("button", { name: /Letra eta trazoa/ }).click();
 
   await expect(page.getByRole("img", { name: "a letraren trazoa" })).toBeVisible();
+  await expect(page.getByTestId("guia-circulo")).toBeVisible();
   await page.getByRole("button", { name: "Maiuskula" }).click();
   await expect(page.getByRole("img", { name: "A letraren trazoa" })).toBeVisible();
 

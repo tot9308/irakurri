@@ -1,6 +1,11 @@
 "use client";
 
+import {
+  GLIFOS_EDELFONTMED,
+  type LetraEdelfontmed,
+} from "@/lib/glifos-edelfontmed";
 import type { Vocal } from "@/lib/vocales";
+import { GuiaTrazo } from "./GuiaTrazo";
 
 export type CasoLetra = "minuscula" | "mayuscula";
 
@@ -14,9 +19,9 @@ interface TrazoVocalProps {
 }
 
 /**
- * Letra real de Edelfontmed, en minuscula o mayuscula.
- * La animacion revela el glifo de izquierda a derecha; la guia muestra
- * el mismo glifo en gris para repasarlo encima.
+ * Glifo real de Edelfontmed (minuscula o mayuscula) y, encima, el circulo
+ * rojo que recorre el trazo pedagogico. La letra no es un dibujo aparte:
+ * sale de los contornos de la propia fuente.
  */
 export function TrazoVocal({
   vocal,
@@ -25,9 +30,9 @@ export function TrazoVocal({
   repeticion = 0,
   className,
 }: TrazoVocalProps) {
-  const letra = caso === "mayuscula" ? vocal.toUpperCase() : vocal;
-  const id = `trazo-${vocal}-${caso}-${repeticion}`;
-  const tamano = caso === "mayuscula" ? 110 : 150;
+  const letra = (caso === "mayuscula"
+    ? vocal.toUpperCase()
+    : vocal) as LetraEdelfontmed;
 
   return (
     <svg
@@ -36,35 +41,11 @@ export function TrazoVocal({
       aria-label={`${letra} letraren trazoa`}
       className={className}
     >
-      <defs>
-        <clipPath id={id} key={id}>
-          {modo === "animado" ? (
-            <rect x="0" y="0" width="0" height="100">
-              <animate
-                attributeName="width"
-                from="0"
-                to="100"
-                dur="1.4s"
-                fill="freeze"
-              />
-            </rect>
-          ) : (
-            <rect x="0" y="0" width="100" height="100" />
-          )}
-        </clipPath>
-      </defs>
-      <text
-        x="50"
-        y="82"
-        textAnchor="middle"
-        fontFamily="Edelfontmed, 'Comic Sans MS', 'Segoe Print', system-ui, sans-serif"
-        fontSize={tamano}
-        fontWeight={400}
-        fill={modo === "guia" ? "#d4d4d8" : "#0369a1"}
-        clipPath={`url(#${id})`}
-      >
-        {letra}
-      </text>
+      <path
+        d={GLIFOS_EDELFONTMED[letra]}
+        fill={modo === "guia" ? "#e4e4e7" : "#bae6fd"}
+      />
+      <GuiaTrazo letra={letra} modo={modo} repeticion={repeticion} />
     </svg>
   );
 }

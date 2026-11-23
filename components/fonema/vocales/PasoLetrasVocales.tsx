@@ -39,19 +39,6 @@ export function PasoLetrasVocales({ onSiguiente }: PasoLetrasVocalesProps) {
   };
 
   useEffect(() => {
-    if (typeof document === "undefined" || !document.fonts) return;
-    let activo = true;
-    void document.fonts.ready.then(() => {
-      // Si la fuente termina de cargar despues del primer render, reinicia
-      // la animacion para que el glifo sea ya el de Edelfontmed.
-      if (activo) setRepeticion((n) => n + 1);
-    });
-    return () => {
-      activo = false;
-    };
-  }, []);
-
-  useEffect(() => {
     if (fase !== "animacion") return;
     const temporizador = setTimeout(() => {
       if (disponible) void proveedor.play(clave);
