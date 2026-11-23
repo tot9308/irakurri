@@ -90,7 +90,7 @@ Estructura elegida (**opción C, por dificultad**), con todos los botones visibl
 
 Sección `Bokalek`, antes de la `m`, con cuatro actividades:
 
-1. **Letra eta trazoa**: la vocal se dibuja sola (animación por trazos, numerados) y después se repasa en una pizarra libre. No hay corrección automática del trazo.
+1. **Letra eta trazoa**: la vocal se dibuja con el glifo real de **Edelfontmed**, en **minúscula o mayúscula**; después se repasa en una pizarra libre. No hay corrección automática del trazo.
 2. **Errepikatu: letra + hitza**: suena la letra y la palabra ancla de esa vocal; el niño repite en voz alta. Usa el reproductor de práctica (play/pausa, stop, repetir, saltar, velocidad).
 3. **Entzun letra eta aukeratu**: suena una vocal y se elige su grafía entre las cinco.
 4. **Entzun hitza eta aukeratu bokala**: suenan las palabras y se elige la vocal inicial; 20 rondas, una por palabra.

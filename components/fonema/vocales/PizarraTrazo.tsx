@@ -4,15 +4,20 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type * as React from "react";
 import { Button } from "@/components/ui/Button";
 import type { Vocal } from "@/lib/vocales";
-import { TrazoVocal } from "./TrazoVocal";
+import { TrazoVocal, type CasoLetra } from "./TrazoVocal";
 
 const COLOR_TRAZO = "#0369a1";
+
+interface PizarraTrazoProps {
+  vocal: Vocal;
+  caso?: CasoLetra;
+}
 
 /**
  * Pizarra libre para repasar la letra con el dedo o el raton.
  * No corrige ni puntua: solo permite borrar y empezar de nuevo.
  */
-export function PizarraTrazo({ vocal }: { vocal: Vocal }) {
+export function PizarraTrazo({ vocal, caso = "minuscula" }: PizarraTrazoProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const dibujando = useRef(false);
   const [hayTrazo, setHayTrazo] = useState(false);
@@ -101,12 +106,13 @@ export function PizarraTrazo({ vocal }: { vocal: Vocal }) {
       <div className="relative aspect-square w-[min(58vw,320px)] overflow-hidden rounded-2xl border-4 border-white bg-white shadow-inner">
         <TrazoVocal
           vocal={vocal}
+          caso={caso}
           modo="guia"
           className="pointer-events-none absolute inset-0 h-full w-full"
         />
         <canvas
           ref={canvasRef}
-          aria-label={`${vocal} letra trazatzea`}
+          aria-label={`${caso === "mayuscula" ? vocal.toUpperCase() : vocal} letra trazatzea`}
           className="absolute inset-0 h-full w-full touch-none"
           onPointerDown={empezar}
           onPointerMove={mover}

@@ -122,25 +122,9 @@
   }
 }
 
-@keyframes fundido-numero {
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes dibujar-letra {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .ficha-entrada,
   .trazo-entrada {
     animation: fundido-suave 120ms ease-out both;
-  }
-  .trazo-letra-animado {
-    animation: none !important;
-    stroke-dashoffset: 0 !important;
   }
 }

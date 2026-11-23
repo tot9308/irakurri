@@ -453,9 +453,12 @@ test("bokalek: animazioa, pizarra eta hurrengo bokala", async ({ page }) => {
   await page.getByRole("button", { name: /Letra eta trazoa/ }).click();
 
   await expect(page.getByRole("img", { name: "a letraren trazoa" })).toBeVisible();
+  await page.getByRole("button", { name: "Maiuskula" }).click();
+  await expect(page.getByRole("img", { name: "A letraren trazoa" })).toBeVisible();
+
   await page.getByRole("button", { name: "Traza ezazu" }).click();
 
-  const pizarra = page.getByLabel("a letra trazatzea");
+  const pizarra = page.getByLabel("A letra trazatzea");
   await expect(pizarra).toBeVisible();
 
   const caja = await pizarra.boundingBox();
@@ -470,7 +473,7 @@ test("bokalek: animazioa, pizarra eta hurrengo bokala", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Garbitu" })).toBeEnabled();
 
   await page.getByRole("button", { name: "Hurrengo bokala" }).click();
-  await expect(page.getByRole("img", { name: "e letraren trazoa" })).toBeVisible();
+  await expect(page.getByRole("img", { name: "E letraren trazoa" })).toBeVisible();
 });
 
 test("bokalek: entzun letra eta aukeratu", async ({ page }) => {

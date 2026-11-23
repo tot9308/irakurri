@@ -106,7 +106,9 @@ export default function InvitadoPage() {
             <p className="font-lectura text-2xl font-bold tracking-[0.25em] text-amber-800">
               a e i o u
             </p>
-            <p className="mt-1 text-sm text-neutral-600">Letrak, soinuak eta trazoa.</p>
+            <p className="mt-1 text-sm text-neutral-600">
+              Minuskula eta maiuskula, soinua eta trazoa.
+            </p>
           </div>
           <Button size="lg" onClick={() => setPaso("bokalek")}>
             Hasi bokalekin

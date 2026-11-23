@@ -39,7 +39,7 @@ export function SelectorVocales({ onAbrir }: SelectorVocalesProps) {
     {
       id: "letras",
       titulo: "Letra eta trazoa",
-      descripcion: "Animazioa eta trazatze librea",
+      descripcion: "Minuskula eta maiuskula: animazioa + trazatzea",
       habilitada: letrasDisponibles,
     },
     {

@@ -1,10 +1,12 @@
 "use client";
 
-import { TRAZOS_VOCALES } from "@/lib/trazos-vocales";
 import type { Vocal } from "@/lib/vocales";
+
+export type CasoLetra = "minuscula" | "mayuscula";
 
 interface TrazoVocalProps {
   vocal: Vocal;
+  caso?: CasoLetra;
   modo?: "animado" | "guia";
   /** Cambia este valor para reiniciar la animacion. */
   repeticion?: number;
@@ -12,87 +14,57 @@ interface TrazoVocalProps {
 }
 
 /**
- * Letra dibujada por trazos, con el orden de escritura numerado.
- * En modo guia se muestra punteada y sin animacion, para calcar encima.
+ * Letra real de Edelfontmed, en minuscula o mayuscula.
+ * La animacion revela el glifo de izquierda a derecha; la guia muestra
+ * el mismo glifo en gris para repasarlo encima.
  */
 export function TrazoVocal({
   vocal,
+  caso = "minuscula",
   modo = "animado",
   repeticion = 0,
   className,
 }: TrazoVocalProps) {
-  const trazos = TRAZOS_VOCALES[vocal];
-  let acumulado = 0;
-  const dibujos = trazos.map((trazo) => {
-    const retraso = acumulado;
-    acumulado += trazo.duracionMs + (modo === "animado" ? 260 : 0);
-    return { ...trazo, retraso };
-  });
-  const duracionTotal = acumulado;
+  const letra = caso === "mayuscula" ? vocal.toUpperCase() : vocal;
+  const id = `trazo-${vocal}-${caso}-${repeticion}`;
+  const tamano = caso === "mayuscula" ? 110 : 150;
 
   return (
     <svg
       viewBox="0 0 100 100"
       role="img"
-      aria-label={`${vocal} letraren trazoa`}
+      aria-label={`${letra} letraren trazoa`}
       className={className}
     >
-      {dibujos.map((trazo, indice) => (
-        <path
-          key={`${repeticion}-trazo-${indice}`}
-          d={trazo.d}
-          pathLength={modo === "animado" ? 1 : undefined}
-          fill="none"
-          stroke={modo === "guia" ? "#d4d4d8" : "#0369a1"}
-          strokeWidth={modo === "guia" ? 12 : 10}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeDasharray={modo === "animado" ? "1 1" : undefined}
-          strokeDashoffset={modo === "animado" ? 1 : 0}
-          className={modo === "animado" ? "trazo-letra-animado" : undefined}
-          style={
-            modo === "animado"
-              ? {
-                  animation: `dibujar-letra ${trazo.duracionMs}ms ease forwards`,
-                  animationDelay: `${trazo.retraso}ms`,
-                }
-              : undefined
-          }
-        />
-      ))}
-
-      {modo === "animado" &&
-        dibujos.map((trazo, indice) => {
-          const posicion = trazo.numero ?? trazo.inicio;
-          return (
-            <g
-              key={`${repeticion}-inicio-${indice}`}
-              style={{
-                animation: `fundido-numero 400ms ease ${duracionTotal + 250}ms forwards`,
-              }}
-            >
-              <circle
-                cx={posicion.x}
-                cy={posicion.y}
-                r={6}
-                fill="#ffffff"
-                stroke="#0284c7"
-                strokeWidth={2}
+      <defs>
+        <clipPath id={id} key={id}>
+          {modo === "animado" ? (
+            <rect x="0" y="0" width="0" height="100">
+              <animate
+                attributeName="width"
+                from="0"
+                to="100"
+                dur="1.4s"
+                fill="freeze"
               />
-              <text
-                x={posicion.x}
-                y={posicion.y + 0.5}
-                textAnchor="middle"
-                dominantBaseline="central"
-                fontSize={6.5}
-                fontWeight={800}
-                fill="#0369a1"
-              >
-                {indice + 1}
-              </text>
-            </g>
-          );
-        })}
+            </rect>
+          ) : (
+            <rect x="0" y="0" width="100" height="100" />
+          )}
+        </clipPath>
+      </defs>
+      <text
+        x="50"
+        y="82"
+        textAnchor="middle"
+        fontFamily="Edelfontmed, 'Comic Sans MS', 'Segoe Print', system-ui, sans-serif"
+        fontSize={tamano}
+        fontWeight={400}
+        fill={modo === "guia" ? "#d4d4d8" : "#0369a1"}
+        clipPath={`url(#${id})`}
+      >
+        {letra}
+      </text>
     </svg>
   );
 }
