@@ -5,8 +5,10 @@ import { RECORRIDOS_VOCALES } from "@/lib/recorridos-vocales";
 const LETRAS = ["a", "A", "e", "E", "i", "I", "o", "O", "u", "U"];
 
 describe("trazos de las vocales", () => {
-  it("la a se escribe de un solo trazo, sin levantar el lapiz", () => {
+  it("la a, la e y la o se escriben de un solo trazo", () => {
     expect(RECORRIDOS_VOCALES.a).toHaveLength(1);
+    expect(RECORRIDOS_VOCALES.e).toHaveLength(1);
+    expect(RECORRIDOS_VOCALES.o).toHaveLength(1);
   });
 
   it("tiene el glifo real y un recorrido para cada caja", () => {

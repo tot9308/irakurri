@@ -8,7 +8,7 @@
 - **Modo invitado**: letra `m` completa (lección de 9 pasos + `Segida` + `Hitzak`).
 - **Vocales**: audio de `a, e, i, o, u` listo; sección `Bokalek` en curso. Pendientes las grabaciones completas de las 20 palabras (ver `docs/AUDIO-VOCALES.md`); la cuarta de `i` es `ilargia`.
 - **Modo Gela**: no implementado. El esquema SQL (`supabase/migrations/0001_initial_schema.sql`) y las políticas RLS existen, pero **Supabase no está conectado** y `/login` todavía no existe.
-- **Tests**: 76 unitarios (Vitest) y 21 e2e (Playwright).
+- **Tests**: 77 unitarios (Vitest) y 21 e2e (Playwright).
 
 ## 2. Decisiones cerradas
 
@@ -98,6 +98,7 @@ Sección `Bokalek`, antes de la `m`, con cuatro actividades:
 - Las actividades 2 y 4 se habilitan cuando existen las **20 grabaciones completas** de palabras en `public/audio/v1/vocales/palabras/`. Hasta entonces aparecen deshabilitadas con `Grabazioak falta dira`.
 - Los glifos (`lib/glifos-edelfontmed.ts`) se extraen de la fuente con fontTools; los recorridos (`lib/recorridos-vocales.ts`) salen del esqueleto de cada glifo, para que el círculo rojo caiga dentro de la letra. No se dibujan letras a mano.
 - El círculo **no se levanta** entre tramos contiguos: la animación encadena el final de un tramo con el inicio del siguiente. Solo hay pausa/salto en el punto de la `i` y en las rayas separadas (por ejemplo, la barra de la `A` y las de la `E`).
+- La `e` cierra el bucle superior antes de bajar al inferior; la `o` y la `O` giran en sentido **antihorario**.
 - Ninguna palabra de vocales se genera ni se monta con sílabas.
 - Palabras: `atea, arraina, armiarma, astoa`; `elefantea, erlea, etxea, eskua`; `igela, iglu, izarra, ilargia`; `oilarra, otsoa, ogia, oina`; `untxia, urdina, ura, usoa`.
 - Anclas de la actividad 2: `atea`, `elefantea`, `igela`, `oilarra`, `untxia`.
