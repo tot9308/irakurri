@@ -6,9 +6,9 @@
 ## 1. Estado actual
 
 - **Modo invitado**: letra `m` completa (lección de 9 pasos + `Segida` + `Hitzak`).
-- **Vocales**: audio de `a, e, i, o, u` listo; sección en diseño. Pendientes las grabaciones completas de las palabras (ver `docs/AUDIO-VOCALES.md`) y confirmar la cuarta palabra de `i`.
+- **Vocales**: audio de `a, e, i, o, u` listo; sección `Bokalek` en curso. Pendientes las grabaciones completas de las 20 palabras (ver `docs/AUDIO-VOCALES.md`); la cuarta de `i` es `ilargia`.
 - **Modo Gela**: no implementado. El esquema SQL (`supabase/migrations/0001_initial_schema.sql`) y las políticas RLS existen, pero **Supabase no está conectado** y `/login` todavía no existe.
-- **Tests**: 67 unitarios (Vitest) y 19 e2e (Playwright).
+- **Tests**: 75 unitarios (Vitest) y 21 e2e (Playwright).
 
 ## 2. Decisiones cerradas
 
@@ -86,6 +86,20 @@ Estructura elegida (**opción C, por dificultad**), con todos los botones visibl
 | Nomenclatura del código | Español (archivos, tipos, comentarios). |
 | Tipografía de lectura | **Edelfontmed** (`font-lectura`) para grafemas, sílabas, palabras y pseudopalabras; UI en la sans del sistema. El archivo va en `public/fonts/edelfontmed.woff2` (o `.ttf`), con `local()` como respaldo. |
 
+### Vocales (F1.5)
+
+Sección `Bokalek`, antes de la `m`, con cuatro actividades:
+
+1. **Letra eta trazoa**: la vocal se dibuja sola (animación por trazos, numerados) y después se repasa en una pizarra libre. No hay corrección automática del trazo.
+2. **Errepikatu: letra + hitza**: suena la letra y la palabra ancla de esa vocal; el niño repite en voz alta. Usa el reproductor de práctica (play/pausa, stop, repetir, saltar, velocidad).
+3. **Entzun letra eta aukeratu**: suena una vocal y se elige su grafía entre las cinco.
+4. **Entzun hitza eta aukeratu bokala**: suenan las palabras y se elige la vocal inicial; 20 rondas, una por palabra.
+
+- Las actividades 2 y 4 se habilitan cuando existen las **20 grabaciones completas** de palabras en `public/audio/v1/vocales/palabras/`. Hasta entonces aparecen deshabilitadas con `Grabazioak falta dira`.
+- Ninguna palabra de vocales se genera ni se monta con sílabas.
+- Palabras: `atea, arraina, armiarma, astoa`; `elefantea, erlea, etxea, eskua`; `igela, iglu, izarra, ilargia`; `oilarra, otsoa, ogia, oina`; `untxia, urdina, ura, usoa`.
+- Anclas de la actividad 2: `atea`, `elefantea`, `igela`, `oilarra`, `untxia`.
+
 ### Audio y assets
 
 | Recurso | Ruta | Nota |
@@ -146,13 +160,13 @@ Estructura elegida (**opción C, por dificultad**), con todos los botones visibl
 | 1 | Contenido | Audios de las sílabas `loi` y `su` para poder construir `meloi` y `musu` en `Hitzak` | Equipo |
 | 2 | Decisión | ¿`Hurrengo ariketa` de `Segida` al terminar debe ir al paso 3 o al menú? (ahora va al paso 3) | Equipo |
 | 3 | Calidad | Sustituir los **TTS** actuales de vocales y pseudopalabras por grabaciones humanas si se graban | Equipo |
-| 4 | Producto | Sección de **vocales** antes de la `m` | Equipo |
+| 4 | Producto | Completar `Bokalek`: integrar las grabaciones de palabras y validar el trazo con niños | Equipo |
 | 5 | Producto | Selector de formato por ejercicio: **minúsculas / mayúsculas / mezclado** (persistido). Diseño: `FormatoTexto`, aplicado con `text-transform` y, en mixto, por letra. | Equipo |
 | 6 | Deuda | `/login` no existe (el botón de la landing da 404) | Dev |
 | 7 | Deuda | Conectar Supabase, auth adulto, alumnos sin email y progreso en base de datos (Gela) | Dev |
 | 8 | Deuda | e2e del flujo Gela completo (requisito del proyecto) | Dev |
 | 9 | Futuro | Trazo/escritura de la letra (canvas) | Equipo |
-| 10 | Contenido | Grabaciones completas de las 20 palabras de vocales en `public/audio/v1/vocales/palabras/` (19 confirmadas; falta la cuarta de `i`) | Equipo |
+| 10 | Contenido | Grabaciones completas de las 20 palabras de vocales en `public/audio/v1/vocales/palabras/` (incluida `ilargia.mp3`) | Equipo |
 | 11 | Futuro | Kinestemas (gestos asociados a fonemas), después de cerrar las vocales | Equipo |
 
 ## 5. Fases
@@ -161,7 +175,7 @@ Estructura elegida (**opción C, por dificultad**), con todos los botones visibl
 |---|---|---|
 | **F0** | Esqueleto, catálogo, modo invitado con la `m`, audio estático, tests base | Hecho |
 | **F1 (actual)** | Refinar la `m`: lección de 9 pasos, menú por etapas, audio de calidad, vocabulario validado | En curso |
-| **F1.5** | Sección de **vocales** previa a la `m` | Pendiente |
+| **F1.5** | Sección de **vocales** previa a la `m` (`Bokalek`) | En curso |
 | **F2** | Escalar a `k, t, l, b, p, d, n, f, g, r, rr, j, s, x, z, ts, tx, tz` (el código ya es genérico; solo faltan audios, fotos y palabras) | Pendiente |
 | **F3** | Modo **Gela**: Supabase, auth del adulto, alumnos, progreso en base de datos | Pendiente |
 | **F4** | Familia/informes cualitativos (sin notas ni rankings) | Pendiente |

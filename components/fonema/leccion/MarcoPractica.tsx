@@ -24,6 +24,7 @@ interface MarcoPracticaProps {
   etiquetaRepetir?: string;
   etiquetaSaltar?: string;
   etiquetaTartea?: string;
+  textoSiguiente?: string;
 }
 
 /**
@@ -50,6 +51,7 @@ export function MarcoPractica({
   etiquetaRepetir,
   etiquetaSaltar,
   etiquetaTartea,
+  textoSiguiente,
 }: MarcoPracticaProps) {
   return (
     <div className="flex w-full flex-1 flex-col gap-4">
@@ -91,6 +93,7 @@ export function MarcoPractica({
           etiquetaRepetir={etiquetaRepetir}
           etiquetaSaltar={etiquetaSaltar}
           etiquetaTartea={etiquetaTartea}
+          textoSiguiente={textoSiguiente}
         />
       </div>
     </div>

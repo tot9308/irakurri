@@ -5,6 +5,8 @@ import { ConstructorPalabras } from "@/components/fonema/ConstructorPalabras";
 import { Leccion } from "@/components/fonema/leccion/Leccion";
 import { SecuenciaLetra } from "@/components/fonema/SecuenciaLetra";
 import { SelectorEjercicio } from "@/components/fonema/SelectorEjercicio";
+import { LeccionVocales } from "@/components/fonema/vocales/LeccionVocales";
+import { Button } from "@/components/ui/Button";
 import { fonemasConAudio } from "@/lib/audio-provider/manifest";
 import type { PasoId } from "@/lib/leccion/pasos";
 import { palabrasParaConstruir } from "@/lib/palabras";
@@ -13,7 +15,7 @@ import { fonemasCompletados, leerProgreso } from "@/lib/progreso";
 // Solo aparecen los fonemas con audio grabado en public/audio/v1.
 const FONEMAS_CON_AUDIO = fonemasConAudio();
 
-type Paso = "fonema" | "menu" | "leccion" | "secuencia" | "palabras";
+type Paso = "fonema" | "menu" | "leccion" | "secuencia" | "palabras" | "bokalek";
 
 export default function InvitadoPage() {
   const [paso, setPaso] = useState<Paso>("fonema");
@@ -38,6 +40,10 @@ export default function InvitadoPage() {
   useEffect(() => {
     if (paso === "fonema" || paso === "menu") refrescarProgreso();
   }, [paso, refrescarProgreso]);
+
+  if (paso === "bokalek") {
+    return <LeccionVocales onAtras={() => setPaso("fonema")} />;
+  }
 
   if (paso === "leccion") {
     return (
@@ -89,9 +95,27 @@ export default function InvitadoPage() {
   }
 
   return (
-    <div className="mx-auto flex min-h-[100dvh] max-w-3xl flex-col justify-center p-6">
-      <div className="card">
-        <h1 className="mb-2 text-3xl font-bold">Aukeratu fonema</h1>
+    <div className="mx-auto flex min-h-[100dvh] max-w-3xl flex-col justify-center gap-4 p-6">
+      <section className="card border-amber-200 bg-amber-50">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-amber-700">
+              Lehenengo
+            </p>
+            <h2 className="text-2xl font-bold text-amber-900">Bokalek</h2>
+            <p className="font-lectura text-2xl font-bold tracking-[0.25em] text-amber-800">
+              a e i o u
+            </p>
+            <p className="mt-1 text-sm text-neutral-600">Letrak, soinuak eta trazoa.</p>
+          </div>
+          <Button size="lg" onClick={() => setPaso("bokalek")}>
+            Hasi bokalekin
+          </Button>
+        </div>
+      </section>
+
+      <section className="card">
+        <h1 className="mb-2 text-3xl font-bold">Kontsonanteak</h1>
         <p className="mb-8 text-neutral-600">
           Oraingoz <strong>m</strong> fonema dago prest. Sakatu hasteko.
         </p>
@@ -119,7 +143,7 @@ export default function InvitadoPage() {
             </div>
           ))}
         </div>
-      </div>
+      </section>
     </div>
   );
 }

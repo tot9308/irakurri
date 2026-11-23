@@ -27,6 +27,8 @@ interface MenuControlesProps {
   etiquetaSaltar?: string;
   /** Texto bajo la velocidad (por defecto, "Silaben arteko tartea"). */
   etiquetaTartea?: string;
+  /** Texto del boton de avance (por defecto, "Hurrengo ariketa"). */
+  textoSiguiente?: string;
 }
 
 function textoVelocidad(v: number): string {
@@ -86,6 +88,7 @@ export function MenuControles({
   etiquetaRepetir = "silaba",
   etiquetaSaltar = "silabara",
   etiquetaTartea = "Silaben arteko tartea",
+  textoSiguiente = "Hurrengo ariketa",
 }: MenuControlesProps) {
   const enMarcha = fase === "presentando";
   const pausado = fase === "pausado";
@@ -174,7 +177,7 @@ export function MenuControles({
       </section>
 
       <Button variant="secondary" onClick={onSiguiente} disabled={!completado}>
-        Hurrengo ariketa
+        {textoSiguiente}
       </Button>
     </aside>
   );

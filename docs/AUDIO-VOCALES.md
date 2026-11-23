@@ -18,12 +18,11 @@ Un `.mp3` por palabra, con el nombre exacto en minúsculas. Sin espacios ni sufi
 |---|---|
 | a | `atea.mp3`, `arraina.mp3`, `armiarma.mp3`, `astoa.mp3` |
 | e | `elefantea.mp3`, `erlea.mp3`, `etxea.mp3`, `eskua.mp3` |
-| i | `igela.mp3`, `iglu.mp3`, `izarra.mp3`, **pendiente la cuarta** |
+| i | `igela.mp3`, `iglu.mp3`, `izarra.mp3`, `ilargia.mp3` |
 | o | `oilarra.mp3`, `otsoa.mp3`, `ogia.mp3`, `oina.mp3` |
 | u | `untxia.mp3`, `urdina.mp3`, `ura.mp3`, `usoa.mp3` |
 
-La cuarta palabra de la `i` se ha escrito solo como `i`; hay que confirmar cuál es antes de
-crear su clave.
+La cuarta palabra de la `i` es `ilargia`.
 
 ## Sonidos de las letras
 

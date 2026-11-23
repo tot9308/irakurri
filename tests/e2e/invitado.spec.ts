@@ -447,3 +447,40 @@ test("la fuente Edelfontmed carga en el navegador", async ({ page }) => {
   expect(estado.cargadas).toBeGreaterThan(0);
 });
 
+test("bokalek: animazioa, pizarra eta hurrengo bokala", async ({ page }) => {
+  await page.goto("/invitado");
+  await page.getByRole("button", { name: "Hasi bokalekin" }).click();
+  await page.getByRole("button", { name: /Letra eta trazoa/ }).click();
+
+  await expect(page.getByRole("img", { name: "a letraren trazoa" })).toBeVisible();
+  await page.getByRole("button", { name: "Traza ezazu" }).click();
+
+  const pizarra = page.getByLabel("a letra trazatzea");
+  await expect(pizarra).toBeVisible();
+
+  const caja = await pizarra.boundingBox();
+  if (caja) {
+    await page.mouse.move(caja.x + caja.width * 0.3, caja.y + caja.height * 0.3);
+    await page.mouse.down();
+    await page.mouse.move(caja.x + caja.width * 0.6, caja.y + caja.height * 0.6, {
+      steps: 8,
+    });
+    await page.mouse.up();
+  }
+  await expect(page.getByRole("button", { name: "Garbitu" })).toBeEnabled();
+
+  await page.getByRole("button", { name: "Hurrengo bokala" }).click();
+  await expect(page.getByRole("img", { name: "e letraren trazoa" })).toBeVisible();
+});
+
+test("bokalek: entzun letra eta aukeratu", async ({ page }) => {
+  await page.goto("/invitado");
+  await page.getByRole("button", { name: "Hasi bokalekin" }).click();
+  await page.getByRole("button", { name: /Entzun letra eta aukeratu/ }).click();
+
+  for (const vocal of ["a", "e", "i", "o", "u"]) {
+    await expect(page.getByRole("button", { name: `Bokala ${vocal}` })).toBeVisible();
+  }
+});
+
+
