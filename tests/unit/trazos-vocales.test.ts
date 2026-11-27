@@ -11,6 +11,18 @@ describe("trazos de las vocales", () => {
     expect(RECORRIDOS_VOCALES.o).toHaveLength(1);
   });
 
+  it("la e empieza en la union y no en el rabito de entrada", () => {
+    const primerPunto = RECORRIDOS_VOCALES.e[0]?.match(/^M\s+([0-9.]+)\s+([0-9.]+)/);
+    expect(primerPunto).not.toBeNull();
+    expect(Number(primerPunto?.[1])).toBeGreaterThan(20);
+  });
+
+  it("la o empieza arriba y no en el rabito izquierdo", () => {
+    const primerPunto = RECORRIDOS_VOCALES.o[0]?.match(/^M\s+([0-9.]+)\s+([0-9.]+)/);
+    expect(primerPunto).not.toBeNull();
+    expect(Number(primerPunto?.[2])).toBeLessThan(32);
+  });
+
   it("tiene el glifo real y un recorrido para cada caja", () => {
     expect(Object.keys(GLIFOS_EDELFONTMED).sort()).toEqual([...LETRAS].sort());
     LETRAS.forEach((letra) => {
