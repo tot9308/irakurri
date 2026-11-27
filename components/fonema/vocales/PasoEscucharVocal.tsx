@@ -3,12 +3,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { IconoSoinua } from "@/components/ui/Iconos";
 import { useProveedorAudio } from "@/lib/audio-provider/useProveedorAudio";
+import { formatearTexto, type FormatoTexto } from "@/lib/formato-texto";
 import { opcionesDeVocal, rondasDeVocales } from "@/lib/leccion/vocales";
 import { VOCALES, claveAudioVocal, type Vocal } from "@/lib/vocales";
 import { MarcoPaso } from "../leccion/MarcoPaso";
 import { PasoResultado } from "../leccion/PasoResultado";
 
 interface PasoEscucharVocalProps {
+  formato: FormatoTexto;
   onSalir: () => void;
 }
 
@@ -17,7 +19,7 @@ const ESPERA_ACIERTO_MS = 700;
 const ESPERA_ERROR_MS = 500;
 
 /** Actividad 3: suena una vocal y hay que elegir su grafia entre las cinco. */
-export function PasoEscucharVocal({ onSalir }: PasoEscucharVocalProps) {
+export function PasoEscucharVocal({ formato, onSalir }: PasoEscucharVocalProps) {
   const proveedor = useProveedorAudio();
   const [rondas] = useState(() => rondasDeVocales(TOTAL_RONDAS, 31));
   const [indice, setIndice] = useState(0);
@@ -117,7 +119,7 @@ export function PasoEscucharVocal({ onSalir }: PasoEscucharVocalProps) {
         </button>
 
         <div className="grid grid-cols-5 gap-1.5">
-          {opciones.map((vocal) => {
+          {opciones.map((vocal, posicion) => {
             const estado =
               elegida === vocal ? (acierto ? "correcta" : "incorrecta") : "neutra";
             return (
@@ -134,7 +136,7 @@ export function PasoEscucharVocal({ onSalir }: PasoEscucharVocalProps) {
                       : "border-neutral-300 bg-white text-neutral-800"
                 }`}
               >
-                {vocal}
+                {formatearTexto(vocal, formato, posicion)}
               </button>
             );
           })}

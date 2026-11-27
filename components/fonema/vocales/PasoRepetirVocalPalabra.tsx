@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useProveedorAudio } from "@/lib/audio-provider/useProveedorAudio";
+import { formatearTexto, type FormatoTexto } from "@/lib/formato-texto";
 import { useReproductorPractica } from "@/lib/leccion/useReproductorPractica";
 import {
   claveAudioPalabraVocal,
@@ -12,6 +13,7 @@ import { MarcoPractica } from "../leccion/MarcoPractica";
 
 interface PasoRepetirVocalPalabraProps {
   palabras: readonly PalabraVocal[];
+  formato: FormatoTexto;
   onSiguiente: () => void;
 }
 
@@ -21,6 +23,7 @@ interface PasoRepetirVocalPalabraProps {
  */
 export function PasoRepetirVocalPalabra({
   palabras,
+  formato,
   onSiguiente,
 }: PasoRepetirVocalPalabraProps) {
   const proveedor = useProveedorAudio();
@@ -86,17 +89,17 @@ export function PasoRepetirVocalPalabra({
           key={`letra-${actual.vocal}`}
           className="font-lectura text-[clamp(4rem,14vw,7rem)] font-bold leading-none text-primary-700"
         >
-          {actual.vocal}
+          {formatearTexto(actual.vocal, formato)}
         </p>
         <p
           key={`palabra-${actual.id}`}
           className="font-lectura text-[clamp(2rem,7vw,3.5rem)] font-bold leading-tight text-neutral-800"
         >
-          {actual.id}
+          {formatearTexto(actual.id, formato)}
         </p>
       </div>
       <p className="sr-only" role="status" aria-live="polite">
-        {actual.vocal}, {actual.id}
+        {formatearTexto(actual.vocal, formato)}, {formatearTexto(actual.id, formato)}
       </p>
     </MarcoPractica>
   );

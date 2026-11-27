@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { IconoSoinua } from "@/components/ui/Iconos";
 import { useProveedorAudio } from "@/lib/audio-provider/useProveedorAudio";
+import { formatearTexto, type FormatoTexto } from "@/lib/formato-texto";
 import { rondasDePalabrasVocales } from "@/lib/leccion/vocales";
 import { claveAudioPalabraVocal, type PalabraVocal, type Vocal } from "@/lib/vocales";
 import { MarcoPaso } from "../leccion/MarcoPaso";
@@ -10,6 +11,7 @@ import { PasoResultado } from "../leccion/PasoResultado";
 
 interface PasoElegirVocalInicialProps {
   palabras: readonly PalabraVocal[];
+  formato: FormatoTexto;
   onSalir: () => void;
 }
 
@@ -20,6 +22,7 @@ const ESPERA_ERROR_MS = 500;
 /** Actividad 4: suena una palabra y hay que elegir la vocal por la que empieza. */
 export function PasoElegirVocalInicial({
   palabras,
+  formato,
   onSalir,
 }: PasoElegirVocalInicialProps) {
   const proveedor = useProveedorAudio();
@@ -135,7 +138,7 @@ export function PasoElegirVocalInicial({
         </button>
 
         <div className="grid grid-cols-5 gap-1.5">
-          {ronda.opciones.map((vocal) => {
+          {ronda.opciones.map((vocal, posicion) => {
             const estado =
               elegida === vocal ? (acierto ? "correcta" : "incorrecta") : "neutra";
             return (
@@ -152,7 +155,7 @@ export function PasoElegirVocalInicial({
                       : "border-neutral-300 bg-white text-neutral-800"
                 }`}
               >
-                {vocal}
+                {formatearTexto(vocal, formato, posicion)}
               </button>
             );
           })}
@@ -160,7 +163,9 @@ export function PasoElegirVocalInicial({
 
         <p role="status" aria-live="polite" className="min-h-6 text-lg font-semibold">
           {acierto === true ? (
-            <span className="text-emerald-700">Oso ondo! {ronda.objetivo.id}</span>
+            <span className="text-emerald-700">
+              Oso ondo! {formatearTexto(ronda.objetivo.id, formato)}
+            </span>
           ) : acierto === false ? (
             <span className="text-rose-700">Saiatu berriro</span>
           ) : null}

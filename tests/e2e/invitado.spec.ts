@@ -477,6 +477,27 @@ test("bokalek: animazioa, pizarra eta hurrengo bokala", async ({ page }) => {
   await expect(page.getByRole("img", { name: "E letraren trazoa" })).toBeVisible();
 });
 
+test("bokalek: selector de formato de letra", async ({ page }) => {
+  await page.goto("/invitado");
+  await page.getByRole("button", { name: "Hasi bokalekin" }).click();
+
+  await expect(page.getByText("a e i o u", { exact: true })).toBeVisible();
+
+  await page.getByRole("button", { name: "Maiuskula" }).click();
+  await expect(page.getByText("A E I O U", { exact: true })).toBeVisible();
+
+  await page.reload();
+  await page.getByRole("button", { name: "Hasi bokalekin" }).click();
+  await expect(page.getByText("A E I O U", { exact: true })).toBeVisible();
+
+  await page.getByRole("button", { name: /Entzun letra eta aukeratu/ }).click();
+  await expect(page.getByRole("button", { name: "Bokala a" })).toHaveText("A");
+
+  await page.getByRole("button", { name: "Atzera" }).click();
+  await page.getByRole("button", { name: "Nahasia" }).click();
+  await expect(page.getByText("a E i O u", { exact: true })).toBeVisible();
+});
+
 test("bokalek: entzun letra eta aukeratu", async ({ page }) => {
   await page.goto("/invitado");
   await page.getByRole("button", { name: "Hasi bokalekin" }).click();

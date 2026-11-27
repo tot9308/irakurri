@@ -1,6 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { SelectorFormato } from "@/components/ui/SelectorFormato";
+import {
+  formatearTexto,
+  guardarFormatoTexto,
+  leerFormatoTexto,
+  type FormatoTexto,
+} from "@/lib/formato-texto";
 import { marcarPasoCompletado, pasosDeFonema } from "@/lib/progreso";
 import { anclasVocales, palabrasVocalesConAudio } from "@/lib/vocales";
 import { PasoElegirVocalInicial } from "./PasoElegirVocalInicial";
@@ -18,9 +25,19 @@ type Vista = "menu" | VistaVocales;
 /** Seccion de vocales: menu de cuatro actividades + pantallas de practica. */
 export function LeccionVocales({ onAtras }: LeccionVocalesProps) {
   const [vista, setVista] = useState<Vista>("menu");
+  const [formato, setFormato] = useState<FormatoTexto>("minuskula");
   const anclas = anclasVocales();
   const conAudio = palabrasVocalesConAudio();
   const hechos = pasosDeFonema("vocales");
+
+  useEffect(() => {
+    setFormato(leerFormatoTexto());
+  }, []);
+
+  const cambiarFormato = (nuevo: FormatoTexto) => {
+    setFormato(nuevo);
+    guardarFormatoTexto(nuevo);
+  };
 
   const volver = () => setVista("menu");
   const completar = (id: string) => {
@@ -41,13 +58,19 @@ export function LeccionVocales({ onAtras }: LeccionVocalesProps) {
         <div className="text-center">
           <h1 className="text-lg font-semibold text-neutral-700">Bokalek</h1>
           <p className="font-lectura text-xl font-bold tracking-[0.25em] text-primary-700">
-            a e i o u
+            {formatearTexto("a e i o u", formato)}
           </p>
         </div>
         <span className="text-sm font-semibold text-neutral-500">
           {vista === "menu" ? `${hechos.length}/4` : ""}
         </span>
       </header>
+
+      {vista !== "letras" && (
+        <div className="flex justify-center">
+          <SelectorFormato formato={formato} onCambiar={cambiarFormato} />
+        </div>
+      )}
 
       <main className="flex flex-1 flex-col">
         {vista === "menu" && (
@@ -57,13 +80,21 @@ export function LeccionVocales({ onAtras }: LeccionVocalesProps) {
           <PasoLetrasVocales onSiguiente={() => completar("letras")} />
         )}
         {vista === "repetir" && (
-          <PasoRepetirVocalPalabra palabras={anclas} onSiguiente={() => completar("repetir")} />
+          <PasoRepetirVocalPalabra
+            palabras={anclas}
+            formato={formato}
+            onSiguiente={() => completar("repetir")}
+          />
         )}
         {vista === "escuchar" && (
-          <PasoEscucharVocal onSalir={() => completar("escuchar")} />
+          <PasoEscucharVocal formato={formato} onSalir={() => completar("escuchar")} />
         )}
         {vista === "inicial" && (
-          <PasoElegirVocalInicial palabras={conAudio} onSalir={() => completar("inicial")} />
+          <PasoElegirVocalInicial
+            palabras={conAudio}
+            formato={formato}
+            onSalir={() => completar("inicial")}
+          />
         )}
       </main>
     </div>

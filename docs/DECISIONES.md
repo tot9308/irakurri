@@ -1,14 +1,14 @@
 # Irakurri — decisiones, pendientes y fases
 
 > Documento de referencia del proyecto. Si algo aquí contradice `.clinerules`, manda `.clinerules`.
-> Última actualización: 19 de noviembre de 2026.
+> Última actualización: 27 de noviembre de 2026.
 
 ## 1. Estado actual
 
 - **Modo invitado**: letra `m` completa (lección de 9 pasos + `Segida` + `Hitzak`).
-- **Vocales**: audio de `a, e, i, o, u` listo; sección `Bokalek` en curso. Pendientes las grabaciones completas de las 20 palabras (ver `docs/AUDIO-VOCALES.md`); la cuarta de `i` es `ilargia`.
+- **Vocales**: audio de `a, e, i, o, u` listo; sección `Bokalek` en curso, con selector de formato de letra. Pendientes las grabaciones completas de las 20 palabras (ver `docs/AUDIO-VOCALES.md`); la cuarta de `i` es `ilargia`.
 - **Modo Gela**: no implementado. El esquema SQL (`supabase/migrations/0001_initial_schema.sql`) y las políticas RLS existen, pero **Supabase no está conectado** y `/login` todavía no existe.
-- **Tests**: 77 unitarios (Vitest) y 21 e2e (Playwright).
+- **Tests**: 81 unitarios (Vitest) y 22 e2e (Playwright).
 
 ## 2. Decisiones cerradas
 
@@ -99,6 +99,7 @@ Sección `Bokalek`, antes de la `m`, con cuatro actividades:
 - Los glifos (`lib/glifos-edelfontmed.ts`) se extraen de la fuente con fontTools; los recorridos (`lib/recorridos-vocales.ts`) salen del esqueleto de cada glifo, para que el círculo rojo caiga dentro de la letra. No se dibujan letras a mano.
 - El círculo **no se levanta** entre tramos contiguos: la animación encadena el final de un tramo con el inicio del siguiente. Solo hay pausa/salto en el punto de la `i` y en las rayas separadas (por ejemplo, la barra de la `A` y las de la `E`).
 - La `e` cierra el bucle superior antes de bajar al inferior; la `o` y la `O` giran en sentido **antihorario**.
+- **Formato de lectura** en `Bokalek`: `Minuskula`, `Maiuskula` y `Nahasia`, persistido en `localStorage` con la clave `irakurri:formato:v1`. En `Nahasia` se alternan mayúsculas y minúsculas **por letra** (la primera letra en minúscula), sin contar espacios ni signos; en listas de opciones se puede desplazar la alternancia con una semilla. La actividad 1 conserva su selector propio `Minuskula`/`Maiuskula` porque el trazo no admite `Nahasia`.
 - Ninguna palabra de vocales se genera ni se monta con sílabas.
 - Palabras: `atea, arraina, armiarma, astoa`; `elefantea, erlea, etxea, eskua`; `igela, iglu, izarra, ilargia`; `oilarra, otsoa, ogia, oina`; `untxia, urdina, ura, usoa`.
 - Anclas de la actividad 2: `atea`, `elefantea`, `igela`, `oilarra`, `untxia`.
@@ -164,7 +165,7 @@ Sección `Bokalek`, antes de la `m`, con cuatro actividades:
 | 2 | Decisión | ¿`Hurrengo ariketa` de `Segida` al terminar debe ir al paso 3 o al menú? (ahora va al paso 3) | Equipo |
 | 3 | Calidad | Sustituir los **TTS** actuales de vocales y pseudopalabras por grabaciones humanas si se graban | Equipo |
 | 4 | Producto | Completar `Bokalek`: integrar las grabaciones de palabras y validar el trazo con niños | Equipo |
-| 5 | Producto | Selector de formato por ejercicio: **minúsculas / mayúsculas / mezclado** (persistido). Diseño: `FormatoTexto`, aplicado con `text-transform` y, en mixto, por letra. | Equipo |
+| 5 | Producto | Extender el selector de formato **minúsculas / mayúsculas / mezclado** a las consonantes y a cada ejercicio (en `Bokalek` ya funciona y persiste) | Equipo |
 | 6 | Deuda | `/login` no existe (el botón de la landing da 404) | Dev |
 | 7 | Deuda | Conectar Supabase, auth adulto, alumnos sin email y progreso en base de datos (Gela) | Dev |
 | 8 | Deuda | e2e del flujo Gela completo (requisito del proyecto) | Dev |
