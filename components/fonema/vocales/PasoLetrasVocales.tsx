@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { IconoSoinua } from "@/components/ui/Iconos";
 import { useProveedorAudio } from "@/lib/audio-provider/useProveedorAudio";
+import type { LetraEdelfontmed } from "@/lib/glifos-edelfontmed";
+import { PASOS_TRAZO_VOCALES } from "@/lib/pasos-trazo-vocales";
 import { VOCALES, claveAudioVocal } from "@/lib/vocales";
 import { Escenario } from "../Escenario";
 import { Puntos } from "../leccion/MarcoPaso";
@@ -21,12 +23,15 @@ interface PasoLetrasVocalesProps {
 export function PasoLetrasVocales({ onSiguiente }: PasoLetrasVocalesProps) {
   const proveedor = useProveedorAudio();
   const [indice, setIndice] = useState(0);
-  const [fase, setFase] = useState<"animacion" | "trazo">("animacion");
-  const [repeticion, setRepeticion] = useState(0);
+  const [fase, setFase] = useState<"pasos" | "trazo">("pasos");
+  const [pasoActivo, setPasoActivo] = useState(1);
   const [caso, setCaso] = useState<CasoLetra>("minuscula");
 
   const vocal = VOCALES[indice] ?? "a";
-  const letra = caso === "mayuscula" ? vocal.toUpperCase() : vocal;
+  const letra = (caso === "mayuscula"
+    ? vocal.toUpperCase()
+    : vocal) as LetraEdelfontmed;
+  const pasos = PASOS_TRAZO_VOCALES[letra];
   const clave = claveAudioVocal(vocal);
   const disponible = proveedor.disponible(clave);
   const esUltima = indice === VOCALES.length - 1;
@@ -34,25 +39,20 @@ export function PasoLetrasVocales({ onSiguiente }: PasoLetrasVocalesProps) {
   const cambiarCaso = (nuevo: CasoLetra) => {
     if (nuevo === caso) return;
     setCaso(nuevo);
-    setFase("animacion");
-    setRepeticion((n) => n + 1);
+    setFase("pasos");
+    setPasoActivo(1);
   };
 
   useEffect(() => {
-    if (fase !== "animacion") return;
+    if (fase !== "pasos") return;
     const temporizador = setTimeout(() => {
       if (disponible) void proveedor.play(clave);
     }, 500);
     return () => clearTimeout(temporizador);
-  }, [vocal, fase, repeticion, disponible, clave, proveedor]);
-
-  const repetirAnimacion = () => {
-    setFase("animacion");
-    setRepeticion((n) => n + 1);
-  };
+  }, [vocal, fase, disponible, clave, proveedor]);
 
   const avanzar = () => {
-    if (fase === "animacion") {
+    if (fase === "pasos") {
       setFase("trazo");
       return;
     }
@@ -61,8 +61,8 @@ export function PasoLetrasVocales({ onSiguiente }: PasoLetrasVocalesProps) {
       return;
     }
     setIndice((n) => n + 1);
-    setFase("animacion");
-    setRepeticion((n) => n + 1);
+    setFase("pasos");
+    setPasoActivo(1);
   };
 
   return (
@@ -72,8 +72,8 @@ export function PasoLetrasVocales({ onSiguiente }: PasoLetrasVocalesProps) {
           1 · Bokalek: letra eta trazoa
         </p>
         <p className="text-lg text-neutral-700">
-          {fase === "animacion"
-            ? "Ikusi nola idazten den eta entzun soinua."
+          {fase === "pasos"
+            ? "Ikusi urratsak eta entzun soinua."
             : "Traza ezazu hatzarekin edo sagua."}
         </p>
         <div
@@ -109,18 +109,43 @@ export function PasoLetrasVocales({ onSiguiente }: PasoLetrasVocalesProps) {
       </div>
 
       <Escenario>
-        {fase === "animacion" ? (
+        {fase === "pasos" ? (
           <div className="flex flex-col items-center gap-3">
             <div className="aspect-square w-[min(54vw,300px)]">
               <TrazoVocal
                 vocal={vocal}
                 caso={caso}
-                modo="animado"
-                repeticion={repeticion}
+                modo="pasos"
+                pasoActivo={pasoActivo}
                 className="h-full w-full"
               />
             </div>
             <p className="font-lectura text-4xl font-normal text-primary-700">{letra}</p>
+            <div
+              role="group"
+              aria-label="Trazoaren urratsak"
+              className="inline-flex rounded-xl border-2 border-neutral-200 bg-white p-1"
+            >
+              {pasos.map((_, indicePaso) => {
+                const numero = indicePaso + 1;
+                return (
+                  <button
+                    key={numero}
+                    type="button"
+                    onClick={() => setPasoActivo(numero)}
+                    aria-pressed={pasoActivo === numero}
+                    aria-label={`${numero}. urratsa`}
+                    className={`touch-target rounded-lg px-3 text-sm font-semibold transition-colors ${
+                      pasoActivo === numero
+                        ? "bg-primary-700 text-white"
+                        : "text-neutral-600 hover:bg-neutral-100"
+                    }`}
+                  >
+                    {numero}
+                  </button>
+                );
+              })}
+            </div>
             <Button
               variant="secondary"
               size="sm"
@@ -138,14 +163,14 @@ export function PasoLetrasVocales({ onSiguiente }: PasoLetrasVocalesProps) {
       </Escenario>
 
       <div className="flex flex-wrap justify-center gap-3">
-        {fase === "animacion" ? (
+        {fase === "pasos" ? (
           <Button size="lg" onClick={avanzar}>
             Traza ezazu
           </Button>
         ) : (
           <>
-            <Button variant="secondary" onClick={repetirAnimacion}>
-              Ikusi berriro
+            <Button variant="secondary" onClick={() => setFase("pasos")}>
+              Urratsak
             </Button>
             <Button size="lg" onClick={avanzar}>
               {esUltima ? "Amaitu" : "Hurrengo bokala"}
@@ -156,7 +181,7 @@ export function PasoLetrasVocales({ onSiguiente }: PasoLetrasVocalesProps) {
 
       <Puntos hechos={fase === "trazo" ? indice + 1 : indice} total={VOCALES.length} />
       <p className="sr-only" role="status" aria-live="polite">
-        {fase === "animacion" ? `${letra} letra` : `${letra} letra trazatzea`}
+        {fase === "pasos" ? `${letra} letraren urratsak` : `${letra} letra trazatzea`}
       </p>
     </div>
   );
